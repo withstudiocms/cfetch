@@ -1,12 +1,12 @@
 import type { APIContext, APIRoute } from 'astro';
-import { cachedFetch } from 'cached:fetch';
+import { cFetch } from 'cached:fetch';
 
 export const GET: APIRoute = async (ctx: APIContext) => {
 	const origin = ctx.url.origin;
 
 	const exampleAPI = new URL('/example', origin);
 
-	const response = await cachedFetch(exampleAPI);
+	const response = await cFetch(exampleAPI);
 
 	if (!response.ok) {
 		return new Response(null, {

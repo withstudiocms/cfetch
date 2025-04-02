@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@astrojs/node": "catalog:",
-    "@studiocms/cachedfetch": "workspace:*",
+    "@studiocms/cfetch": "workspace:*",
     "astro": "catalog:",
     "sharp": "catalog:"
   }

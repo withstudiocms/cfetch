@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { cachedFetch, cachedData } from '../dist/wrappers'; // Update with the actual module path
+import { cFetch, cachedData } from '../dist/wrappers'; // Update with the actual module path
 
 describe('cachedFetch', () => {
 	const mockUrl = 'https://api.example.com/data';
@@ -16,7 +16,7 @@ describe('cachedFetch', () => {
 	it('fetches new data if not cached', async () => {
 		mockFetch.mockResolvedValue(mockResponse);
 
-		const result = await cachedFetch(mockUrl, {});
+		const result = await cFetch(mockUrl, {});
 
 		expect(fetch).toHaveBeenCalledWith(mockUrl, {});
 		expect(result).toEqual(mockResponse);
@@ -27,7 +27,7 @@ describe('cachedFetch', () => {
 		const cachedObject = { lastCheck: new Date(), data: mockResponse };
 		cachedData.set(mockUrl, cachedObject);
 
-		const result = await cachedFetch(mockUrl, {});
+		const result = await cFetch(mockUrl, {});
 
 		expect(fetch).not.toHaveBeenCalled();
 		expect(result).toBe(cachedObject.data);
@@ -39,7 +39,7 @@ describe('cachedFetch', () => {
 		oldDate.setMinutes(oldDate.getMinutes() - 100); // Assuming lifetime < 30 mins
 		cachedData.set(mockUrl, { lastCheck: oldDate, data: { ok: true } as Response });
 
-		const result = await cachedFetch(mockUrl, {});
+		const result = await cFetch(mockUrl, {});
 
 		expect(fetch).toHaveBeenCalledWith(mockUrl, {});
 		expect(result).toEqual(mockResponse);
@@ -49,7 +49,7 @@ describe('cachedFetch', () => {
 		const cachedObject = { lastCheck: new Date(), data: mockResponse };
 		cachedData.set(mockUrl, cachedObject);
 
-		const result = await cachedFetch(mockUrl, {}, {}, true);
+		const result = await cFetch(mockUrl, {}, {}, true);
 
 		expect(result).toEqual(cachedObject);
 	});
@@ -57,7 +57,7 @@ describe('cachedFetch', () => {
 	it('throws an error if fetching fails and no cache exists', async () => {
 		mockFetch.mockResolvedValue({ ok: false });
 
-		await expect(cachedFetch(mockUrl, {})).rejects.toThrow(
+		await expect(cFetch(mockUrl, {})).rejects.toThrow(
 			'Failed to retrieve cached data, and failed to fetch new data'
 		);
 	});
@@ -69,7 +69,7 @@ describe('cachedFetch', () => {
 		cachedData.set(mockUrl, cachedObject);
 		mockFetch.mockResolvedValue({ ok: false });
 
-		const result = await cachedFetch(mockUrl, {});
+		const result = await cFetch(mockUrl, {});
 
 		expect(fetch).toHaveBeenCalled();
 		expect(result).toBe(cachedObject.data);

@@ -1,4 +1,4 @@
-# `@studiocms/cachedfetch`
+# `@studiocms/cfetch`
 
 This is an [Astro integration](https://docs.astro.build/en/guides/integrations-guide/) that provides a cacheable fetch function for Astro SSR
 
@@ -13,15 +13,15 @@ This is an [Astro integration](https://docs.astro.build/en/guides/integrations-g
 Install the integration **automatically** using the Astro CLI:
 
 ```bash
-pnpm astro add @studiocms/cachedfetch
+pnpm astro add @studiocms/cfetch
 ```
 
 ```bash
-npx astro add @studiocms/cachedfetch
+npx astro add @studiocms/cfetch
 ```
 
 ```bash
-yarn astro add @studiocms/cachedfetch
+yarn astro add @studiocms/cfetch
 ```
 
 Or install it **manually**:
@@ -29,38 +29,38 @@ Or install it **manually**:
 1. Install the required dependencies
 
 ```bash
-pnpm add @studiocms/cachedfetch
+pnpm add @studiocms/cfetch
 ```
 
 ```bash
-npm install @studiocms/cachedfetch
+npm install @studiocms/cfetch
 ```
 
 ```bash
-yarn add @studiocms/cachedfetch
+yarn add @studiocms/cfetch
 ```
 
 2. Add the integration to your astro config
 
 ```diff
-+import astroCache from "@studiocms/cachedfetch";
++import cFetch from "@studiocms/cfetch";
 
 export default defineConfig({
   integrations: [
-+    astroCache(),
++    cFetch(),
   ],
 });
 ```
 
 ### Usage
 
-You can import the cachedFetch function anywhere you would use a normal `fetch` call. `cachedFetch` adapts the same default options as fetch,
+You can import the cachedFetch function anywhere you would use a normal `fetch` call. `cfetch` adapts the same default options as fetch,
 
 ```astro
 ---
-import { cachedFetch } from 'cached:fetch';
+import { cFetch } from 'cached:fetch';
 
-const response = await cachedFetch(
+const response = await cFetch(
     'https://example.com', // string | URL | Request
     { /* Normal fetch init optional options here */ },
     { lifetime: "1h" } // Optional, allows changing the default lifetime of the cache
@@ -74,9 +74,9 @@ If you are also wanting the other available metadata (such as `lastChecked` valu
 
 ```astro
 ---
-import { cachedFetch } from 'cached:fetch';
+import { cFetch } from 'cached:fetch';
 
-const { lastCheck, data: response } = await cachedFetch(
+const { lastCheck, data: response } = await cFetch(
     'https://example.com', // string | URL | Request
     { /* Normal fetch init optional options here */ },
     { lifetime: "1h" }, // Optional, allows changing the default lifetime of the cache
@@ -89,4 +89,4 @@ const html = await response.text();
 
 ## Licensing
 
-[MIT Licensed](https://github.com/withstudiocms/cachedfetch/blob/main/LICENSE).
+[MIT Licensed](https://github.com/withstudiocms/cfetch/blob/main/LICENSE).

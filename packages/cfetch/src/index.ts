@@ -7,15 +7,15 @@ import { addVirtualImports, createResolver } from './utils.js';
  *
  * @example
  * ```typescript
- * import astroCache from '@studiocms/cachedfetch';
+ * import cFetch from '@studiocms/cfetch';
  *
  * export default defineConfig({
- *   integrations: [astroCache()],
+ *   integrations: [cFetch()],
  * });
  * ```
  */
 export function astroCache(): AstroIntegration {
-	const name = '@studiocms/cachedfetch';
+	const name = '@studiocms/cfetch';
 	const { resolve } = createResolver(import.meta.url);
 	return {
 		name,

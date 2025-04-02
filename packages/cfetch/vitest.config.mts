@@ -6,7 +6,7 @@ process.setSourceMapsEnabled(true);
 export default defineProject({
 	test: {
 		maxConcurrency: 1,
-		name: '@studiocms/cachedfetch',
+		name: '@studiocms/cfetch',
 		setupFiles: ['./tests/vitest.setup.ts'],
 		exclude: [
 			'**/node_modules/**',

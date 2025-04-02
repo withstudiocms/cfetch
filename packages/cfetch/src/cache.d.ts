@@ -55,12 +55,12 @@ declare module 'cached:fetch' {
 	 *          both the data and metadata (e.g., `lastCheck`).
 	 * @throws An error if fetching new data fails and no cached data is available.
 	 */
-	export function cachedFetch(
+	export function cFetch(
 		input: Input,
 		init?: Init,
 		cacheConfig?: Partial<CacheConfig>
 	): Promise<Response>;
-	export function cachedFetch(
+	export function cFetch(
 		input: Input,
 		init?: Init,
 		cacheConfig?: Partial<CacheConfig>,

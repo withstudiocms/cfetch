@@ -1,5 +1,5 @@
 {
-  "name": "@studiocms/cachedfetch",
+  "name": "@studiocms/cfetch",
   "version": "0.1.0",
   "description": "Astro integration which provides a cacheable fetch function for Astro SSR",
   "author": {
@@ -8,8 +8,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/withstudiocms/cachedfetch.git",
-    "directory": "packages/cachedfetch"
+    "url": "git+https://github.com/withstudiocms/cfetch.git",
+    "directory": "packages/cfetch"
   },
   "contributors": [
     "Adammatthiesen",

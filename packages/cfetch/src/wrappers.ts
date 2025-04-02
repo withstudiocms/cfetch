@@ -81,12 +81,12 @@ function isOlderThan(date: Date, lifetime: `${number}m` | `${number}h`): boolean
 	return date < new Date(now.getTime() - milliseconds);
 }
 
-export async function cachedFetch(
+export async function cFetch(
 	input: Input,
 	init?: Init,
 	cacheConfig?: Partial<CacheConfig>
 ): Promise<Response>;
-export async function cachedFetch(
+export async function cFetch(
 	input: Input,
 	init?: Init,
 	cacheConfig?: Partial<CacheConfig>,
@@ -107,7 +107,7 @@ export async function cachedFetch(
  *          both the data and metadata (e.g., `lastCheck`).
  * @throws An error if fetching new data fails and no cached data is available.
  */
-export async function cachedFetch(
+export async function cFetch(
 	input: Input,
 	init: Init = undefined,
 	cacheConfig: Partial<CacheConfig> = defaultConfig,

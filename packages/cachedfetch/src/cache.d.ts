@@ -1,4 +1,4 @@
-declare module 'studiocms:cachedfetch' {
+declare module 'cached:fetch' {
 	/**
 	 * Represents the type of the global `fetch` function.
 	 *

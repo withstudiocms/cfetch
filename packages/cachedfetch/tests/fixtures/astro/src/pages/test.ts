@@ -1,5 +1,5 @@
 import type { APIContext, APIRoute } from 'astro';
-import { cachedFetch } from 'studiocms:cachedfetch';
+import { cachedFetch } from 'cached:fetch';
 
 export const GET: APIRoute = async (ctx: APIContext) => {
 	const origin = ctx.url.origin;

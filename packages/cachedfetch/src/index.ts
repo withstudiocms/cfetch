@@ -24,7 +24,7 @@ export function astroCache(): AstroIntegration {
 				addVirtualImports(params, {
 					name,
 					imports: {
-						'studiocms:cachedfetch': `export * from '${resolve('./wrappers.js')}';`,
+						'cached:fetch': `export * from '${resolve('./wrappers.js')}';`,
 					},
 				});
 			},

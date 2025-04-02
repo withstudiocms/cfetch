@@ -1,0 +1,34 @@
+{
+  "name": "root",
+  "private": true,
+  "packageManager": "pnpm@9.5.0",
+  "engines": {
+    "node": "20.14.0"
+  },
+  "scripts": {
+    "build": "pnpm --filter @studiocms/* build",
+    "dev": "pnpm --stream --filter @studiocms/* --filter playground -r -parallel dev",
+    "changeset": "changeset",
+    "lint": "biome check .",
+    "lint:fix": "biome check --write .",
+    "ci:prepublish": "pnpm build",
+    "ci:lint": "biome ci --formatter-enabled=true --organize-imports-enabled=true  --reporter=github",
+    "ci:install": "pnpm install --frozen-lockfile",
+    "ci:version": "pnpm changeset version",
+    "ci:publish": "pnpm changeset publish",
+    "ci:snapshot": "pnpx pkg-pr-new publish --pnpm './packages/*'",
+    "knip": "knip"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@changesets/changelog-github": "0.5.1",
+    "@changesets/cli": "2.28.1",
+    "@changesets/config": "3.1.1",
+    "@changesets/write": "0.4.0",
+    "@types/node": "catalog:",
+    "@withstudiocms/buildkit": "https://pkg.pr.new/withstudiocms/studiocms/@withstudiocms/buildkit@8f7bca5",
+    "knip": "^5.46.0",
+    "pkg-pr-new": "0.0.41",
+    "typescript": "catalog:"
+  }
+}

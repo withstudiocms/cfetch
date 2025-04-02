@@ -58,7 +58,7 @@ You can import the cachedFetch function anywhere you would use a normal `fetch` 
 
 ```astro
 ---
-import { cachedFetch } from 'studiocms:cachedFetch';
+import { cachedFetch } from 'studiocms:cachedfetch';
 
 const response = await cachedFetch(
     'https://example.com', // string | URL | Request
@@ -74,7 +74,7 @@ If you are also wanting the other available metadata (such as `lastChecked` valu
 
 ```astro
 ---
-import { cachedFetch } from 'studiocms:cachedFetch';
+import { cachedFetch } from 'studiocms:cachedfetch';
 
 const { lastCheck, data: response } = await cachedFetch(
     'https://example.com', // string | URL | Request

@@ -1,0 +1,43 @@
+name: CI - Tests PRs & Main
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'packages/**'
+      - 'vitest.config.mts'
+    branches: [main]
+  pull_request:
+    paths:
+      - 'packages/**'
+      - 'vitest.config.mts'
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - closed
+
+concurrency: testing-${{ github.ref }}
+
+jobs:
+  vitest-reporter:
+    name: Run Vitest Tests
+    runs-on: ubuntu-latest
+    env:
+      NODE_OPTIONS: "--max_old_space_size=4096"
+    steps:
+      - name: Check out code using Git
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+  
+      - name: Install Tools & Dependencies
+        uses: withstudiocms/automations/.github/actions/install@main
+
+      - name: Run Vitest Tests
+        run: pnpm ci:test
+
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: vitest-report
+          path: html
+          retention-days: 14

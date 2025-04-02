@@ -1,8 +1,145 @@
 import { fileURLToPath } from 'node:url';
+import type path from 'node:path';
 import type { AstroConfig, HookParameters } from 'astro';
 import { AstroError } from 'astro/errors';
-import { dirname, resolve } from 'pathe';
 import type { Plugin, PluginOption } from 'vite';
+
+const _IS_ABSOLUTE_RE = /^[/\\](?![/\\])|^[/\\]{2}(?!\.)|^[A-Za-z]:[/\\]/;
+const _DRIVE_LETTER_RE = /^[A-Za-z]:$/;
+const _DRIVE_LETTER_START_RE = /^[A-Za-z]:\//;
+
+export const isAbsolute: typeof path.isAbsolute = (p) => _IS_ABSOLUTE_RE.test(p);
+
+export const dirname: typeof path.dirname = (p) => {
+	const segments = normalizeWindowsPath(p).replace(/\/$/, '').split('/').slice(0, -1);
+	if (segments.length === 1 && _DRIVE_LETTER_RE.test(segments[0] as string)) {
+		segments[0] += '/';
+	}
+	return segments.join('/') || (isAbsolute(p) ? '/' : '.');
+};
+
+function cwd() {
+	if (typeof process !== 'undefined' && typeof process.cwd === 'function') {
+		return process.cwd().replace(/\\/g, '/');
+	}
+	return '/';
+}
+
+/**
+ * Resolves a string path, resolving '.' and '.' segments and allowing paths above the root.
+ *
+ * @param path - The path to normalise.
+ * @param allowAboveRoot - Whether to allow the resulting path to be above the root directory.
+ * @returns the normalised path string.
+ */
+export function normalizeString(path: string, allowAboveRoot: boolean) {
+	let res = '';
+	let lastSegmentLength = 0;
+	let lastSlash = -1;
+	let dots = 0;
+	let char: string | null = null;
+	for (let index = 0; index <= path.length; ++index) {
+		if (index < path.length) {
+			// casted because we know it exists thanks to the length check
+			char = path[index] as string;
+		} else if (char === '/') {
+			break;
+		} else {
+			char = '/';
+		}
+		if (char === '/') {
+			if (lastSlash === index - 1 || dots === 1) {
+				// NOOP
+			} else if (dots === 2) {
+				if (
+					res.length < 2 ||
+					lastSegmentLength !== 2 ||
+					res[res.length - 1] !== '.' ||
+					res[res.length - 2] !== '.'
+				) {
+					if (res.length > 2) {
+						const lastSlashIndex = res.lastIndexOf('/');
+						if (lastSlashIndex === -1) {
+							res = '';
+							lastSegmentLength = 0;
+						} else {
+							res = res.slice(0, lastSlashIndex);
+							lastSegmentLength = res.length - 1 - res.lastIndexOf('/');
+						}
+						lastSlash = index;
+						dots = 0;
+						continue;
+					}
+					if (res.length > 0) {
+						res = '';
+						lastSegmentLength = 0;
+						lastSlash = index;
+						dots = 0;
+						continue;
+					}
+				}
+				if (allowAboveRoot) {
+					res += res.length > 0 ? '/..' : '..';
+					lastSegmentLength = 2;
+				}
+			} else {
+				if (res.length > 0) {
+					res += `/${path.slice(lastSlash + 1, index)}`;
+				} else {
+					res = path.slice(lastSlash + 1, index);
+				}
+				lastSegmentLength = index - lastSlash - 1;
+			}
+			lastSlash = index;
+			dots = 0;
+		} else if (char === '.' && dots !== -1) {
+			++dots;
+		} else {
+			dots = -1;
+		}
+	}
+	return res;
+}
+
+// Util to normalize windows paths to posix
+export function normalizeWindowsPath(input = '') {
+	if (!input) {
+		return input;
+	}
+	return input.replace(/\\/g, '/').replace(_DRIVE_LETTER_START_RE, (r) => r.toUpperCase());
+}
+
+export const resolve: typeof path.resolve = (...arguments_) => {
+	// Normalize windows arguments
+	arguments_ = arguments_.map((argument) => normalizeWindowsPath(argument));
+
+	let resolvedPath = '';
+	let resolvedAbsolute = false;
+
+	for (let index = arguments_.length - 1; index >= -1 && !resolvedAbsolute; index--) {
+		const path = index >= 0 ? arguments_[index] : cwd();
+
+		// Skip empty entries
+		if (!path || path.length === 0) {
+			continue;
+		}
+
+		resolvedPath = `${path}/${resolvedPath}`;
+		resolvedAbsolute = isAbsolute(path);
+	}
+
+	// At this point the path should be resolved to a full absolute path, but
+	// handle relative paths to be safe (might happen when process.cwd() fails)
+
+	// Normalize the path
+	resolvedPath = normalizeString(resolvedPath, !resolvedAbsolute);
+
+	if (resolvedAbsolute && !isAbsolute(resolvedPath)) {
+		return `/${resolvedPath}`;
+	}
+
+	return resolvedPath.length > 0 ? resolvedPath : '.';
+};
 
 export type Hooks = Required<Astro.IntegrationHooks>;
 

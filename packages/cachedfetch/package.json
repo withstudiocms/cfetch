@@ -49,9 +49,6 @@
     }
   },
   "type": "module",
-  "dependencies": {
-    "pathe": "^2.0.3"
-  },
   "devDependencies": {
     "@inox-tools/astro-tests": "^0.5.1",
     "@types/node": "catalog:",

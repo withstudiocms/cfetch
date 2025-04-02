@@ -1,4 +1,4 @@
-import { type DevServer, loadFixture, type TestApp } from '@inox-tools/astro-tests/astroFixture';
+import { type DevServer, type TestApp, loadFixture } from '@inox-tools/astro-tests/astroFixture';
 import testAdapter from '@inox-tools/astro-tests/testAdapter';
 import { beforeAll, afterAll, describe, test, expect } from 'vitest';
 
@@ -28,6 +28,15 @@ describe('Test integration', () => {
 			expect(content).toEqual(
 				'<!DOCTYPE html><script type="module" src="/@vite/client"></script><h1>Hello world</h1>'
 			);
+		});
+
+		// This can only be tested in dev, assuming its because of
+		// 		the SSR adapter implemented in inox.
+		test('Is cache module functioning?', async () => {
+			const res = await fixture.fetch('/test');
+			const content = await res.text();
+
+			expect(content).toEqual('bar');
 		});
 	});
 

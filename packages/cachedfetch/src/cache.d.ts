@@ -57,12 +57,12 @@ declare module 'studiocms:cachedfetch' {
 	 */
 	export function cachedFetch(
 		input: Input,
-		init: Init,
+		init?: Init,
 		cacheConfig?: Partial<CacheConfig>
 	): Promise<Response>;
 	export function cachedFetch(
 		input: Input,
-		init: Init,
+		init?: Init,
 		cacheConfig?: Partial<CacheConfig>,
 		metadata?: boolean
 	): Promise<CacheDataValue>;

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { cachedFetch, cachedData } from '../src/wrappers'; // Update with the actual module path
+import { cachedFetch, cachedData } from '../dist/wrappers'; // Update with the actual module path
 
 describe('cachedFetch', () => {
 	const mockUrl = 'https://api.example.com/data';

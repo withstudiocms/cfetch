@@ -87,23 +87,6 @@ const html = await response.text();
 ---
 ```
 
-
-## Contributing
-
-Install dependencies using pnpm: 
-
-```bash
-pnpm i --frozen-lockfile
-```
-
-Start the playground and package watcher:
-
-```bash
-pnpm dev
-```
-
-You can now edit files in `packages/cachedfetch`. Please note that making changes to those files may require restarting the playground dev server.
-
 ## Licensing
 
 [MIT Licensed](https://github.com/withstudiocms/cachedfetch/blob/main/LICENSE).

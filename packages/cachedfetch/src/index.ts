@@ -24,18 +24,16 @@ import { addVirtualImports, createResolver } from './utils.js';
  * ```
  */
 export function astroCache(): AstroIntegration {
+	const name = '@studiocms/cachedfetch';
 	const { resolve } = createResolver(import.meta.url);
-
 	return {
-		name: '@studiocms/cachedfetch',
+		name,
 		hooks: {
 			'astro:config:setup': (params) => {
 				addVirtualImports(params, {
-					name: '@studiocms/cachedfetch',
+					name,
 					imports: {
-						'studiocms:cachedfetch': `
-                            export * from '${resolve('./wrappers.js')}';
-                        `,
+						'studiocms:cachedfetch': `export * from '${resolve('./wrappers.js')}';`,
 					},
 				});
 			},

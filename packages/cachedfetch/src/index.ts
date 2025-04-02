@@ -1,5 +1,6 @@
 /// <reference types='./cache.d.ts' preserve="true" />
-import { astroCache as _astroCache } from './integration.js';
+import type { AstroIntegration } from 'astro';
+import { addVirtualImports, createResolver } from './utils.js';
 
 /**
  * Creates an Astro integration for caching functionality.
@@ -22,6 +23,22 @@ import { astroCache as _astroCache } from './integration.js';
  * });
  * ```
  */
-export const astroCache = _astroCache;
+export function astroCache(): AstroIntegration {
+	const name = '@studiocms/cachedfetch';
+	const { resolve } = createResolver(import.meta.url);
+	return {
+		name,
+		hooks: {
+			'astro:config:setup': (params) => {
+				addVirtualImports(params, {
+					name,
+					imports: {
+						'studiocms:cachedfetch': `export * from '${resolve('./wrappers.js')}';`,
+					},
+				});
+			},
+		},
+	};
+}
 
 export default astroCache;

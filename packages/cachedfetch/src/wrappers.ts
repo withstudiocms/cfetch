@@ -1,8 +1,30 @@
+/**
+ * Represents the type of the global `fetch` function.
+ *
+ * This type is derived from the built-in `fetch` function, allowing you to
+ * use it as a reference for type-safe operations involving `fetch`.
+ */
 type FetchType = typeof fetch;
 
+/**
+ * Represents the input parameter type for the `FetchType` function.
+ * This type is derived from the first parameter of the `FetchType` function.
+ */
 type Input = Parameters<FetchType>[0];
+
+/**
+ * Represents the `init` parameter of the `fetch` function, which is the second parameter
+ * in the `FetchType` function signature. This type is used to configure the request,
+ * including options such as method, headers, body, and other settings.
+ */
 type Init = Parameters<FetchType>[1];
 
+/**
+ * Represents the structure of cached data.
+ *
+ * @property lastCheck - The date and time when the cache was last checked.
+ * @property data - The cached response data.
+ */
 type CacheDataValue = { lastCheck: Date; data: Response };
 
 /**
@@ -28,10 +50,24 @@ export interface CacheConfig {
 	lifetime: `${number}m` | `${number}h`;
 }
 
+/**
+ * Default cache configuration object.
+ *
+ * @property {string} lifetime - The duration for which the cache is valid.
+ *                               Accepts a string representation of time, e.g., '1h' for 1 hour.
+ */
 const defaultConfig: CacheConfig = {
 	lifetime: '1h',
 };
 
+/**
+ * Determines whether a given date is older than a specified lifetime.
+ *
+ * @param date - The date to compare against the current time.
+ * @param lifetime - The lifetime duration in the format of `${number}m` for minutes
+ *                   or `${number}h` for hours (e.g., "30m" or "2h").
+ * @returns `true` if the given date is older than the specified lifetime, otherwise `false`.
+ */
 function isOlderThan(date: Date, lifetime: `${number}m` | `${number}h`): boolean {
 	const now = new Date();
 	let milliseconds = 0;

@@ -50,7 +50,7 @@
   },
   "type": "module",
   "dependencies": {
-    "pathe": "2.0.3"
+    "pathe": "^2.0.3"
   },
   "devDependencies": {
     "@types/node": "catalog:"

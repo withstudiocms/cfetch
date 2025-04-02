@@ -8,12 +8,7 @@ const config: KnipConfig = {
 			entry: ['.github/workflows/*.yml', 'scripts/*.{cjs,ts}'],
 			project: ['.github/workflows/*.yml', 'scripts/*.{cjs,ts}'],
 		},
-		'build-scripts': {
-			entry: '{index,cli}.js',
-			project: '**/*.js',
-		},
 		'packages/*': {
-			ignoreDependencies: ['@grapesjs/studio-sdk-plugins'],
 			entry: ['src/**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}'],
 			project: ['**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}'],
 			astro: {
@@ -21,13 +16,12 @@ const config: KnipConfig = {
 				project: ['src/**/*.astro'],
 			},
 		},
-		playground: {
+		'packages/*/tests/fixtures/astro': {
 			ignoreDependencies: ['sharp'],
 			entry: ['src/**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}'],
 			project: ['src/**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}'],
 			astro: {
 				entry: [
-					'studiocms.config.{js,cjs,mjs,ts,mts}',
 					'astro.config.{js,cjs,mjs,ts,mts}',
 					'src/content/config.ts',
 					'src/content.config.ts',

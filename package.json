@@ -7,7 +7,7 @@
   },
   "scripts": {
     "build": "pnpm --filter @studiocms/* build",
-    "dev": "pnpm --stream --filter @studiocms/* --filter playground -r -parallel dev",
+    "dev": "pnpm --stream --filter @studiocms/* --filter test-fixture -r -parallel dev",
     "changeset": "changeset",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",

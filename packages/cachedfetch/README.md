@@ -70,8 +70,7 @@ const html = await response.text();
 ---
 ```
 
-If you are also wanting the other available metadata (such as `lastChecked` value which is the last time the cache was updated) then you can add the following prop to cached fetch:
-
+If you are also wanting the other available metadata (such as `lastChecked` value which is the last time the cache was updated) then you can add the following prop to cached fetch, changing the shape of the data output to the following:
 
 ```astro
 ---

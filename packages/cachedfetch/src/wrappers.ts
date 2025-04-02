@@ -47,12 +47,12 @@ function isOlderThan(date: Date, lifetime: `${number}m` | `${number}h`): boolean
 
 export async function cachedFetch(
 	input: Input,
-	init: Init,
+	init?: Init,
 	cacheConfig?: Partial<CacheConfig>
 ): Promise<Response>;
 export async function cachedFetch(
 	input: Input,
-	init: Init,
+	init?: Init,
 	cacheConfig?: Partial<CacheConfig>,
 	metadata?: boolean
 ): Promise<CacheDataValue>;
@@ -73,18 +73,18 @@ export async function cachedFetch(
  */
 export async function cachedFetch(
 	input: Input,
-	init: Init,
+	init: Init = undefined,
 	cacheConfig: Partial<CacheConfig> = defaultConfig,
 	metadata = false
 ) {
-	const config: CacheConfig = {
+	const { lifetime }: CacheConfig = {
 		...defaultConfig,
 		...cacheConfig,
 	};
 
 	const storedData = cachedData.get(input.toString());
 
-	if (!storedData || isOlderThan(storedData.lastCheck, config?.lifetime)) {
+	if (!storedData || isOlderThan(storedData.lastCheck, lifetime)) {
 		const newData = await fetch(input, init);
 		if (!newData.ok) {
 			if (!storedData)

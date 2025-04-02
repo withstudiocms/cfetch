@@ -1,0 +1,23 @@
+{
+  "name": "test-fixture",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "astro": "astro",
+    "preview": "astro preview"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "typescript": "catalog:"
+  },
+  "dependencies": {
+    "@astrojs/node": "catalog:",
+    "@studiocms/cachedfetch": "workspace:*",
+    "astro": "catalog:",
+    "sharp": "catalog:"
+  }
+}

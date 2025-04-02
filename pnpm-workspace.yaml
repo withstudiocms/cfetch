@@ -15,4 +15,5 @@ catalogs:
 
 packages:
   - "packages/*"
+  - "packages/*/tests/fixtures/*"
   - "playground"

@@ -1,0 +1,49 @@
+import { type DevServer, loadFixture, type TestApp } from '@inox-tools/astro-tests/astroFixture';
+import testAdapter from '@inox-tools/astro-tests/testAdapter';
+import { beforeAll, afterAll, describe, test, expect } from 'vitest';
+
+const fixture = await loadFixture({
+	root: './fixtures/astro',
+	adapter: testAdapter(),
+});
+
+// TODO Add more tests
+
+describe('Test integration', () => {
+	describe('dev server', () => {
+		let devServer: DevServer;
+
+		beforeAll(async () => {
+			devServer = await fixture.startDevServer({});
+		});
+
+		afterAll(async () => {
+			devServer?.stop();
+		});
+
+		test('is dev server online?', async () => {
+			const res = await fixture.fetch('/');
+			const content = await res.text();
+
+			expect(content).toEqual(
+				'<!DOCTYPE html><script type="module" src="/@vite/client"></script><h1>Hello world</h1>'
+			);
+		});
+	});
+
+	describe('build output', () => {
+		let app: TestApp;
+
+		beforeAll(async () => {
+			await fixture.build({});
+			app = await fixture.loadTestAdapterApp();
+		});
+
+		test('did the build successfully output?', async () => {
+			const res = await app.render(new Request('http://example.com/'));
+			const content = await res.text();
+
+			expect(content).toEqual('<!DOCTYPE html><h1>Hello world</h1>');
+		});
+	});
+});

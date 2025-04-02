@@ -7,6 +7,7 @@ export default defineProject({
 	test: {
 		maxConcurrency: 1,
 		name: '@studiocms/cachedfetch',
+		setupFiles: ['./tests/vitest.setup.ts'],
 		exclude: [
 			'**/node_modules/**',
 			'**/dist/**',

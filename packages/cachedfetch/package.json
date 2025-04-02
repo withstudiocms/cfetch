@@ -53,7 +53,9 @@
     "pathe": "^2.0.3"
   },
   "devDependencies": {
-    "@types/node": "catalog:"
+    "@inox-tools/astro-tests": "^0.5.1",
+    "@types/node": "catalog:",
+    "jest-extended": "^4.0.2"
   },
   "peerDependencies": {
     "astro": "catalog:min",

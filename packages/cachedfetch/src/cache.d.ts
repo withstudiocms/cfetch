@@ -1,4 +1,9 @@
 declare module 'studiocms:cachedfetch' {
+	type FetchType = typeof fetch;
+	type Input = Parameters<FetchType>[0];
+	type Init = Parameters<FetchType>[1];
+	type CacheDataValue = { lastCheck: Date; data: Response };
+
 	/**
 	 * Represents the configuration for caching.
 	 *
@@ -16,12 +21,13 @@ declare module 'studiocms:cachedfetch' {
 		 */
 		lifetime: `${number}m` | `${number}h`;
 	}
-	export declare function cachedFetch(
+
+	export function cachedFetch(
 		input: Input,
 		init: Init,
 		cacheConfig?: Partial<CacheConfig>
 	): Promise<Response>;
-	export declare function cachedFetch(
+	export function cachedFetch(
 		input: Input,
 		init: Init,
 		cacheConfig?: Partial<CacheConfig>,

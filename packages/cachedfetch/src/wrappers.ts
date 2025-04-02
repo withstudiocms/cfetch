@@ -66,12 +66,17 @@ export async function cachedFetch(
 		...cacheConfig,
 	};
 
-	const cachedFetch = cachedData.get(input.toString());
+	const storedData = cachedData.get(input.toString());
 
-	if (!cachedFetch || isOlderThan(cachedFetch.lastCheck, config?.lifetime)) {
-		const fetchData = await fetch(input, init);
-		cachedData.set(input.toString(), { lastCheck: new Date(), data: fetchData });
-		return fetchData;
+	if (!storedData || isOlderThan(storedData.lastCheck, config?.lifetime)) {
+		const newData = await fetch(input, init);
+		if (!newData.ok) {
+			if (!storedData)
+				throw new Error('Failed to retrieve cached data, and failed to fetch new data');
+			return storedData.data;
+		}
+		cachedData.set(input.toString(), { lastCheck: new Date(), data: newData });
+		return newData;
 	}
-	return cachedFetch.data;
+	return storedData.data;
 }

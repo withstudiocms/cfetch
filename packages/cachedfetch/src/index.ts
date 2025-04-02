@@ -3,20 +3,11 @@ import type { AstroIntegration } from 'astro';
 import { addVirtualImports, createResolver } from './utils.js';
 
 /**
- * Creates an Astro integration for caching functionality.
- *
- * This integration sets up virtual imports for caching utilities
- * and resolves the necessary modules dynamically.
- *
- * @returns {AstroIntegration} The Astro integration object for caching.
- *
- * @remarks
- * - The integration is named `quick-astro-cache`.
- * - It hooks into the `astro:config:setup` lifecycle to add virtual imports.
+ * Astro integration which provides a cacheable fetch function for Astro SSR
  *
  * @example
  * ```typescript
- * import { astroCache } from './integrations/cache';
+ * import astroCache from '@studiocms/cachedfetch';
  *
  * export default defineConfig({
  *   integrations: [astroCache()],

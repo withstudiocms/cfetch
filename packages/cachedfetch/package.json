@@ -1,7 +1,7 @@
 {
   "name": "@studiocms/cachedfetch",
   "version": "0.1.0",
-  "description": "Astro integration that provides a custom fetch that is cached",
+  "description": "Astro integration which provides a cacheable fetch function for Astro SSR",
   "author": {
     "name": "Adam Matthiesen | Jacob Jenkins | Paul Valladares",
     "url": "https://studiocms.dev"

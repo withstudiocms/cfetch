@@ -40,3 +40,5 @@ export function astroCache(): AstroIntegration {
 		},
 	};
 }
+
+export default astroCache;

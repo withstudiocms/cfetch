@@ -5,6 +5,9 @@ type Init = Parameters<FetchType>[1];
 
 type CacheDataValue = { lastCheck: Date; data: Response };
 
+/**
+ * Exported for tests
+ */
 export const cachedData = new Map<string, CacheDataValue>();
 
 /**

@@ -7,8 +7,6 @@ const fixture = await loadFixture({
 	adapter: testAdapter(),
 });
 
-// TODO Add more tests
-
 describe('Test integration', () => {
 	describe('dev server', () => {
 		let devServer: DevServer;

@@ -3,7 +3,9 @@ type FetchType = typeof fetch;
 type Input = Parameters<FetchType>[0];
 type Init = Parameters<FetchType>[1];
 
-const cachedData = new Map<string, { lastCheck: Date; data: Response }>();
+type CacheDataValue = { lastCheck: Date; data: Response };
+
+const cachedData = new Map<string, CacheDataValue>();
 
 /**
  * Represents the configuration for caching.

@@ -42,25 +42,38 @@ function isOlderThan(date: Date, lifetime: `${number}m` | `${number}h`): boolean
 	return date < new Date(now.getTime() - milliseconds);
 }
 
-/**
- * Fetches a resource using the Fetch API with caching capabilities.
- *
- * This function checks if the requested resource is already cached and if the cache is still valid
- * based on the provided or default cache configuration. If the cache is valid, it returns the cached
- * response. Otherwise, it fetches the resource from the network, updates the cache, and returns the
- * new response.
- *
- * @param input - The input to the fetch request, which can be a URL string or a Request object.
- * @param init - An optional configuration object for the fetch request, such as headers or method.
- * @param cacheConfig - An optional partial configuration object for cache settings, such as lifetime.
- *
- * @returns A promise that resolves to the response of the fetch request, either from the cache or the network.
- */
 export async function cachedFetch(
 	input: Input,
 	init: Init,
 	cacheConfig?: Partial<CacheConfig>
-): Promise<Response> {
+): Promise<Response>;
+export async function cachedFetch(
+	input: Input,
+	init: Init,
+	cacheConfig?: Partial<CacheConfig>,
+	full?: boolean
+): Promise<CacheDataValue>;
+
+/**
+ * Fetches data with caching capabilities. If the data is not present in the cache
+ * or the cached data is older than the specified lifetime, it fetches new data
+ * and updates the cache. Otherwise, it returns the cached data.
+ *
+ * @param input - The input to the fetch function, typically a URL or Request object.
+ * @param init - An optional configuration object for the fetch request.
+ * @param cacheConfig - Partial configuration for the cache behavior. Defaults to `defaultConfig`.
+ * @param full - A boolean indicating whether to return the full cached object (including metadata)
+ *               or just the data. Defaults to `false`.
+ * @returns The fetched or cached data. If `full` is `true`, returns an object containing
+ *          both the data and metadata (e.g., `lastCheck`).
+ * @throws An error if fetching new data fails and no cached data is available.
+ */
+export async function cachedFetch(
+	input: Input,
+	init: Init,
+	cacheConfig: Partial<CacheConfig> = defaultConfig,
+	full = false
+) {
 	const config: CacheConfig = {
 		...defaultConfig,
 		...cacheConfig,
@@ -73,10 +86,11 @@ export async function cachedFetch(
 		if (!newData.ok) {
 			if (!storedData)
 				throw new Error('Failed to retrieve cached data, and failed to fetch new data');
-			return storedData.data;
+			return full ? storedData : storedData.data;
 		}
-		cachedData.set(input.toString(), { lastCheck: new Date(), data: newData });
-		return newData;
+		const newCachedData = { lastCheck: new Date(), data: newData };
+		cachedData.set(input.toString(), newCachedData);
+		return full ? newCachedData : newData;
 	}
-	return storedData.data;
+	return full ? storedData : storedData.data;
 }

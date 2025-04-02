@@ -51,7 +51,7 @@ export async function cachedFetch(
 	input: Input,
 	init: Init,
 	cacheConfig?: Partial<CacheConfig>,
-	full?: boolean
+	metadata?: boolean
 ): Promise<CacheDataValue>;
 
 /**
@@ -62,7 +62,7 @@ export async function cachedFetch(
  * @param input - The input to the fetch function, typically a URL or Request object.
  * @param init - An optional configuration object for the fetch request.
  * @param cacheConfig - Partial configuration for the cache behavior. Defaults to `defaultConfig`.
- * @param full - A boolean indicating whether to return the full cached object (including metadata)
+ * @param metadata - A boolean indicating whether to return the full cached object (including metadata)
  *               or just the data. Defaults to `false`.
  * @returns The fetched or cached data. If `full` is `true`, returns an object containing
  *          both the data and metadata (e.g., `lastCheck`).
@@ -72,7 +72,7 @@ export async function cachedFetch(
 	input: Input,
 	init: Init,
 	cacheConfig: Partial<CacheConfig> = defaultConfig,
-	full = false
+	metadata = false
 ) {
 	const config: CacheConfig = {
 		...defaultConfig,
@@ -86,11 +86,11 @@ export async function cachedFetch(
 		if (!newData.ok) {
 			if (!storedData)
 				throw new Error('Failed to retrieve cached data, and failed to fetch new data');
-			return full ? storedData : storedData.data;
+			return metadata ? storedData : storedData.data;
 		}
 		const newCachedData = { lastCheck: new Date(), data: newData };
 		cachedData.set(input.toString(), newCachedData);
-		return full ? newCachedData : newData;
+		return metadata ? newCachedData : newData;
 	}
-	return full ? storedData : storedData.data;
+	return metadata ? storedData : storedData.data;
 }

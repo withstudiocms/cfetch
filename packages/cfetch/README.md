@@ -1,5 +1,11 @@
 # `@studiocms/cfetch`
 
+![Readme's Banner](https://github.com/withstudiocms/cfetch/blob/update-readme/assets/cfetch-banner.png)
+
+[![NPM Version](https://img.shields.io/npm/v/@studiocms/cfetch?style=for-the-badge&logo=npm)](https://npm.im/@studiocms/cfetch)
+[![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
+[![Built with Astro](https://astro.badg.es/v2/built-with-astro/tiny.svg)](https://astro.build)
+
 This is an [Astro integration](https://docs.astro.build/en/guides/integrations-guide/) that provides a cacheable fetch function for Astro SSR
 
 ## Usage
@@ -58,7 +64,7 @@ You can import the cachedFetch function anywhere you would use a normal `fetch` 
 
 ```astro
 ---
-import { cFetch } from 'cached:fetch';
+import { cFetch } from 'c:fetch';
 
 const response = await cFetch(
     'https://example.com', // string | URL | Request
@@ -74,7 +80,7 @@ If you are also wanting the other available metadata (such as `lastChecked` valu
 
 ```astro
 ---
-import { cFetch } from 'cached:fetch';
+import { cFetch } from 'c:fetch';
 
 const { lastCheck, data: response } = await cFetch(
     'https://example.com', // string | URL | Request

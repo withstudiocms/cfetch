@@ -1,15 +1,19 @@
 {
   "name": "@studiocms/cfetch",
-  "version": "0.1.0",
-  "description": "Astro integration which provides a cacheable fetch function for Astro SSR",
-  "author": {
-    "name": "Adam Matthiesen | Jacob Jenkins | Paul Valladares",
-    "url": "https://studiocms.dev"
-  },
+  "version": "0.0.1",
+  "description": "Astro integration that allows you to have a cached fetch function in your Astro SSR project.",
+  "license": "MIT",
+  "homepage": "https://studiocms.dev",
+  "sideEffects": false,
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/withstudiocms/cfetch.git",
     "directory": "packages/cfetch"
+  },
+  "author": {
+    "name": "Adam Matthiesen | Jacob Jenkins | Paul Valladares",
+    "url": "https://studiocms.dev"
   },
   "contributors": [
     "Adammatthiesen",
@@ -17,7 +21,6 @@
     "dreyfus92",
     "code.spirit"
   ],
-  "license": "MIT",
   "keywords": [
     "astro",
     "astrocms",
@@ -29,12 +32,10 @@
     "studiocms",
     "withastro"
   ],
-  "homepage": "https://studiocms.dev",
   "publishConfig": {
     "access": "public",
     "provenance": true
   },
-  "sideEffects": false,
   "files": [
     "dist"
   ],
@@ -46,9 +47,13 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
-    }
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "default": "./dist/types.js"
+    },
+    "./v/types": "./dist/cache.d.ts"
   },
-  "type": "module",
   "devDependencies": {
     "@inox-tools/astro-tests": "^0.5.1",
     "@types/node": "catalog:",

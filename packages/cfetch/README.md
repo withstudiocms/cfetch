@@ -6,7 +6,7 @@ This is an [Astro integration](https://docs.astro.build/en/guides/integrations-g
 
 ### Prerequisites
 
-- Using with an Astro SSR project
+- Using with an Astro SSR project, While you could import and use this in an Astro SSG (static) project, it would have no benefit as Astro Static pages are pre-rendered.
 
 ### Installation
 
@@ -62,7 +62,7 @@ import { cFetch } from 'cached:fetch';
 
 const response = await cFetch(
     'https://example.com', // string | URL | Request
-    { /* Normal fetch init optional options here */ },
+    { /* Normal fetch init optional options here, method, mode, etc. */ },
     { lifetime: "1h" } // Optional, allows changing the default lifetime of the cache
     );
 
@@ -78,7 +78,7 @@ import { cFetch } from 'cached:fetch';
 
 const { lastCheck, data: response } = await cFetch(
     'https://example.com', // string | URL | Request
-    { /* Normal fetch init optional options here */ },
+    { /* Normal fetch init optional options here, method, mode, etc. */ },
     { lifetime: "1h" }, // Optional, allows changing the default lifetime of the cache
     true
     );

@@ -1,5 +1,11 @@
 # @studiocms/cfetch
 
+## 0.1.2
+
+### Patch Changes
+
+- [#5](https://github.com/withstudiocms/cfetch/pull/5) [`2fbca15`](https://github.com/withstudiocms/cfetch/commit/2fbca15c7e022a0c58e286c4a3f915a41aac8919) Thanks [@louisescher](https://github.com/louisescher)! - Update README.md
+
 ## 0.1.1
 
 ### Patch Changes

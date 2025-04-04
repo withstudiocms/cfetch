@@ -2,4 +2,4 @@
 "@studiocms/cfetch": minor
 ---
 
-Inital release
+Initial release

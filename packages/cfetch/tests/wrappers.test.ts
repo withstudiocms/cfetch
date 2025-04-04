@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { cFetch, cachedData } from '../dist/wrappers'; // Update with the actual module path
 
 describe('cachedFetch', () => {

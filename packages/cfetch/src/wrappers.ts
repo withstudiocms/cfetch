@@ -1,6 +1,6 @@
+import { defaultConfig as _config } from './consts.js';
 import type { CacheConfig, CacheDataValue, Init, Input } from './types.js';
 import isOlderThan from './utils/isOlderThan.js';
-import { defaultConfig as _config } from './consts.js';
 
 export type { CacheConfig };
 

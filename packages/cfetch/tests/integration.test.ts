@@ -1,6 +1,6 @@
 import { type DevServer, type TestApp, loadFixture } from '@inox-tools/astro-tests/astroFixture';
 import testAdapter from '@inox-tools/astro-tests/testAdapter';
-import { beforeAll, afterAll, describe, test, expect } from 'vitest';
+import { afterAll, beforeAll, describe, expect, test } from 'vitest';
 
 const fixture = await loadFixture({
 	root: './fixtures/astro',

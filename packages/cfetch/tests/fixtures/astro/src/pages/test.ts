@@ -1,5 +1,5 @@
-import type { APIContext, APIRoute } from 'astro';
 import { cFetch } from 'c:fetch';
+import type { APIContext, APIRoute } from 'astro';
 
 export const GET: APIRoute = async (ctx: APIContext) => {
 	const origin = ctx.url.origin;

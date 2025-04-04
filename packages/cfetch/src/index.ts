@@ -1,8 +1,8 @@
 /// <reference types='./cache.d.ts' preserve="true" />
 import type { AstroIntegration } from 'astro';
-import { addVirtualImports, createResolver } from './utils/integration.js';
-import type { CacheConfig } from './types.js';
 import { defaultConfig } from './consts.js';
+import type { CacheConfig } from './types.js';
+import { addVirtualImports, createResolver } from './utils/integration.js';
 
 /**
  * Astro integration that allows you to have a cached fetch function in your Astro SSR project.

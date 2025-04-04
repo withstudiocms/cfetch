@@ -1,5 +1,5 @@
-import { fileURLToPath } from 'node:url';
 import type path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import type { AstroConfig, HookParameters } from 'astro';
 import { AstroError } from 'astro/errors';
 import type { Plugin, PluginOption } from 'vite';

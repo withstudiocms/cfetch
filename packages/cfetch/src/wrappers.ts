@@ -12,10 +12,7 @@ export type { CacheConfig };
  */
 const defaultConfig = await import('virtual:cfetch/config')
 	.then((mod) => {
-		return {
-			...mod.default,
-			lifetime: mod.default.lifetime,
-		};
+		return mod.default;
 	})
 	.catch(() => {
 		return _config;
@@ -58,7 +55,7 @@ export async function cFetch(
 	cacheConfig: Partial<CacheConfig> = defaultConfig,
 	metadata = false
 ) {
-	if (init && init.method !== 'GET') {
+	if (init?.method && init.method !== 'GET') {
 		console.warn(
 			'Warning: cFetch is designed for GET requests. Using it with other methods will not cache the response.'
 		);

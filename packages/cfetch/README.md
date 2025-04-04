@@ -60,7 +60,7 @@ export default defineConfig({
 
 ### Usage
 
-You can import the cachedFetch function anywhere you would use a normal `fetch` call. `cfetch` adapts the same default options as fetch,
+You can import the `cFetch` function anywhere and use it as you would use a normal `fetch` call. `cFetch` adapts the same default options as `fetch`:
 
 ```astro
 ---
@@ -70,26 +70,26 @@ const response = await cFetch(
     'https://example.com', // string | URL | Request
     { /* Normal fetch init optional options here, method, mode, etc. */ },
     { lifetime: "1h" } // Optional, allows changing the default lifetime of the cache
-    );
+);
 
 const html = await response.text();
 ---
 ```
 
-If you are also wanting the other available metadata (such as `lastChecked` value which is the last time the cache was updated) then you can add the following prop to cached fetch, changing the shape of the data output to the following:
+If you need to access the other available metadata (such as the `lastChecked` value which provides the last time the cache was updated), you can pass `true` as the fourth parameter, which will change the returned object to the following:
 
 ```astro
 ---
 import { cFetch } from 'c:fetch';
 
-const { lastCheck, data: response } = await cFetch(
-    'https://example.com', // string | URL | Request
-    { /* Normal fetch init optional options here, method, mode, etc. */ },
-    { lifetime: "1h" }, // Optional, allows changing the default lifetime of the cache
-    true
-    );
+const { lastCheck, data } = await cFetch(
+    'https://example.com',
+    { /* ... */ },
+    { lifetime: "1h" },
+    true // Changes the the output to include the lastCheck value
+);
 
-const html = await response.text();
+const html = await data.text();
 ---
 ```
 

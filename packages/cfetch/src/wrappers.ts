@@ -1,85 +1,30 @@
-/**
- * Represents the type of the global `fetch` function.
- *
- * This type is derived from the built-in `fetch` function, allowing you to
- * use it as a reference for type-safe operations involving `fetch`.
- */
-type FetchType = typeof fetch;
+import type { CacheConfig, CacheDataValue, Init, Input } from './types.js';
+import isOlderThan from './utils/isOlderThan.js';
+import { defaultConfig as _config } from './consts.js';
+
+export type { CacheConfig };
 
 /**
- * Represents the input parameter type for the `FetchType` function.
- * This type is derived from the first parameter of the `FetchType` function.
+ * Loads the default configuration for the application by dynamically importing
+ * the module `virtual:cfetch/config`. If the import is successful, it merges
+ * the default export of the module with its `lifetime` property to create the
+ * configuration object. If the import fails, it falls back to using `_config`.
  */
-type Input = Parameters<FetchType>[0];
-
-/**
- * Represents the `init` parameter of the `fetch` function, which is the second parameter
- * in the `FetchType` function signature. This type is used to configure the request,
- * including options such as method, headers, body, and other settings.
- */
-type Init = Parameters<FetchType>[1];
-
-/**
- * Represents the structure of cached data.
- *
- * @property lastCheck - The date and time when the cache was last checked.
- * @property data - The cached response data.
- */
-type CacheDataValue = { lastCheck: Date; data: Response };
+const defaultConfig = await import('virtual:cfetch/config')
+	.then((mod) => {
+		return {
+			...mod.default,
+			lifetime: mod.default.lifetime,
+		};
+	})
+	.catch(() => {
+		return _config;
+	});
 
 /**
  * Exported for tests
  */
 export const cachedData = new Map<string, CacheDataValue>();
-
-/**
- * Represents the configuration for caching.
- *
- * @property lifetime - Specifies the duration for which the cache is valid.
- *                       The format should be a template literal string representing
- *                       either minutes (`<number>m`) or hours (`<number>h`).
- *                       For example: "5m" for 5 minutes or "2h" for 2 hours.
- */
-export interface CacheConfig {
-	/**
-	 * Specifies the duration for which the cache is valid.
-	 *     The format should be a template literal string representing
-	 *     either minutes (`<number>m`) or hours (`<number>h`).
-	 *     For example: "5m" for 5 minutes or "2h" for 2 hours.
-	 */
-	lifetime: `${number}m` | `${number}h`;
-}
-
-/**
- * Default cache configuration object.
- *
- * @property {string} lifetime - The duration for which the cache is valid.
- *                               Accepts a string representation of time, e.g., '1h' for 1 hour.
- */
-const defaultConfig: CacheConfig = {
-	lifetime: '1h',
-};
-
-/**
- * Determines whether a given date is older than a specified lifetime.
- *
- * @param date - The date to compare against the current time.
- * @param lifetime - The lifetime duration in the format of `${number}m` for minutes
- *                   or `${number}h` for hours (e.g., "30m" or "2h").
- * @returns `true` if the given date is older than the specified lifetime, otherwise `false`.
- */
-function isOlderThan(date: Date, lifetime: `${number}m` | `${number}h`): boolean {
-	const now = new Date();
-	let milliseconds = 0;
-
-	if (lifetime.endsWith('m')) {
-		milliseconds = Number.parseInt(lifetime) * 60 * 1000; // Convert minutes to ms
-	} else if (lifetime.endsWith('h')) {
-		milliseconds = Number.parseInt(lifetime) * 60 * 60 * 1000; // Convert hours to ms
-	}
-
-	return date < new Date(now.getTime() - milliseconds);
-}
 
 export async function cFetch(
 	input: Input,
@@ -113,6 +58,14 @@ export async function cFetch(
 	cacheConfig: Partial<CacheConfig> = defaultConfig,
 	metadata = false
 ) {
+	if (init && init.method !== 'GET') {
+		console.warn(
+			'Warning: cFetch is designed for GET requests. Using it with other methods will not cache the response.'
+		);
+		const newResponse = fetch(input, init);
+		return metadata ? { lastCheck: new Date(), data: newResponse } : newResponse;
+	}
+
 	const { lifetime }: CacheConfig = {
 		...defaultConfig,
 		...cacheConfig,
@@ -121,15 +74,16 @@ export async function cFetch(
 	const storedData = cachedData.get(input.toString());
 
 	if (!storedData || isOlderThan(storedData.lastCheck, lifetime)) {
-		const newData = await fetch(input, init);
-		if (!newData.ok) {
-			if (!storedData)
+		const newResponse = await fetch(input, init);
+		if (!newResponse.ok) {
+			if (!storedData) {
 				throw new Error('Failed to retrieve cached data, and failed to fetch new data');
+			}
 			return metadata ? storedData : storedData.data;
 		}
-		const newCachedData = { lastCheck: new Date(), data: newData };
+		const newCachedData = { lastCheck: new Date(), data: newResponse };
 		cachedData.set(input.toString(), newCachedData);
-		return metadata ? newCachedData : newData;
+		return metadata ? newCachedData : newResponse;
 	}
 	return metadata ? storedData : storedData.data;
 }

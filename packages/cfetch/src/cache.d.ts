@@ -1,4 +1,17 @@
-declare module 'cached:fetch' {
+declare module 'virtual:cfetch/config' {
+	/**
+	 * Default configuration for the cache passed from the user.
+	 *
+	 * @property lifetime - Specifies the duration for which the cache is valid.
+	 *                       The format should be a template literal string representing
+	 *                       either minutes (`<number>m`) or hours (`<number>h`).
+	 *                       For example: "5m" for 5 minutes or "2h" for 2 hours.
+	 */
+	const defaultConfig: import('./types').CacheConfig;
+	export default defaultConfig;
+}
+
+declare module 'c:fetch' {
 	/**
 	 * Represents the type of the global `fetch` function.
 	 *

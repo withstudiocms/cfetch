@@ -1,5 +1,5 @@
 name: Feature Request
-description: Suggest an idea/feature for StudioCMS
+description: Suggest an idea/feature for cFetch
 title: '[Feature Request]: '
 labels: [feat]
 type: "Feature"
@@ -20,7 +20,7 @@ body:
     id: examples
     attributes:
       label: Other examples?
-      description: Has there been something similar made for other highlighters such as Shiki?
+      description: Has there been something similar made before? (Do you have an example?)
       placeholder: If not just respond no
     validations:
       required: true

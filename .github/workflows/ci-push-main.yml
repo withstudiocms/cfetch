@@ -72,35 +72,35 @@ jobs:
     secrets:
       DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_MERGEBOT }}
 
-  # changeset-release:
-  #   name: Changeset Release
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout Repo
-  #       uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+  changeset-release:
+    name: Changeset Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
-  #     - name: Install Tools & Dependencies
-  #       uses: withstudiocms/automations/.github/actions/install@main
+      - name: Install Tools & Dependencies
+        uses: withstudiocms/automations/.github/actions/install@main
 
-  #     - name: Run Prepublish
-  #       run: pnpm ci:prepublish
+      - name: Run Prepublish
+        run: pnpm ci:prepublish
 
-  #     - name: Create Release Pull Request or Publish to npm
-  #       id: changesets
-  #       uses: changesets/action@v1
-  #       with:
-  #           setupGitUser: true
-  #           commit: "👷 [ci]: Version Packages"
-  #           title: "👷 [ci]: Ready for Release"
-  #           version: pnpm ci:version
-  #           publish: pnpm ci:publish
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.STUDIOCMS_SERVICE_TOKEN }}
-  #         NPM_TOKEN: ${{ secrets.STUDIOCMS_NPM_TOKEN }}
+      - name: Create Release Pull Request or Publish to npm
+        id: changesets
+        uses: changesets/action@v1
+        with:
+            setupGitUser: true
+            commit: "👷 [ci]: Version Packages"
+            title: "👷 [ci]: Ready for Release"
+            version: pnpm ci:version
+            publish: pnpm ci:publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.STUDIOCMS_SERVICE_TOKEN }}
+          NPM_TOKEN: ${{ secrets.STUDIOCMS_NPM_TOKEN }}
 
-  #     - name: Add Label to CI PR
-  #       if: ${{ steps.changesets.outputs.hasChangesets == 'true' }}
-  #       run: gh pr edit "$PR_URL" --add-label "ci"
-  #       env:
-  #         PR_URL: ${{ steps.changesets.outputs.pull_request_url }}
-  #         GITHUB_TOKEN: ${{ secrets.STUDIOCMS_SERVICE_TOKEN }}
+      - name: Add Label to CI PR
+        if: ${{ steps.changesets.outputs.hasChangesets == 'true' }}
+        run: gh pr edit "$PR_URL" --add-label "ci"
+        env:
+          PR_URL: ${{ steps.changesets.outputs.pull_request_url }}
+          GITHUB_TOKEN: ${{ secrets.STUDIOCMS_SERVICE_TOKEN }}

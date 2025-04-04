@@ -1,6 +1,6 @@
 {
   "$schema": "../node_modules/@changesets/config/schema.json",
-  "changelog": ["@changesets/changelog-github", { "repo": "withstudiocms/cachedfetch" }],
+  "changelog": ["@changesets/changelog-github", { "repo": "withstudiocms/cfetch" }],
   "commit": false,
   "fixed": [],
   "linked": [],

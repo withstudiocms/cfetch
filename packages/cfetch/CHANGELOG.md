@@ -1,5 +1,11 @@
 # @studiocms/cfetch
 
+## 0.1.4
+
+### Patch Changes
+
+- [#9](https://github.com/withstudiocms/cfetch/pull/9) [`26ed001`](https://github.com/withstudiocms/cfetch/commit/26ed00166742171bd0282d6076129abd01545153) Thanks [@Adammatthiesen](https://github.com/Adammatthiesen)! - Support JSR
+
 ## 0.1.3
 
 ### Patch Changes

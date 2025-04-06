@@ -24,6 +24,7 @@ describe('cachedFetch', () => {
 	const mockResponseBad = { ok: false } as Response;
 
 	const mockFetch = vi.fn(() => Promise.resolve(createMockResponse(mockResponseGood)));
+	vi.stubGlobal('fetch', mockFetch);
 
 	beforeEach(() => {
 		vi.clearAllMocks();

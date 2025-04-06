@@ -5,9 +5,9 @@
 
 import type { AstroIntegration } from 'astro';
 import { defaultConfig } from './consts.js';
+import stub from './stub.js';
 import type { CacheConfig } from './types.js';
 import { addVirtualImports, createResolver } from './utils/integration.js';
-import stub from './stub.js';
 
 /**
  * Astro integration that allows you to have a cached fetch function in your Astro SSR project.

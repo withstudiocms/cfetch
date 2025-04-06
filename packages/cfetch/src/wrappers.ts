@@ -59,8 +59,8 @@ export async function cFetch(
 		console.warn(
 			'Warning: cFetch is designed for GET requests. Using it with other methods will not cache the response.'
 		);
-		const newResponse = fetch(input, init);
-		return metadata ? { lastCheck: new Date(), data: newResponse } : newResponse;
+		const newResponse = await fetch(input, init);
+		return metadata ? { lastCheck: new Date(), data: newResponse.clone() } : newResponse.clone();
 	}
 
 	const { lifetime }: CacheConfig = {
@@ -78,9 +78,9 @@ export async function cFetch(
 			}
 			return metadata ? storedData : storedData.data;
 		}
-		const newCachedData = { lastCheck: new Date(), data: newResponse };
+		const newCachedData = { lastCheck: new Date(), data: newResponse.clone() };
 		cachedData.set(input.toString(), newCachedData);
-		return metadata ? newCachedData : newResponse;
+		return metadata ? newCachedData : newResponse.clone();
 	}
-	return metadata ? storedData : storedData.data;
+	return metadata ? storedData : storedData.data.clone();
 }

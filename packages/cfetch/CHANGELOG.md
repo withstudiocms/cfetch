@@ -1,5 +1,11 @@
 # @studiocms/cfetch
 
+## 0.1.3
+
+### Patch Changes
+
+- [#7](https://github.com/withstudiocms/cfetch/pull/7) [`706b61a`](https://github.com/withstudiocms/cfetch/commit/706b61a79fe7a2cc491f79862800840d057124ab) Thanks [@Adammatthiesen](https://github.com/Adammatthiesen)! - Fix: Clone response to prevent accidentally reading the object and causing it to invalidate
+
 ## 0.1.2
 
 ### Patch Changes

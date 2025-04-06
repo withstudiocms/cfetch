@@ -69,7 +69,8 @@ import { cFetch } from 'c:fetch';
 const response = await cFetch(
     'https://example.com', // string | URL | Request
     { /* Normal fetch init optional options here, method, mode, etc. */ },
-    { lifetime: "1h" } // Optional, allows changing the default lifetime of the cache
+    { lifetime: "1h" }, // Optional, allows changing the default lifetime of the cache
+    'json', // Optional, allows changing the type of response object to be cached. 'json' (default) or 'text'
 );
 
 const html = await response.text();
@@ -86,6 +87,7 @@ const { lastCheck, data } = await cFetch(
     'https://example.com',
     { /* ... */ },
     { lifetime: "1h" },
+    'json',
     true // Changes the the output to include the lastCheck value
 );
 

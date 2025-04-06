@@ -62,6 +62,8 @@ declare module 'c:fetch' {
 	 * @param input - The input to the fetch function, typically a URL or Request object.
 	 * @param init - An optional configuration object for the fetch request.
 	 * @param cacheConfig - Partial configuration for the cache behavior. Defaults to `defaultConfig`.
+	 * @param  type - Optional parameter specifying the expected response body format.
+	 *              Can be either 'json' or 'text'. Determines how the response body is processed.
 	 * @param metadata - A boolean indicating whether to return the full cached object (including metadata)
 	 *               or just the data. Defaults to `false`.
 	 * @returns The fetched or cached data. If `full` is `true`, returns an object containing
@@ -71,12 +73,14 @@ declare module 'c:fetch' {
 	export function cFetch(
 		input: Input,
 		init?: Init,
-		cacheConfig?: Partial<CacheConfig>
+		cacheConfig?: Partial<CacheConfig>,
+		type?: 'json' | 'text'
 	): Promise<Response>;
 	export function cFetch(
 		input: Input,
 		init?: Init,
 		cacheConfig?: Partial<CacheConfig>,
+		type?: 'json' | 'text',
 		metadata?: boolean
 	): Promise<CacheDataValue>;
 }

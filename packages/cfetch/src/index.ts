@@ -1,4 +1,4 @@
-/// <reference types='./cache.d.ts' preserve="true" />
+/// <reference types='../cache.d.ts' />
 import type { AstroIntegration } from 'astro';
 import { defaultConfig } from './consts.js';
 import type { CacheConfig } from './types.js';

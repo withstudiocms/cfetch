@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["src"],
+  "include": ["src", "cache.d.ts"],
   "compilerOptions": {
     "outDir": "./dist",
     "emitDeclarationOnly": true,

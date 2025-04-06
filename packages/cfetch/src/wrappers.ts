@@ -26,12 +26,14 @@ export const cachedData = new Map<string, CacheDataValue>();
 export async function cFetch(
 	input: Input,
 	init?: Init,
-	cacheConfig?: Partial<CacheConfig>
+	cacheConfig?: Partial<CacheConfig>,
+	type?: 'json' | 'text'
 ): Promise<Response>;
 export async function cFetch(
 	input: Input,
 	init?: Init,
 	cacheConfig?: Partial<CacheConfig>,
+	type?: 'json' | 'text',
 	metadata?: boolean
 ): Promise<CacheDataValue>;
 
@@ -43,6 +45,7 @@ export async function cFetch(
  * @param input - The input to the fetch function, typically a URL or Request object.
  * @param init - An optional configuration object for the fetch request.
  * @param cacheConfig - Partial configuration for the cache behavior. Defaults to `defaultConfig`.
+ * @param type - Type of response body (json or text)
  * @param metadata - A boolean indicating whether to return the full cached object (including metadata)
  *               or just the data. Defaults to `false`.
  * @returns The fetched or cached data. If `full` is `true`, returns an object containing
@@ -51,36 +54,42 @@ export async function cFetch(
  */
 export async function cFetch(
 	input: Input,
-	init: Init = undefined,
+	init: Init = {},
 	cacheConfig: Partial<CacheConfig> = defaultConfig,
+	type = 'json',
 	metadata = false
 ) {
 	if (init?.method && init.method !== 'GET') {
 		console.warn(
 			'Warning: cFetch is designed for GET requests. Using it with other methods will not cache the response.'
 		);
-		const newResponse = await fetch(input, init);
-		return metadata ? { lastCheck: new Date(), data: newResponse.clone() } : newResponse.clone();
+		const response = await fetch(input, init);
+		const data = type === 'json' ? await response.clone().json() : await response.clone().text();
+		const result = new Response(JSON.stringify(data), response);
+		return metadata ? { lastCheck: new Date(), data: result } : result;
 	}
 
-	const { lifetime }: CacheConfig = {
-		...defaultConfig,
-		...cacheConfig,
-	};
-
-	const storedData = cachedData.get(input.toString());
+	const { lifetime } = { ...defaultConfig, ...cacheConfig };
+	const key = input.toString();
+	const storedData = cachedData.get(key);
 
 	if (!storedData || isOlderThan(storedData.lastCheck, lifetime)) {
-		const newResponse = await fetch(input, init);
-		if (!newResponse.ok) {
+		const response = await fetch(input, init);
+		if (!response.ok) {
 			if (!storedData) {
 				throw new Error('Failed to retrieve cached data, and failed to fetch new data');
 			}
-			return metadata ? storedData : storedData.data;
+			const fallback = new Response(JSON.stringify(storedData.data));
+			return metadata ? { ...storedData, data: fallback } : fallback;
 		}
-		const newCachedData = { lastCheck: new Date(), data: newResponse.clone() };
-		cachedData.set(input.toString(), newCachedData);
-		return metadata ? newCachedData : newResponse.clone();
+
+		const data = type === 'json' ? await response.clone().json() : await response.clone().text();
+		const newCachedData = { lastCheck: new Date(), data };
+		cachedData.set(key, newCachedData);
+		const result = new Response(JSON.stringify(data), response);
+		return metadata ? { ...newCachedData, data: result } : result;
 	}
-	return metadata ? storedData : storedData.data.clone();
+
+	const cachedResponse = new Response(JSON.stringify(storedData.data));
+	return metadata ? { ...storedData, data: cachedResponse } : cachedResponse;
 }

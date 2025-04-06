@@ -17,7 +17,7 @@ declare module 'virtual:cfetch/config' {
 	 *                       either minutes (\`<number>m\`) or hours (\`<number>h\`).
 	 *                       For example: "5m" for 5 minutes or "2h" for 2 hours.
 	 */
-	const defaultConfig: import(${resolve('./types')}).CacheConfig;
+	const defaultConfig: import("${resolve('./types')}").CacheConfig;
 	export default defaultConfig;
 }
 

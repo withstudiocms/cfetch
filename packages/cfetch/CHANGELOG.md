@@ -1,5 +1,11 @@
 # @studiocms/cfetch
 
+## 0.1.5
+
+### Patch Changes
+
+- [#11](https://github.com/withstudiocms/cfetch/pull/11) [`3c93609`](https://github.com/withstudiocms/cfetch/commit/3c93609e247ff6fb9c6c740d55a7dba6984071d3) Thanks [@Adammatthiesen](https://github.com/Adammatthiesen)! - Refactor cache.d.ts to be generated into .astro types based on stub file.
+
 ## 0.1.4
 
 ### Patch Changes

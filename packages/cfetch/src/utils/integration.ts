@@ -1,6 +1,7 @@
 import type path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { AstroConfig, HookParameters } from 'astro';
+import { AstroError } from 'astro/errors';
 import type { Plugin, PluginOption } from 'vite';
 
 const _IS_ABSOLUTE_RE = /^[/\\](?![/\\])|^[/\\]{2}(?!\.)|^[A-Za-z]:[/\\]/;
@@ -370,7 +371,7 @@ const createVirtualModule = (
 	}
 	for (const [id, contexts] of Object.entries(duplicatedImports)) {
 		if (contexts.length !== [...new Set(contexts)].length) {
-			throw new Error(
+			throw new AstroError(
 				`Virtual import with id "${id}" has been registered several times with conflicting contexts.`
 			);
 		}
@@ -379,7 +380,7 @@ const createVirtualModule = (
 	const resolutionMap = Object.fromEntries(
 		imports.map(({ id }) => {
 			if (!bypassCoreValidation && id.startsWith('astro:')) {
-				throw new Error(
+				throw new AstroError(
 					`Virtual import name prefix can't be "astro:" (for "${id}") because it's reserved for Astro core.`
 				);
 			}

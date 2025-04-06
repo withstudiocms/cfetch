@@ -1,3 +1,8 @@
+/**
+ * This module contains functions that wrap and cache the native fetch function
+ * @module
+ */
+
 import { defaultConfig as _config } from './consts.js';
 import type { CacheConfig, CacheDataValue, Init, Input } from './types.js';
 import isOlderThan from './utils/isOlderThan.js';

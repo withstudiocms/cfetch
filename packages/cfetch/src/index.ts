@@ -1,3 +1,8 @@
+/**
+ * This module contains the AstroIntegration for cFetch
+ * @module
+ */
+
 import type { AstroIntegration } from 'astro';
 import { defaultConfig } from './consts.js';
 import type { CacheConfig } from './types.js';
@@ -35,7 +40,7 @@ import stub from './stub.js';
  * // Use the data in your component
  * ```
  */
-export function astroCache(opts?: CacheConfig): AstroIntegration {
+export function cFetch(opts?: CacheConfig): AstroIntegration {
 	const name = '@studiocms/cfetch';
 	const { resolve } = createResolver(import.meta.url);
 	const options: CacheConfig = {
@@ -64,4 +69,4 @@ export function astroCache(opts?: CacheConfig): AstroIntegration {
 	};
 }
 
-export default astroCache;
+export default cFetch;

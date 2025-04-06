@@ -1,4 +1,9 @@
 /**
+ * This module contains types for the cfetch package
+ * @module
+ */
+
+/**
  * Represents the type of the global `fetch` function.
  *
  * This type is derived from the built-in `fetch` function, allowing you to

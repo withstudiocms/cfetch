@@ -1,3 +1,8 @@
+/**
+ * This module contains a stub file for type generation
+ * @module
+ */
+
 import { createResolver } from './utils/integration.js';
 
 const { resolve } = createResolver(import.meta.url);

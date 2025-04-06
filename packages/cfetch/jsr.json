@@ -8,7 +8,7 @@
     "./types": "./src/types.ts"
   },
   "publish": {
-    "exclude": ["tests"],
+    "exclude": ["tests", "src/cache.d.ts"],
     "include": ["CHANGELOG.md", "LICENSE", "README.md", "src/**/*.ts"]
   }
 }

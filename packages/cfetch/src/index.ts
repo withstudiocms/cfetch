@@ -3,6 +3,7 @@ import type { AstroIntegration } from 'astro';
 import { defaultConfig } from './consts.js';
 import type { CacheConfig } from './types.js';
 import { addVirtualImports, createResolver } from './utils/integration.js';
+import stub from './stub.js';
 
 /**
  * Astro integration that allows you to have a cached fetch function in your Astro SSR project.
@@ -52,6 +53,12 @@ export function astroCache(opts?: CacheConfig): AstroIntegration {
 						'virtual:cfetch/config': `export default ${JSON.stringify(options)}`,
 						'c:fetch': `export * from '${resolve('./wrappers.js')}';`,
 					},
+				});
+			},
+			'astro:config:done': ({ injectTypes }) => {
+				injectTypes({
+					filename: 'cfetch.d.ts',
+					content: stub,
 				});
 			},
 		},

@@ -1,12 +1,29 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { cFetch, cachedData } from '../dist/wrappers'; // Update with the actual module path
 
+// Create a mock Response object
+function createMockResponse(body: any, init: ResponseInit = {}) {
+	const textData = JSON.stringify(body);
+
+	const response = new Response(textData, init);
+
+	// Override clone so each call returns a new Response
+	const originalClone = response.clone.bind(response);
+	response.clone = () => {
+		return new Response(textData, init);
+	};
+
+	return response;
+}
+
+// Mock fetch
+
 describe('cachedFetch', () => {
 	const mockUrl = 'https://api.example.com/data';
-	const mockResponse = { ok: true } as Response;
+	const mockResponseGood = { ok: true } as Response;
+	const mockResponseBad = { ok: false } as Response;
 
-	const mockFetch = vi.fn();
-	vi.stubGlobal('fetch', mockFetch);
+	const mockFetch = vi.fn(() => Promise.resolve(createMockResponse(mockResponseGood)));
 
 	beforeEach(() => {
 		vi.clearAllMocks();
@@ -14,17 +31,17 @@ describe('cachedFetch', () => {
 	});
 
 	it('fetches new data if not cached', async () => {
-		mockFetch.mockResolvedValue(mockResponse);
+		mockFetch.mockResolvedValue(mockResponseGood);
 
 		const result = await cFetch(mockUrl, {});
 
 		expect(fetch).toHaveBeenCalledWith(mockUrl, {});
-		expect(result).toEqual(mockResponse);
+		expect(result).toEqual(mockResponseGood);
 		expect(cachedData.get(mockUrl)).toBeDefined();
 	});
 
 	it('returns cached data if valid', async () => {
-		const cachedObject = { lastCheck: new Date(), data: mockResponse };
+		const cachedObject = { lastCheck: new Date(), data: mockResponseGood };
 		cachedData.set(mockUrl, cachedObject);
 
 		const result = await cFetch(mockUrl, {});
@@ -34,7 +51,7 @@ describe('cachedFetch', () => {
 	});
 
 	it('fetches new data if cache is expired', async () => {
-		mockFetch.mockResolvedValue(mockResponse);
+		mockFetch.mockResolvedValue(mockResponseGood);
 		const oldDate = new Date();
 		oldDate.setMinutes(oldDate.getMinutes() - 100); // Assuming lifetime < 30 mins
 		cachedData.set(mockUrl, { lastCheck: oldDate, data: { ok: true } as Response });
@@ -42,11 +59,11 @@ describe('cachedFetch', () => {
 		const result = await cFetch(mockUrl, {});
 
 		expect(fetch).toHaveBeenCalledWith(mockUrl, {});
-		expect(result).toEqual(mockResponse);
+		expect(result).toEqual(mockResponseGood);
 	});
 
 	it('returns metadata when requested', async () => {
-		const cachedObject = { lastCheck: new Date(), data: mockResponse };
+		const cachedObject = { lastCheck: new Date(), data: mockResponseGood };
 		cachedData.set(mockUrl, cachedObject);
 
 		const result = await cFetch(mockUrl, {}, {}, true);
@@ -55,7 +72,7 @@ describe('cachedFetch', () => {
 	});
 
 	it('throws an error if fetching fails and no cache exists', async () => {
-		mockFetch.mockResolvedValue({ ok: false });
+		mockFetch.mockResolvedValue(mockResponseBad);
 
 		await expect(cFetch(mockUrl, {})).rejects.toThrow(
 			'Failed to retrieve cached data, and failed to fetch new data'
@@ -65,9 +82,9 @@ describe('cachedFetch', () => {
 	it('returns cached data if fetching fails but cache exists even if expired', async () => {
 		const oldDate = new Date();
 		oldDate.setMinutes(oldDate.getMinutes() - 100);
-		const cachedObject = { lastCheck: oldDate, data: mockResponse };
+		const cachedObject = { lastCheck: oldDate, data: mockResponseGood };
 		cachedData.set(mockUrl, cachedObject);
-		mockFetch.mockResolvedValue({ ok: false });
+		mockFetch.mockResolvedValue(mockResponseBad);
 
 		const result = await cFetch(mockUrl, {});
 

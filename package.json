@@ -14,11 +14,12 @@
     "ci:prepublish": "pnpm build",
     "ci:lint": "biome ci --formatter-enabled=true --organize-imports-enabled=true  --reporter=github",
     "ci:install": "pnpm install --frozen-lockfile",
-    "ci:version": "pnpm changeset version",
+    "ci:version": "pnpm changeset version && pnpx @qingshaner/jsr-release --allowDirty version --sync",
     "ci:publish": "pnpm changeset publish",
     "ci:snapshot": "pnpx pkg-pr-new publish --pnpm './packages/*'",
     "ci:test": "pnpm vitest --reporter=github-actions --reporter=default --reporter=html",
-    "knip": "knip"
+    "knip": "knip",
+    "jsr:test": "pnpm --filter @studiocms/cfetch jsr --dry-run"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",

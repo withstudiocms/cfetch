@@ -1,0 +1,14 @@
+{
+  "$schema": "https://jsr.io/schema/config-file.v1.json",
+  "name": "@studiocms/cfetch",
+  "version": "0.1.3",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts",
+    "./types": "./src/types.ts"
+  },
+  "publish": {
+    "exclude": ["tests"],
+    "include": ["CHANGELOG.md", "LICENSE", "README.md", "src/**/*.ts"]
+  }
+}

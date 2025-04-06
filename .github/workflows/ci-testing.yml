@@ -20,6 +20,24 @@ on:
 concurrency: testing-${{ github.ref }}
 
 jobs:
+  jsr-dry-run:
+    name: Test JSR Publish
+    runs-on: ubuntu-latest
+    env:
+      NODE_OPTIONS: "--max_old_space_size=4096"
+    steps:
+      - name: Check out code using Git
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+  
+      - name: Install Tools & Dependencies
+        uses: withstudiocms/automations/.github/actions/install@main
+
+      - name: Build package
+        run: pnpm build
+
+      - name: Test run
+        run: pnpm jsr:test
+
   vitest-reporter:
     name: Run Vitest Tests
     runs-on: ubuntu-latest

@@ -3,6 +3,8 @@
   "version": "0.1.3",
   "license": "MIT",
   "exports": "./src/index.ts",
-  "exclude": ["tests"],
-  "include": ["CHANGELOG.md", "LICENSE", "README.md", "src/**/*.ts"]
+  "publish": {
+    "exclude": ["tests"],
+    "include": ["CHANGELOG.md", "LICENSE", "README.md", "src/**/*.ts"]
+  }
 }

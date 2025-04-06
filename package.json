@@ -19,7 +19,8 @@
     "ci:snapshot": "pnpx pkg-pr-new publish --pnpm './packages/*'",
     "ci:test": "pnpm vitest --reporter=github-actions --reporter=default --reporter=html",
     "knip": "knip",
-    "jsr:test": "pnpm --filter @studiocms/cfetch jsr --dry-run"
+    "jsr:test": "pnpm --filter @studiocms/cfetch jsr --dry-run",
+    "jsr:run": "pnpm --filter @studiocms/cfetch jsr"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",

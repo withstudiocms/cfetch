@@ -1,3 +1,4 @@
+// @ts-ignore - this is a virtual module
 import { cFetch } from 'c:fetch';
 import type { APIContext, APIRoute } from 'astro';
 

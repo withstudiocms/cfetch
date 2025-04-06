@@ -52,16 +52,16 @@
     "./types": {
       "types": "./dist/types.d.ts",
       "default": "./dist/types.js"
-    },
-    "./v/types": "./dist/cache.d.ts"
+    }
   },
   "devDependencies": {
     "@inox-tools/astro-tests": "^0.5.1",
-    "@types/node": "catalog:",
-    "jest-extended": "^4.0.2"
+    "@types/node": "^22.0.0",
+    "jest-extended": "^4.0.2",
+    "astro": "^5.5"
   },
   "peerDependencies": {
-    "astro": "catalog:min",
-    "vite": "catalog:min"
+    "astro": "^5.5",
+    "vite": "^6.2.0"
   }
 }

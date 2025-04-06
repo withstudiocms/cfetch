@@ -21,13 +21,6 @@ catalogs:
     typescript:
       specifier: ^5.7
       version: 5.8.2
-  min:
-    astro:
-      specifier: ^5.5
-      version: 5.5.6
-    vite:
-      specifier: ^6.2.0
-      version: 6.2.4
 
 importers:
 
@@ -72,19 +65,19 @@ importers:
 
   packages/cfetch:
     dependencies:
-      astro:
-        specifier: catalog:min
-        version: 5.5.6(@types/node@22.13.17)(jiti@2.4.2)(rollup@4.38.0)(typescript@5.8.2)
       vite:
-        specifier: catalog:min
+        specifier: ^6.2.0
         version: 6.2.4(@types/node@22.13.17)(jiti@2.4.2)
     devDependencies:
       '@inox-tools/astro-tests':
         specifier: ^0.5.1
         version: 0.5.1(astro@5.5.6(@types/node@22.13.17)(jiti@2.4.2)(rollup@4.38.0)(typescript@5.8.2))
       '@types/node':
-        specifier: 'catalog:'
+        specifier: ^22.0.0
         version: 22.13.17
+      astro:
+        specifier: ^5.5
+        version: 5.5.6(@types/node@22.13.17)(jiti@2.4.2)(rollup@4.38.0)(typescript@5.8.2)
       jest-extended:
         specifier: ^4.0.2
         version: 4.0.2

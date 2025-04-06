@@ -3,6 +3,7 @@
 ![Readme's Banner](https://github.com/withstudiocms/cfetch/blob/main/assets/cfetch-banner.png)
 
 [![NPM Version](https://img.shields.io/npm/v/@studiocms/cfetch?logo=npm)](https://npm.im/@studiocms/cfetch)
+[![JSR](https://jsr.io/badges/@studiocms/cfetch)](https://jsr.io/@studiocms/cfetch)
 [![Formatted with Biome](https://img.shields.io/badge/Formatted_with-Biome-60a5fa?style=flat&logo=biome)](https://biomejs.dev/)
 [![Built with Astro](https://astro.badg.es/v2/built-with-astro/tiny.svg)](https://astro.build)
 

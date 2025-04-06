@@ -1,3 +1,8 @@
+/**
+ * This module contains Astro Integration Utilities
+ * @module
+ */
+
 import type path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { AstroConfig, HookParameters } from 'astro';

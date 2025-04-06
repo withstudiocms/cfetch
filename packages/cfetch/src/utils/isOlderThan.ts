@@ -1,4 +1,9 @@
 /**
+ * This module contains helper functions for cFetch
+ * @module
+ */
+
+/**
  * Determines whether a given date is older than a specified lifetime.
  *
  * @param date - The date to compare against the current time.

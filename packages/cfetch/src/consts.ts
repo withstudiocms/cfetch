@@ -1,3 +1,8 @@
+/**
+ * This module contains constants for cFetch
+ * @module
+ */
+
 import type { CacheConfig } from './types.js';
 
 /**

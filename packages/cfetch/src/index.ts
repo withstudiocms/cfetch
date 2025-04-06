@@ -1,8 +1,13 @@
-/// <reference types='./cache.d.ts' preserve="true" />
+/**
+ * This module contains the AstroIntegration for cFetch
+ * @module
+ */
+
 import type { AstroIntegration } from 'astro';
 import { defaultConfig } from './consts.js';
 import type { CacheConfig } from './types.js';
 import { addVirtualImports, createResolver } from './utils/integration.js';
+import stub from './stub.js';
 
 /**
  * Astro integration that allows you to have a cached fetch function in your Astro SSR project.
@@ -35,7 +40,7 @@ import { addVirtualImports, createResolver } from './utils/integration.js';
  * // Use the data in your component
  * ```
  */
-export function astroCache(opts?: CacheConfig): AstroIntegration {
+export function cFetch(opts?: CacheConfig): AstroIntegration {
 	const name = '@studiocms/cfetch';
 	const { resolve } = createResolver(import.meta.url);
 	const options: CacheConfig = {
@@ -54,8 +59,14 @@ export function astroCache(opts?: CacheConfig): AstroIntegration {
 					},
 				});
 			},
+			'astro:config:done': ({ injectTypes }) => {
+				injectTypes({
+					filename: 'cfetch.d.ts',
+					content: stub,
+				});
+			},
 		},
 	};
 }
 
-export default astroCache;
+export default cFetch;

@@ -56,11 +56,11 @@
   },
   "devDependencies": {
     "@inox-tools/astro-tests": "^0.5.1",
-    "@types/node": "catalog:",
+    "@types/node": "^22.0.0",
     "jest-extended": "^4.0.2"
   },
   "peerDependencies": {
-    "astro": "catalog:min",
-    "vite": "catalog:min"
+    "astro": "^5.5",
+    "vite": "^6.2.0"
   }
 }

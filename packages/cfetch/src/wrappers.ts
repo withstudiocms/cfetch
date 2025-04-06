@@ -21,7 +21,9 @@ const defaultConfig = await import('virtual:cfetch/config')
 /**
  * Exported for tests
  */
-export const cachedData = new Map<string, CacheDataValue>();
+
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+export const cachedData = new Map<string, { lastCheck: Date; data: any }>();
 
 export async function cFetch(
 	input: Input,
@@ -65,7 +67,7 @@ export async function cFetch(
 		);
 		const response = await fetch(input, init);
 		const data = type === 'json' ? await response.clone().json() : await response.clone().text();
-		const result = new Response(JSON.stringify(data), response);
+		const result = new Response(type === 'json' ? JSON.stringify(data) : data, response);
 		return metadata ? { lastCheck: new Date(), data: result } : result;
 	}
 
@@ -79,17 +81,21 @@ export async function cFetch(
 			if (!storedData) {
 				throw new Error('Failed to retrieve cached data, and failed to fetch new data');
 			}
-			const fallback = new Response(JSON.stringify(storedData.data));
+			const fallback = new Response(
+				type === 'json' ? JSON.stringify(storedData.data) : storedData.data
+			);
 			return metadata ? { ...storedData, data: fallback } : fallback;
 		}
 
 		const data = type === 'json' ? await response.clone().json() : await response.clone().text();
 		const newCachedData = { lastCheck: new Date(), data };
 		cachedData.set(key, newCachedData);
-		const result = new Response(JSON.stringify(data), response);
+		const result = new Response(type === 'json' ? JSON.stringify(data) : data, response);
 		return metadata ? { ...newCachedData, data: result } : result;
 	}
 
-	const cachedResponse = new Response(JSON.stringify(storedData.data));
+	const cachedResponse = new Response(
+		type === 'json' ? JSON.stringify(storedData.data) : storedData.data
+	);
 	return metadata ? { ...storedData, data: cachedResponse } : cachedResponse;
 }

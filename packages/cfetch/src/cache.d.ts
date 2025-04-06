@@ -71,12 +71,14 @@ declare module 'c:fetch' {
 	export function cFetch(
 		input: Input,
 		init?: Init,
-		cacheConfig?: Partial<CacheConfig>
+		cacheConfig?: Partial<CacheConfig>,
+		type?: 'json' | 'text'
 	): Promise<Response>;
 	export function cFetch(
 		input: Input,
 		init?: Init,
 		cacheConfig?: Partial<CacheConfig>,
+		type?: 'json' | 'text',
 		metadata?: boolean
 	): Promise<CacheDataValue>;
 }

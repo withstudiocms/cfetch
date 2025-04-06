@@ -3,6 +3,7 @@ import type { KnipConfig } from 'knip';
 const config: KnipConfig = {
 	exclude: ['duplicates', 'optionalPeerDependencies'],
 	ignoreDependencies: ['c'],
+	ignoreBinaries: ['jsr'],
 	workspaces: {
 		'.': {
 			ignoreDependencies: ['@changesets/config', '@changesets/write'],

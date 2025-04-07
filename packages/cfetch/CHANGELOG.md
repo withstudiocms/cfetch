@@ -1,5 +1,11 @@
 # @studiocms/cfetch
 
+## 0.1.6
+
+### Patch Changes
+
+- [#13](https://github.com/withstudiocms/cfetch/pull/13) [`443d7a4`](https://github.com/withstudiocms/cfetch/commit/443d7a4804baebdf347574aa2531df53f3adfabd) Thanks [@Adammatthiesen](https://github.com/Adammatthiesen)! - Fix string interpolation for the stub file
+
 ## 0.1.5
 
 ### Patch Changes

@@ -55,7 +55,7 @@
     }
   },
   "devDependencies": {
-    "@inox-tools/astro-tests": "^0.5.1",
+    "@inox-tools/astro-tests": "^0.6.0",
     "@types/node": "^22.0.0",
     "jest-extended": "^4.0.2",
     "astro": "^5.5"

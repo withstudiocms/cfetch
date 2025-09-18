@@ -35,5 +35,6 @@
       "matchPackageNames": ["drizzle-orm"],
       "enabled": false
     }
-  ]
+  ],
+  "minimumReleaseAge": "3 days"
 }

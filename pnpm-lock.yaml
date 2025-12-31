@@ -67,17 +67,17 @@ importers:
     dependencies:
       vite:
         specifier: ^6.2.0
-        version: 6.2.4(@types/node@22.13.17)(jiti@2.4.2)
+        version: 6.2.4(@types/node@24.10.4)(jiti@2.4.2)
     devDependencies:
       '@inox-tools/astro-tests':
         specifier: ^0.5.1
-        version: 0.5.1(astro@5.5.6(@types/node@22.13.17)(jiti@2.4.2)(rollup@4.38.0)(typescript@5.8.2))
+        version: 0.5.1(astro@5.5.6(@types/node@24.10.4)(jiti@2.4.2)(rollup@4.38.0)(typescript@5.8.2))
       '@types/node':
-        specifier: ^22.0.0
-        version: 22.13.17
+        specifier: ^24.0.0
+        version: 24.10.4
       astro:
         specifier: ^5.5
-        version: 5.5.6(@types/node@22.13.17)(jiti@2.4.2)(rollup@4.38.0)(typescript@5.8.2)
+        version: 5.5.6(@types/node@24.10.4)(jiti@2.4.2)(rollup@4.38.0)(typescript@5.8.2)
       jest-extended:
         specifier: ^4.0.2
         version: 4.0.2
@@ -962,6 +962,9 @@ packages:
 
   '@types/node@22.13.17':
     resolution: {integrity: sha512-nAJuQXoyPj04uLgu+obZcSmsfOenUg6DxPKogeUy6yNCFwWaj5sBF8/G/pNo8EtBJjAfSVgfIlugR/BCOleO+g==}
+
+  '@types/node@24.10.4':
+    resolution: {integrity: sha512-vnDVpYPMzs4wunl27jHrfmwojOGKya0xyM3sH+UE5iv5uPS6vX7UIoh6m+vQc5LGBq52HBKPIn/zcSZVzeDEZg==}
 
   '@types/unist@3.0.3':
     resolution: {integrity: sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q==}
@@ -2472,6 +2475,9 @@ packages:
   undici-types@6.20.0:
     resolution: {integrity: sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==}
 
+  undici-types@7.16.0:
+    resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
+
   undici@6.21.2:
     resolution: {integrity: sha512-uROZWze0R0itiAKVPsYhFov9LxrPMHLMEQFszeI2gCN6bnIIZ8twzBCJcN2LJrBBLfrP0t1FW0g+JmKVl8Vk1g==}
     engines: {node: '>=18.17'}
@@ -2690,6 +2696,7 @@ packages:
   whatwg-encoding@3.1.1:
     resolution: {integrity: sha512-6qN4hJdMwfYBtE3YBTTHhoeuUrDBPZmbQaxWAqSALV/MeEnR5z1xd8UKud2RAkFoPkmB+hli1TZSnyi84xz1vQ==}
     engines: {node: '>=18'}
+    deprecated: Use @exodus/bytes instead for a more spec-conformant and faster implementation
 
   whatwg-mimetype@4.0.0:
     resolution: {integrity: sha512-QaKxh0eNIi2mE9p2vEdzfagOKHCcj1pJ56EEHGQOVxp8r9/iszLUUV7v89x9O1p/T+NlTM5W7jW6+cz4Fq1YVg==}
@@ -3354,12 +3361,12 @@ snapshots:
   '@img/sharp-win32-x64@0.34.1':
     optional: true
 
-  '@inox-tools/astro-tests@0.5.1(astro@5.5.6(@types/node@22.13.17)(jiti@2.4.2)(rollup@4.38.0)(typescript@5.8.2))':
+  '@inox-tools/astro-tests@0.5.1(astro@5.5.6(@types/node@24.10.4)(jiti@2.4.2)(rollup@4.38.0)(typescript@5.8.2))':
     dependencies:
       '@astrojs/internal-helpers': 0.5.1
       '@astrojs/markdown-remark': 5.3.0
       '@inox-tools/utils': 0.3.1
-      astro: 5.5.6(@types/node@22.13.17)(jiti@2.4.2)(rollup@4.38.0)(typescript@5.8.2)
+      astro: 5.5.6(@types/node@24.10.4)(jiti@2.4.2)(rollup@4.38.0)(typescript@5.8.2)
       debug: 4.4.0
       fast-glob: 3.3.3
       shiki: 1.29.2
@@ -3668,6 +3675,10 @@ snapshots:
     dependencies:
       undici-types: 6.20.0
 
+  '@types/node@24.10.4':
+    dependencies:
+      undici-types: 7.16.0
+
   '@types/unist@3.0.3': {}
 
   '@ungap/structured-clone@1.3.0': {}
@@ -3829,6 +3840,101 @@ snapshots:
       vfile: 6.0.3
       vite: 6.2.4(@types/node@22.13.17)(jiti@2.4.2)
       vitefu: 1.0.6(vite@6.2.4(@types/node@22.13.17)(jiti@2.4.2))
+      xxhash-wasm: 1.1.0
+      yargs-parser: 21.1.1
+      yocto-spinner: 0.2.1
+      zod: 3.24.2
+      zod-to-json-schema: 3.24.5(zod@3.24.2)
+      zod-to-ts: 1.2.0(typescript@5.8.2)(zod@3.24.2)
+    optionalDependencies:
+      sharp: 0.33.5
+    transitivePeerDependencies:
+      - '@azure/app-configuration'
+      - '@azure/cosmos'
+      - '@azure/data-tables'
+      - '@azure/identity'
+      - '@azure/keyvault-secrets'
+      - '@azure/storage-blob'
+      - '@capacitor/preferences'
+      - '@deno/kv'
+      - '@netlify/blobs'
+      - '@planetscale/database'
+      - '@types/node'
+      - '@upstash/redis'
+      - '@vercel/blob'
+      - '@vercel/kv'
+      - aws4fetch
+      - db0
+      - idb-keyval
+      - ioredis
+      - jiti
+      - less
+      - lightningcss
+      - rollup
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - tsx
+      - typescript
+      - uploadthing
+      - yaml
+
+  astro@5.5.6(@types/node@24.10.4)(jiti@2.4.2)(rollup@4.38.0)(typescript@5.8.2):
+    dependencies:
+      '@astrojs/compiler': 2.11.0
+      '@astrojs/internal-helpers': 0.6.1
+      '@astrojs/markdown-remark': 6.3.1
+      '@astrojs/telemetry': 3.2.0
+      '@oslojs/encoding': 1.1.0
+      '@rollup/pluginutils': 5.1.4(rollup@4.38.0)
+      acorn: 8.14.1
+      aria-query: 5.3.2
+      axobject-query: 4.1.0
+      boxen: 8.0.1
+      ci-info: 4.2.0
+      clsx: 2.1.1
+      common-ancestor-path: 1.0.1
+      cookie: 1.0.2
+      cssesc: 3.0.0
+      debug: 4.4.0
+      deterministic-object-hash: 2.0.2
+      devalue: 5.1.1
+      diff: 5.2.0
+      dlv: 1.1.3
+      dset: 3.1.4
+      es-module-lexer: 1.6.0
+      esbuild: 0.25.2
+      estree-walker: 3.0.3
+      flattie: 1.1.1
+      github-slugger: 2.0.0
+      html-escaper: 3.0.3
+      http-cache-semantics: 4.1.1
+      js-yaml: 4.1.0
+      kleur: 4.1.5
+      magic-string: 0.30.17
+      magicast: 0.3.5
+      mrmime: 2.0.1
+      neotraverse: 0.6.18
+      p-limit: 6.2.0
+      p-queue: 8.1.0
+      package-manager-detector: 1.1.0
+      picomatch: 4.0.2
+      prompts: 2.4.2
+      rehype: 13.0.2
+      semver: 7.7.1
+      shiki: 3.2.1
+      tinyexec: 0.3.2
+      tinyglobby: 0.2.12
+      tsconfck: 3.1.5(typescript@5.8.2)
+      ultrahtml: 1.5.3
+      unist-util-visit: 5.0.0
+      unstorage: 1.15.0
+      vfile: 6.0.3
+      vite: 6.2.4(@types/node@24.10.4)(jiti@2.4.2)
+      vitefu: 1.0.6(vite@6.2.4(@types/node@24.10.4)(jiti@2.4.2))
       xxhash-wasm: 1.1.0
       yargs-parser: 21.1.1
       yocto-spinner: 0.2.1
@@ -5579,6 +5685,8 @@ snapshots:
 
   undici-types@6.20.0: {}
 
+  undici-types@7.16.0: {}
+
   undici@6.21.2: {}
 
   unified@11.0.5:
@@ -5698,9 +5806,23 @@ snapshots:
       fsevents: 2.3.3
       jiti: 2.4.2
 
+  vite@6.2.4(@types/node@24.10.4)(jiti@2.4.2):
+    dependencies:
+      esbuild: 0.25.2
+      postcss: 8.5.3
+      rollup: 4.38.0
+    optionalDependencies:
+      '@types/node': 24.10.4
+      fsevents: 2.3.3
+      jiti: 2.4.2
+
   vitefu@1.0.6(vite@6.2.4(@types/node@22.13.17)(jiti@2.4.2)):
     optionalDependencies:
       vite: 6.2.4(@types/node@22.13.17)(jiti@2.4.2)
+
+  vitefu@1.0.6(vite@6.2.4(@types/node@24.10.4)(jiti@2.4.2)):
+    optionalDependencies:
+      vite: 6.2.4(@types/node@24.10.4)(jiti@2.4.2)
 
   vitest@3.1.1(@types/debug@4.1.12)(@types/node@22.13.17)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@26.0.0):
     dependencies:

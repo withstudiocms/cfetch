@@ -1,6 +1,39 @@
 /**
- * This module contains the AstroIntegration for cFetch
- * @module
+ * @module @studiocms/cfetch
+ *
+ * An Astro integration that provides a caching fetch utility using Effect.
+ *
+ * This module exports the `cFetch` function, which can be used to create an Astro
+ * integration that adds virtual modules for cached fetching capabilities. It also
+ * exports the `Duration` type from Effect for specifying cache lifetimes.
+ *
+ * The `cFetch` integration injects virtual modules:
+ * - `virtual:cfetch/config`: Exports the default cache configuration.
+ * - `c:fetch`: Exports various cached fetch functions and types.
+ *
+ * Example usage:
+ *
+ * ```ts
+ * import cFetch, { Duration } from '@studiocms/cfetch';
+ * import { defineConfig } from 'astro/config';
+ *
+ * export default defineConfig({
+ *   integrations: [
+ *     cFetch({
+ *       lifetime: Duration.minutes(5), // Set cache lifetime to 5 minutes (default is 1 hour)
+ *     }),
+ *   ],
+ * });
+ * ```
+ * 
+ * You can then use the cached fetch functions in your Astro components or pages:
+ * 
+ * ```ts
+ * import { cFetch } from 'c:fetch';
+ * 
+ * const response = await cFetch('https://api.example.com/data', (res) => res.json());
+ * console.log(response.data);
+ * ```
  */
 
 import type { AstroIntegration } from 'astro';

@@ -61,40 +61,7 @@ export default defineConfig({
 
 ### Usage
 
-You can import the `cFetch` function anywhere and use it as you would use a normal `fetch` call. `cFetch` adapts the same default options as `fetch`:
-
-```astro
----
-import { cFetch } from 'c:fetch';
-
-const response = await cFetch(
-    'https://example.com', // string | URL | Request
-    { /* Normal fetch init optional options here, method, mode, etc. */ },
-    { lifetime: "1h" }, // Optional, allows changing the default lifetime of the cache
-    'json', // Optional, allows changing the type of response object to be cached. 'json' (default) or 'text'
-);
-
-const html = await response.text();
----
-```
-
-If you need to access the other available metadata (such as the `lastChecked` value which provides the last time the cache was updated), you can pass `true` as the fourth parameter, which will change the returned object to the following:
-
-```astro
----
-import { cFetch } from 'c:fetch';
-
-const { lastCheck, data } = await cFetch(
-    'https://example.com',
-    { /* ... */ },
-    { lifetime: "1h" },
-    'json',
-    true // Changes the the output to include the lastCheck value
-);
-
-const html = await data.text();
----
-```
+TODO
 
 ## Licensing
 

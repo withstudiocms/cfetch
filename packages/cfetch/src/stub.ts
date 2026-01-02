@@ -9,7 +9,7 @@ const { resolve } = createResolver(import.meta.url);
 
 const stub = `
 declare module 'virtual:cfetch/config' {
-	type CacheConfig = import("${resolve('./types.js')}").CacheConfig;
+	type CacheConfig = import("${resolve('./types.js')}").CacheConfigLive;
 	const defaultConfig: CacheConfig;
 	export default defaultConfig;
 }

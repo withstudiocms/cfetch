@@ -8,6 +8,7 @@ import { addVirtualImports, createResolver } from './utils/integration.js';
 import type { CacheConfig } from './types.js';
 import { defaultConfig } from './consts.js';
 import stub from './stub.js';
+import { Duration } from 'effect';
 
 export { Duration } from 'effect';
 
@@ -25,7 +26,9 @@ export function cFetch(opts?: CacheConfig): AstroIntegration {
 				addVirtualImports(params, {
 					name,
 					imports: {
-						'virtual:cfetch/config': `export default ${JSON.stringify(options)}`,
+						'virtual:cfetch/config': `export default ${JSON.stringify({
+							lifetime: Duration.toMillis(options.lifetime)
+						})}`,
 						'c:fetch': `export * from '${resolve('./wrappers.js')}';`,
 					},
 				});

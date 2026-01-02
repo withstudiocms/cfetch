@@ -7,15 +7,15 @@ export const GET: APIRoute = async (ctx: APIContext) => {
 
 	const exampleAPI = new URL('/example', origin);
 
-	const response = await cFetch(exampleAPI);
+	const response = await cFetch<{ foo: string }>(exampleAPI.href, (res) => res.json());
 
-	if (!response.ok) {
+	if (response.status !== 200) {
 		return new Response(null, {
 			status: 400,
 		});
 	}
 
-	const data = await response.json();
+	const data = response.data;
 
 	return new Response(data.foo, {
 		status: 200,

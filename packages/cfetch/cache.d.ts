@@ -1,12 +1,12 @@
 declare module 'virtual:cfetch/config' {
-	type CacheConfig = import('./src/types.js').CacheConfig;
+	type CacheConfig = import('./src/types.js').CacheConfigLive;
 
 	const defaultConfig: CacheConfig;
 	export default defaultConfig;
 }
 
 declare module 'c:fetch' {
-	export type CacheConfig = import('./src/types.js').CacheConfig;
+	export type CacheConfig = import('./src/types.js').CacheConfigLive;
 	export type CachedResponse<T> = import('./src/wrappers.js').CachedResponse<T>;
 
 	export const Duration: typeof import('./src/wrappers.js').Duration;

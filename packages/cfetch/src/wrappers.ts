@@ -28,6 +28,13 @@ export interface CachedResponse<T> {
     headers: Record<string, string>;
 }
 
+interface CFetchConfig {
+    ttl?: Duration.DurationInput;
+    tags?: string[];
+    key?: string;
+    verbose?: boolean;
+}
+
 // ========================================================
 // Effects
 // ========================================================
@@ -73,10 +80,10 @@ export const cFetchEffect = <T>(
     url: string,
     parser: (response: Response) => Promise<T>,
     options?: RequestInit,
-    cacheConfig?: { ttl?: Duration.Duration; tags?: string[]; key?: string }
+    cacheConfig?: CFetchConfig
 ): Effect.Effect<CachedResponse<T>, FetchError, never> =>
     Effect.gen(function* () {
-        const { key, ...cacheOpts } = cacheConfig || {};
+        const { key, verbose = false, ...cacheOpts } = cacheConfig || {};
 
         const cache = yield* CacheServiceNew;
         const cacheKey = key || `${url}-${JSON.stringify(options || {})}`;
@@ -84,11 +91,11 @@ export const cFetchEffect = <T>(
         // Check cache first
         const cached = yield* cache.get<CachedResponse<T>>(cacheKey);
         if (cached) {
-            console.log(`Cache hit for: ${url}`);
+            verbose && console.log(`Cache hit for: ${url}`);
             return cached;
         }
 
-        console.log(`Cache miss for: ${url}`);
+        verbose && console.log(`Cache miss for: ${url}`);
 
         // Fetch from network
         const response = yield*
@@ -144,7 +151,7 @@ export const cFetchEffect = <T>(
 export const cFetchEffectJson = <T>(
     url: string,
     options?: RequestInit,
-    cacheConfig?: { ttl?: Duration.Duration; tags?: string[]; key?: string }
+    cacheConfig?: CFetchConfig
 ): Effect.Effect<CachedResponse<T>, FetchError, never> =>
     cFetchEffect(url, (res) => res.json() as Promise<T>, options, cacheConfig);
 
@@ -173,7 +180,7 @@ export const cFetchEffectJson = <T>(
 export const cFetchEffectText = (
     url: string,
     options?: RequestInit,
-    cacheConfig?: { ttl?: Duration.Duration; tags?: string[]; key?: string }
+    cacheConfig?: CFetchConfig
 ): Effect.Effect<CachedResponse<string>, FetchError, never> =>
     cFetchEffect(url, (res) => res.text(), options, cacheConfig);
 
@@ -201,7 +208,7 @@ export const cFetchEffectText = (
 export const cFetchEffectBlob = (
     url: string,
     options?: RequestInit,
-    cacheConfig?: { ttl?: Duration.Duration; tags?: string[]; key?: string }
+    cacheConfig?: CFetchConfig
 ): Effect.Effect<CachedResponse<Blob>, FetchError, never> =>
     cFetchEffect(url, (res) => res.blob(), options, cacheConfig);
 
@@ -241,7 +248,7 @@ export const cFetch = <T>(
     url: string,
     parser: (response: Response) => Promise<T>,
     options?: RequestInit,
-    cacheConfig?: { ttl?: Duration.Duration; tags?: string[]; key?: string }
+    cacheConfig?: CFetchConfig
 ): Promise<CachedResponse<T>> => runEffect(cFetchEffect(url, parser, options, cacheConfig));
 
 /**
@@ -270,7 +277,7 @@ export const cFetch = <T>(
 export const cFetchJson = <T>(
     url: string,
     options?: RequestInit,
-    cacheConfig?: { ttl?: Duration.Duration; tags?: string[]; key?: string }
+    cacheConfig?: CFetchConfig
 ): Promise<CachedResponse<T>> => runEffect(cFetchEffectJson(url, options, cacheConfig));
 
 /**
@@ -297,7 +304,7 @@ export const cFetchJson = <T>(
 export const cFetchText = (
     url: string,
     options?: RequestInit,
-    cacheConfig?: { ttl?: Duration.Duration; tags?: string[]; key?: string }
+    cacheConfig?: CFetchConfig
 ): Promise<CachedResponse<string>> => runEffect(cFetchEffectText(url, options, cacheConfig));
 
 /**
@@ -320,5 +327,5 @@ export const cFetchText = (
 export const cFetchBlob = (
     url: string,
     options?: RequestInit,
-    cacheConfig?: { ttl?: Duration.Duration; tags?: string[]; key?: string }
+    cacheConfig?: CFetchConfig
 ): Promise<CachedResponse<Blob>> => runEffect(cFetchEffectBlob(url, options, cacheConfig));

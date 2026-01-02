@@ -1,5 +1,5 @@
 import { Context, Duration, Clock, Effect } from "effect";
-import { defaultConfig } from "./consts";
+import { defaultConfigLive } from "./consts";
 
 // Define the cache entry type
 export interface CacheEntry<A> {
@@ -33,7 +33,7 @@ const getConfig = async () => {
         return config.default;
     } catch (error) {
         console.warn("Could not load virtual:cfetch/config, using default config.");
-        return defaultConfig;
+        return defaultConfigLive;
     }
 }
 
@@ -46,7 +46,7 @@ export class CacheServiceNew extends Effect.Service<CacheServiceNew>()(
                 try: () => getConfig(),
                 catch: () => new ConfigFetchError(),
             }).pipe(
-                Effect.catchTag("ConfigFetchError", () => Effect.succeed(defaultConfig))
+                Effect.catchTag("ConfigFetchError", () => Effect.succeed(defaultConfigLive))
             );
 
             const get = <A>(key: string) => Effect.gen(function* () {
@@ -66,10 +66,10 @@ export class CacheServiceNew extends Effect.Service<CacheServiceNew>()(
             const set = <A>(
                 key: string,
                 value: A,
-                options?: { ttl?: Duration.Duration; tags?: string[] }
+                options?: { ttl?: Duration.DurationInput; tags?: string[] }
             ) => Effect.gen(function* () {
                 const now = yield* Clock.currentTimeMillis;
-                const ttl = options?.ttl ?? config.lifetime;
+                const ttl = options?.ttl ?? Duration.millis(config.lifetime);
                 const tags = new Set(options?.tags ?? []);
 
                 const expiresAt = now + Duration.toMillis(ttl);

@@ -14,5 +14,9 @@ import type { Duration } from 'effect';
  * ```
  */
 export type CacheConfig = {
-    lifetime: Duration.Duration;
+    lifetime: Duration.DurationInput;
+}
+
+export type CacheConfigLive = {
+    lifetime: number;
 }

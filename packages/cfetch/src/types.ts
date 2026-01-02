@@ -17,6 +17,20 @@ export type CacheConfig = {
     lifetime: Duration.DurationInput;
 }
 
+/**
+ * Configuration options for cache lifetime management.
+ * 
+ * @remarks
+ * This type defines the configuration for controlling how long cached data remains valid
+ * before it needs to be refreshed or invalidated.
+ * 
+ * @example
+ * ```typescript
+ * const cacheConfig: CacheConfigLive = {
+ *   lifetime: 3600 // Cache valid for 1 hour (in seconds)
+ * };
+ * ```
+ */
 export type CacheConfigLive = {
     lifetime: number;
 }

@@ -1,3 +1,9 @@
+/**
+ * @module cfetch/consts
+ * 
+ * Constant values used throughout the cfetch package.
+ */
+
 import { Duration } from "effect";
 import type { CacheConfig, CacheConfigLive } from "./types.js";
 

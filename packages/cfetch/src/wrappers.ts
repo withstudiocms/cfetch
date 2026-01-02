@@ -1,5 +1,16 @@
+/**
+ * @module cfetch/wrappers
+ * 
+ * Provides cached fetch wrappers using Effect for caching capabilities.
+ * 
+ * This module exports functions to perform HTTP requests with built-in caching logic.
+ * It defines types for cached responses and errors, and implements functions to fetch
+ * data with various parsing options (JSON, text, Blob) while leveraging an in-memory
+ * cache layer.
+ */
+
 import { Effect, Layer, Data, type Duration } from "effect";
-import { CacheServiceNew, CacheMaps, type CacheEntry } from "./cache.js";
+import { CacheService, CacheMaps, type CacheEntry } from "./cache.js";
 
 export type { CacheConfig } from "./types.js";
 export { Duration } from 'effect';
@@ -10,7 +21,7 @@ const tagIndex = new Map<string, Set<string>>();
 const CacheMapLayer = Layer.succeed(CacheMaps, { store, tagIndex });
 
 // Create the cache layer
-const CacheLive = CacheServiceNew.Default.pipe(
+const CacheLive = CacheService.Default.pipe(
     Layer.provide(CacheMapLayer)
 )
 
@@ -88,7 +99,7 @@ export const cFetchEffect = <T>(
     cacheConfig?: CFetchConfig
 ): Effect.Effect<CachedResponse<T>, FetchError, never> =>
     Effect.gen(function* () {
-        const cache = yield* CacheServiceNew;
+        const cache = yield* CacheService;
 
         const { key, verbose = false, ...cacheOpts } = cacheConfig || {};
 

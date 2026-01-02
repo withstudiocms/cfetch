@@ -1,7 +1,14 @@
+/**
+ * @module cfetch/cache
+ * Cache service implementation using Effect-TS.
+ */
+
 import { Context, Duration, Clock, Effect } from "effect";
 import { defaultConfigLive } from "./consts";
 
-// Define the cache entry type
+/**
+ * Represents a cache entry with its value, expiration time, last updated time, and tags.
+ */
 export interface CacheEntry<A> {
     value: A;
     expiresAt: number;
@@ -18,15 +25,27 @@ export interface CacheEntryStatus {
     tags: Set<string>;
 }
 
+/**
+ * Tag to hold the in-memory cache maps.
+ * 
+ * This tag provides access to the main cache store and the tag index for invalidation.
+ */
 export class CacheMaps extends Context.Tag("@studiocms/cfetch/CacheMaps")<CacheMaps, {
     store: Map<string, CacheEntry<unknown>>,
     tagIndex: Map<string, Set<string>>
 }>() { }
 
+/**
+ * Error thrown when there is an issue fetching the cache configuration.
+ */
 class ConfigFetchError {
     readonly _tag = "ConfigFetchError";
 }
 
+/**
+ * Fetches the cache configuration from the virtual module.
+ * Falls back to default configuration if not available.
+ */
 const getConfig = async () => {
     try {
         const config = await import("virtual:cfetch/config");
@@ -37,7 +56,37 @@ const getConfig = async () => {
     }
 }
 
-export class CacheServiceNew extends Effect.Service<CacheServiceNew>()(
+/**
+ * A service for managing cached data with TTL (time-to-live) and tag-based invalidation.
+ * 
+ * @remarks
+ * This service provides an in-memory cache with the following features:
+ * - Automatic expiration based on TTL
+ * - Tag-based organization for batch invalidation
+ * - Effect-based API for safe side-effect management
+ * 
+ * @example
+ * ```typescript
+ * const program = Effect.gen(function* () {
+ *   const cache = yield* CacheService;
+ *   
+ *   // Set a value with custom TTL and tags
+ *   yield* cache.set('user:123', userData, {
+ *     ttl: Duration.minutes(5),
+ *     tags: ['user', 'profile']
+ *   });
+ *   
+ *   // Get a value
+ *   const result = yield* cache.get('user:123');
+ *   
+ *   // Invalidate all entries with specific tags
+ *   yield* cache.invalidateTags(['user']);
+ * });
+ * ```
+ * 
+ * @public
+ */
+export class CacheService extends Effect.Service<CacheService>()(
     '@studiocms/cfetch/CacheService',
     {
         effect: Effect.gen(function* () {
@@ -128,71 +177,3 @@ export class CacheServiceNew extends Effect.Service<CacheServiceNew>()(
         })
     }
 ) { }
-
-// // Define the cache service interface
-// export interface CacheService {
-//     get: <T>(key: string) => Effect.Effect<T | null, never>;
-//     set: <T>(key: string, value: T, ttl?: number) => Effect.Effect<void, never>;
-//     has: (key: string) => Effect.Effect<boolean, never>;
-//     delete: (key: string) => Effect.Effect<void, never>;
-//     clear: () => Effect.Effect<void, never>;
-// }
-
-// // Create the service tag
-// export class Cache extends Context.Tag("Cache")<Cache, CacheService>() { }
-
-// // Implement the in-memory cache
-// export const makeCacheService = (map: Map<string, CacheEntry<any>>): CacheService => {
-//     const cache = map;
-//     const defaultTTL = 5 * 60 * 1000; // 5 minutes
-
-//     return {
-//         get: <T>(key: string) =>
-//             Effect.sync(() => {
-//                 const entry = cache.get(key);
-//                 if (!entry) return null;
-
-//                 // Check if entry has expired
-//                 const now = Date.now();
-//                 if (entry.timestamp && now - entry.timestamp > defaultTTL) {
-//                     cache.delete(key);
-//                     return null;
-//                 }
-
-//                 return entry.data as T;
-//             }),
-
-//         set: <T>(key: string, value: T, ttl?: DurationInput) =>
-//             Effect.sync(() => {
-//                 cache.set(key, {
-//                     data: value,
-//                     timestamp: Date.now(),
-//                 });
-//             }),
-
-//         has: (key: string) =>
-//             Effect.sync(() => {
-//                 const entry = cache.get(key);
-//                 if (!entry) return false;
-
-//                 // Check if expired
-//                 const now = Date.now();
-//                 if (entry.timestamp && now - entry.timestamp > defaultTTL) {
-//                     cache.delete(key);
-//                     return false;
-//                 }
-
-//                 return true;
-//             }),
-
-//         delete: (key: string) =>
-//             Effect.sync(() => {
-//                 cache.delete(key);
-//             }),
-
-//         clear: () =>
-//             Effect.sync(() => {
-//                 cache.clear();
-//             }),
-//     };
-// };

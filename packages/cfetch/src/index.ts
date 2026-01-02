@@ -45,6 +45,30 @@ import { Duration } from 'effect';
 
 export { Duration } from 'effect';
 
+/**
+ * Creates a caching fetch integration for Astro.
+ * 
+ * This integration provides a cached fetch implementation that can be configured
+ * with custom cache lifetime and other options. It sets up virtual module imports
+ * and injects TypeScript type definitions for the cached fetch functionality.
+ * 
+ * @param opts - Optional cache configuration options to customize the caching behavior
+ * @returns An Astro integration object with hooks for configuration setup and completion
+ * 
+ * @example
+ * ```typescript
+ * // astro.config.mjs
+ * import cFetch, { Duration } from '@studiocms/cfetch';
+ * 
+ * export default defineConfig({
+ *   integrations: [
+ *     cFetch({
+ *       lifetime: Duration.minutes(10), // Cache entries live for 10 minutes (default is 1 hour)
+ *     })
+ *   ]
+ * });
+ * ```
+ */
 export function cFetch(opts?: CacheConfig): AstroIntegration {
 	const name = '@studiocms/cfetch';
 	const { resolve } = createResolver(import.meta.url);

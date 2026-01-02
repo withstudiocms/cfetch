@@ -27,6 +27,7 @@ export function cFetch(opts?: CacheConfig): AstroIntegration {
 					name,
 					imports: {
 						'virtual:cfetch/config': `export default ${JSON.stringify({
+							// Convert Duration.DurationInput to milliseconds number (required to preserve value through JSON.stringify)
 							lifetime: Duration.toMillis(options.lifetime)
 						})}`,
 						'c:fetch': `export * from '${resolve('./wrappers.js')}';`,

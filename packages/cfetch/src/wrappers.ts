@@ -35,6 +35,11 @@ interface CFetchConfig {
     verbose?: boolean;
 }
 
+/**
+ * Helper to run an Effect and return a Promise.
+ */
+const runEffect = <A, E>(effect: Effect.Effect<A, E, never>): Promise<A> => Effect.runPromise(effect);
+
 // ========================================================
 // Effects
 // ========================================================
@@ -77,25 +82,28 @@ interface CFetchConfig {
  * ```
  */
 export const cFetchEffect = <T>(
-    url: string,
+    url: string | URL,
     parser: (response: Response) => Promise<T>,
     options?: RequestInit,
     cacheConfig?: CFetchConfig
 ): Effect.Effect<CachedResponse<T>, FetchError, never> =>
     Effect.gen(function* () {
+        const cache = yield* CacheServiceNew;
+
         const { key, verbose = false, ...cacheOpts } = cacheConfig || {};
 
-        const cache = yield* CacheServiceNew;
-        const cacheKey = key || `${url}-${JSON.stringify(options || {})}`;
+        const urlString = typeof url === 'string' ? url : url.href;
+
+        const cacheKey = key || `${urlString}-${JSON.stringify(options || {})}`;
 
         // Check cache first
         const cached = yield* cache.get<CachedResponse<T>>(cacheKey);
         if (cached) {
-            verbose && console.log(`Cache hit for: ${url}`);
+            verbose && console.log(`Cache hit for: ${urlString}`);
             return cached;
         }
 
-        verbose && console.log(`Cache miss for: ${url}`);
+        verbose && console.log(`Cache miss for: ${urlString}`);
 
         // Fetch from network
         const response = yield*
@@ -149,7 +157,7 @@ export const cFetchEffect = <T>(
  * ```
  */
 export const cFetchEffectJson = <T>(
-    url: string,
+    url: string | URL,
     options?: RequestInit,
     cacheConfig?: CFetchConfig
 ): Effect.Effect<CachedResponse<T>, FetchError, never> =>
@@ -178,7 +186,7 @@ export const cFetchEffectJson = <T>(
  * ```
  */
 export const cFetchEffectText = (
-    url: string,
+    url: string | URL,
     options?: RequestInit,
     cacheConfig?: CFetchConfig
 ): Effect.Effect<CachedResponse<string>, FetchError, never> =>
@@ -206,16 +214,11 @@ export const cFetchEffectText = (
  * ```
  */
 export const cFetchEffectBlob = (
-    url: string,
+    url: string | URL,
     options?: RequestInit,
     cacheConfig?: CFetchConfig
 ): Effect.Effect<CachedResponse<Blob>, FetchError, never> =>
     cFetchEffect(url, (res) => res.blob(), options, cacheConfig);
-
-/**
- * Helper to run an Effect and return a Promise.
- */
-const runEffect = <A, E>(effect: Effect.Effect<A, E, never>): Promise<A> => Effect.runPromise(effect);
 
 // ========================================================
 // Regular Functions
@@ -245,7 +248,7 @@ const runEffect = <A, E>(effect: Effect.Effect<A, E, never>): Promise<A> => Effe
  * ```
  */
 export const cFetch = <T>(
-    url: string,
+    url: string | URL,
     parser: (response: Response) => Promise<T>,
     options?: RequestInit,
     cacheConfig?: CFetchConfig
@@ -275,7 +278,7 @@ export const cFetch = <T>(
  * ```
  */
 export const cFetchJson = <T>(
-    url: string,
+    url: string | URL,
     options?: RequestInit,
     cacheConfig?: CFetchConfig
 ): Promise<CachedResponse<T>> => runEffect(cFetchEffectJson(url, options, cacheConfig));
@@ -302,7 +305,7 @@ export const cFetchJson = <T>(
  * ```
  */
 export const cFetchText = (
-    url: string,
+    url: string | URL,
     options?: RequestInit,
     cacheConfig?: CFetchConfig
 ): Promise<CachedResponse<string>> => runEffect(cFetchEffectText(url, options, cacheConfig));
@@ -325,7 +328,7 @@ export const cFetchText = (
  * ```
  */
 export const cFetchBlob = (
-    url: string,
+    url: string | URL,
     options?: RequestInit,
     cacheConfig?: CFetchConfig
 ): Promise<CachedResponse<Blob>> => runEffect(cFetchEffectBlob(url, options, cacheConfig));

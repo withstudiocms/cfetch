@@ -61,7 +61,266 @@ export default defineConfig({
 
 ### Usage
 
-TODO
+This integration includes various versions of cached fetch functions and [Effects](https://effect.website) to allow full control of how your work with your data.
+
+#### Effects
+
+All Effects have the following return pattern or derivatives there of
+
+```ts
+Effect.Effect<CachedResponse<T>, FetchError, never>;
+```
+
+##### `CachedResponse<T>` type
+
+```ts
+interface CachedResponse<T> {
+  data: T;
+  status: number;
+  statusText: string;
+  headers: Record<string, string>;
+}
+```
+
+##### `CFetchConfig` type
+
+```ts
+interface CFetchConfig {
+    ttl?: Duration.DurationInput;
+    tags?: string[];
+    key?: string;
+    verbose?: boolean;
+}
+```
+
+##### `cFetchEffect`
+
+###### Interface
+
+```ts
+const cFetchEffect: <T>(
+  url: string | URL, 
+  parser: (response: Response) => Promise<T>, 
+  options?: RequestInit | undefined, 
+  cacheConfig?: CFetchConfig | undefined
+) => Effect.Effect<CachedResponse<T>, FetchError, never>
+```
+
+###### Example Usage
+
+```ts
+import { cFetchEffect, Duration } from "c:fetch"
+
+const effect = cFetchEffect<{ foo: string; bar: number; }>(
+  'https://api.example.com/data',
+  (res) => res.json(),
+  { method: "GET" },
+  { ttl?: Duration.hours(1), tags?: ['example'], key?: "api-data-fetch", verbose?: false }
+);
+/*
+Return type:
+  Effect.Effect<CachedResponse<{ foo: string; bar: number; }>, FetchError, never>
+*/
+```
+
+##### `cFetchEffectJson`
+
+###### Interface
+
+```ts
+const cFetchEffectJson: <T>(
+  url: string | URL, 
+  options?: RequestInit | undefined, 
+  cacheConfig?: CFetchConfig | undefined
+) => Effect.Effect<CachedResponse<T>, FetchError, never>
+```
+
+###### Example Usage
+
+```ts
+import { cFetchEffectJson } from "c:fetch"
+
+const effect = cFetchEffectJson<{ foo: string; bar: number; }>(
+  'https://api.example.com/data',
+  { method: "GET" }
+);
+/*
+Return type:
+  Effect.Effect<CachedResponse<{ foo: string; bar: number; }>, FetchError, never>
+*/
+```
+
+##### `cFetchEffectText`
+
+###### Interface
+
+```ts
+const cFetchEffectText: (
+  url: string | URL, 
+  options?: RequestInit | undefined, 
+  cacheConfig?: CFetchConfig | undefined
+) => Effect.Effect<CachedResponse<string>, FetchError, never>
+```
+
+###### Example Usage
+
+```ts
+import { cFetchEffectText } from "c:fetch"
+
+const effect = cFetchEffectText(
+  'https://example.com',
+  { method: "GET" }
+);
+/*
+Return type:
+  Effect.Effect<CachedResponse<string>, FetchError, never>
+*/
+```
+
+##### `cFetchEffectBlob`
+
+###### Interface
+
+```ts
+const cFetchEffectBlob: (
+  url: string | URL, 
+  options?: RequestInit | undefined, 
+  cacheConfig?: CFetchConfig | undefined
+) => Effect.Effect<CachedResponse<Blob>, FetchError, never>
+```
+
+###### Example Usage
+
+```ts
+import { cFetchEffectBlob } from "c:fetch"
+
+const effect = cFetchEffectBlob(
+  'https://example.com/image.png',
+  { method: "GET" }
+);
+/*
+Return type:
+  Effect.Effect<CachedResponse<Blob>, FetchError, never>
+*/
+```
+
+#### Functions
+
+All Functions have the following return pattern or derivatives there of
+
+```ts
+CachedResponse<T>;
+```
+
+##### `cFetch`
+
+###### Interface
+
+```ts
+const cFetch: <T>(
+  url: string | URL, 
+  parser: (response: Response) => Promise<T>, 
+  options?: RequestInit | undefined, 
+  cacheConfig?: CFetchConfig | undefined
+) => Promise<CachedResponse<T>>
+```
+
+###### Example Usage
+
+```ts
+import { cFetch } from "c:fetch"
+
+const effect = await cFetch<{ foo: string; bar: number; }>(
+  'https://api.example.com/data',
+  (res) => res.json(),
+  { method: "GET" }
+);
+/*
+Return type:
+  CachedResponse<{ foo: string; bar: number; }>
+*/
+```
+
+##### `cFetchJson`
+
+###### Interface
+
+```ts
+const cFetchJson: <T>(
+  url: string | URL, 
+  options?: RequestInit | undefined, 
+  cacheConfig?: CFetchConfig | undefined
+) => Promise<CachedResponse<T>>
+```
+
+###### Example Usage
+
+```ts
+import { cFetchJson } from "c:fetch"
+
+const effect = await cFetchJson<{ foo: string; bar: number; }>(
+  'https://api.example.com/data',
+  { method: "GET" }
+);
+/*
+Return type:
+  CachedResponse<{ foo: string; bar: number; }>
+*/
+```
+
+##### `cFetchText`
+
+###### Interface
+
+```ts
+const cFetchText: (
+  url: string | URL, 
+  options?: RequestInit | undefined, 
+  cacheConfig?: CFetchConfig | undefined
+) => Promise<CachedResponse<string>>
+```
+
+###### Example Usage
+
+```ts
+import { cFetchText } from "c:fetch"
+
+const effect = await cFetchText(
+  'https://example.com',
+  { method: "GET" }
+);
+/*
+Return type:
+  CachedResponse<string>
+*/
+```
+
+##### `cFetchBlob`
+
+###### Interface
+
+```ts
+const cFetchBlob: (
+  url: string | URL, 
+  options?: RequestInit | undefined, 
+  cacheConfig?: CFetchConfig | undefined
+) => Promise<CachedResponse<Blob>>
+```
+
+###### Example Usage
+
+```ts
+import { cFetchBlob } from "c:fetch"
+
+const effect = await cFetchBlob(
+  'https://example.com/image.png',
+  { method: "GET" }
+);
+/*
+Return type:
+  CachedResponse<Blob>
+*/
+```
 
 ## Licensing
 

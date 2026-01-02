@@ -62,6 +62,7 @@
   },
   "peerDependencies": {
     "astro": "^5.5",
+    "effect": "^3.19.13",
     "vite": "^6.2.0"
   }
 }

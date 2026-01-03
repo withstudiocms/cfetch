@@ -25,8 +25,10 @@ const CacheLive = CacheService.Default.pipe(
     Layer.provide(CacheMapLayer)
 )
 
-// Define fetch errors
-class FetchError extends Data.TaggedError("FetchError")<{
+/**
+ * Custom error type for fetch-related errors.
+ */
+export class FetchError extends Data.TaggedError("FetchError")<{
     message: string;
     cause?: unknown;
 }> { }
@@ -34,12 +36,16 @@ class FetchError extends Data.TaggedError("FetchError")<{
 // Cached data structure
 export interface CachedResponse<T> {
     data: T;
+    ok: boolean;
     status: number;
     statusText: string;
     headers: Record<string, string>;
 }
 
-interface CFetchConfig {
+/**
+ * Configuration options for cached fetch requests.
+ */
+export interface CFetchConfig {
     ttl?: Duration.DurationInput;
     tags?: string[];
     key?: string;
@@ -51,9 +57,55 @@ interface CFetchConfig {
  */
 const runEffect = <A, E>(effect: Effect.Effect<A, E, never>): Promise<A> => Effect.runPromise(effect);
 
+// HTTP methods that are cacheable
+const cacheableMethods = ["GET", "HEAD"];
+
 // ========================================================
 // Effects
 // ========================================================
+
+/**
+ * Fetches data from a URL and parses the response using a provided parser function.
+ * 
+ * @template T - The type of the parsed data
+ * @param url - The URL to fetch from, either as a string or URL object
+ * @param parser - An async function that takes a Response and returns the parsed data of type T
+ * @param options - Optional fetch configuration options (headers, method, body, etc.)
+ * @returns An Effect that yields a CachedResponse containing the parsed data, response status, headers, and metadata
+ * @throws {FetchError} When the fetch operation fails or when response parsing fails
+ * 
+ * @example
+ * ```typescript
+ * const result = await Effect.runPromise(
+ *   fetchAndParse('https://api.example.com/data', (res) => res.json())
+ * );
+ * ```
+ */
+const fetchAndParse = <T>(
+    url: string | URL,
+    parser: (response: Response) => Promise<T>,
+    options?: RequestInit
+) => Effect.gen(function* () {
+    const response = yield*
+        Effect.tryPromise({
+            try: () => fetch(url, options),
+            catch: (cause) => new FetchError({ message: "Failed to fetch", cause }),
+        });
+
+    const data = yield*
+        Effect.tryPromise({
+            try: () => parser(response),
+            catch: (cause) => new FetchError({ message: "Failed to parse response", cause }),
+        });
+
+    return {
+        data,
+        ok: response.ok,
+        status: response.status,
+        statusText: response.statusText,
+        headers: Object.fromEntries(response.headers.entries()),
+    } satisfies CachedResponse<T>;
+});
 
 /**
  * Fetches data from a URL with caching capabilities using Effect.
@@ -103,12 +155,24 @@ export const cFetchEffect = <T>(
 
         const { key, verbose = false, ...cacheOpts } = cacheConfig || {};
 
+        // Determine HTTP method
+        const method = options?.method?.toUpperCase() || "GET";
+
+        // Bypass cache for non-cacheable methods
+        if (!cacheableMethods.includes(method)) {
+            verbose && console.log(`Bypassing cache for non-cacheable method: ${method}`);
+            return yield* fetchAndParse<T>(url, parser, options);
+        }
+
+        // Get URL string
         const urlString = typeof url === 'string' ? url : url.href;
 
-        const cacheKey = key || `${urlString}-${JSON.stringify(options || {})}`;
+        // Use provided key or generate from URL and options
+        const cacheKey = key ?? `${urlString}-${JSON.stringify(options || {})}`;
 
         // Check cache first
         const cached = yield* cache.get<CachedResponse<T>>(cacheKey);
+
         if (cached) {
             verbose && console.log(`Cache hit for: ${urlString}`);
             return cached;
@@ -116,30 +180,11 @@ export const cFetchEffect = <T>(
 
         verbose && console.log(`Cache miss for: ${urlString}`);
 
-        // Fetch from network
-        const response = yield*
-            Effect.tryPromise({
-                try: () => fetch(url, options),
-                catch: (cause) => new FetchError({ message: "Failed to fetch", cause }),
-            });
-
-        // Parse the response data
-        const data = yield*
-            Effect.tryPromise({
-                try: () => parser(response),
-                catch: (cause) => new FetchError({ message: "Failed to parse response", cause }),
-            });
-
         // Create cached response with metadata
-        const cachedResponse: CachedResponse<T> = {
-            data,
-            status: response.status,
-            statusText: response.statusText,
-            headers: Object.fromEntries(response.headers.entries()),
-        };
+        const cachedResponse = yield* fetchAndParse<T>(url, parser, options);
 
         // Cache successful responses
-        if (response.ok) {
+        if (cachedResponse.ok) {
             yield* cache.set(cacheKey, cachedResponse, cacheOpts);
         }
 

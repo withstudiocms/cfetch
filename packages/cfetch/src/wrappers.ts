@@ -85,7 +85,7 @@ const fetchAndParse = <T>(
     url: string | URL,
     parser: (response: Response) => Promise<T>,
     options?: RequestInit
-) => Effect.gen(function* () {
+): Effect.Effect<CachedResponse<T>, FetchError, never> => Effect.gen(function* () {
     const response = yield*
         Effect.tryPromise({
             try: () => fetch(url, options),

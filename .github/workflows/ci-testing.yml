@@ -27,7 +27,7 @@ jobs:
       NODE_OPTIONS: "--max_old_space_size=4096"
     steps:
       - name: Check out code using Git
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
   
       - name: Install Tools & Dependencies
         uses: withstudiocms/automations/.github/actions/install@main
@@ -45,7 +45,7 @@ jobs:
       NODE_OPTIONS: "--max_old_space_size=4096"
     steps:
       - name: Check out code using Git
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
   
       - name: Install Tools & Dependencies
         uses: withstudiocms/automations/.github/actions/install@main
@@ -57,7 +57,7 @@ jobs:
         run: pnpm ci:test
 
       - name: Upload HTML report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: vitest-report
           path: html

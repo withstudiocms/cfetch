@@ -3,12 +3,11 @@ import type { KnipConfig } from 'knip';
 const config: KnipConfig = {
 	exclude: ['duplicates', 'optionalPeerDependencies'],
 	ignoreDependencies: ['c'],
-	ignoreBinaries: ['jsr'],
 	workspaces: {
 		'.': {
 			ignoreDependencies: ['@changesets/config', '@changesets/write'],
-			entry: ['.github/workflows/*.yml', 'scripts/*.{cjs,ts}'],
-			project: ['.github/workflows/*.yml', 'scripts/*.{cjs,ts}'],
+			entry: ['.github/workflows/*.yml'],
+			project: ['.github/workflows/*.yml'],
 		},
 		'packages/*': {
 			entry: ['src/**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}'],

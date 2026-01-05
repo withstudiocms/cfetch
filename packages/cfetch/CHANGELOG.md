@@ -1,5 +1,15 @@
 # @studiocms/cfetch
 
+## 0.2.0
+
+### Minor Changes
+
+- [#32](https://github.com/withstudiocms/cfetch/pull/32) [`15ff36b`](https://github.com/withstudiocms/cfetch/commit/15ff36bba21ccf1720543dc69afc4f032598120e) Thanks [@Adammatthiesen](https://github.com/Adammatthiesen)! - Rewrite and improve fetch/cache support.
+
+  #### BREAKING CHANGES
+
+  The cFetch API has been completely rewritten, please review our [README](https://github.com/withstudiocms/cfetch/blob/main/packages/cfetch/README.md) to familiarize yourself with the new API.
+
 ## 0.1.6
 
 ### Patch Changes

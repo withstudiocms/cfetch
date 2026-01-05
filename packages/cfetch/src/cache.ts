@@ -149,14 +149,14 @@ export class CacheService extends Effect.Service<CacheService>()(
             });
 
             const invalidateTags = (tags: string[]) =>
-                Effect.sync(() => {
+                Effect.gen(function* () {
                     for (const tag of tags) {
                         const keys = tagIndex.get(tag);
                         if (keys) {
-                            for (const key of keys) {
-                                store.delete(key);
+                            // Copy keys to array to avoid mutation during iteration
+                            for (const key of [...keys]) {
+                                yield* deleteKey(key);
                             }
-                            tagIndex.delete(tag);
                         }
                     }
                 });

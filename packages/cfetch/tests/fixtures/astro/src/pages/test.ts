@@ -9,7 +9,7 @@ export const GET: APIRoute = async (ctx: APIContext) => {
 
 	const response = await cFetch<{ foo: string }>(exampleAPI, (res) => res.json());
 
-	if (response.status !== 200) {
+	if (!response.ok) {
 		return new Response(null, {
 			status: 400,
 		});

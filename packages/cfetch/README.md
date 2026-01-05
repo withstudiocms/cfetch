@@ -17,7 +17,7 @@ This is an [Astro integration](https://docs.astro.build/en/guides/integrations-g
 
 ### Installation
 
-Install the integration **automatically** using the Astro CLI:
+1. Install the integration **automatically** using the Astro CLI:
 
 ```bash
 pnpm astro add @studiocms/cfetch
@@ -47,7 +47,23 @@ npm install @studiocms/cfetch
 yarn add @studiocms/cfetch
 ```
 
-2. Add the integration to your astro config
+2. Install peer dependencies
+
+If your package manager does not automatically install peer dependencies, you will need to ensure `Effect` is installed.
+
+```bash
+pnpm add effect
+```
+
+```bash
+npm install effect
+```
+
+```bash
+yarn add effect
+```
+
+3. Add the integration to your astro config
 
 ```diff
 +import cFetch from "@studiocms/cfetch";
@@ -61,7 +77,7 @@ export default defineConfig({
 
 ### Usage
 
-This integration includes various versions of cached fetch functions and [Effects](https://effect.website) to allow full control of how your work with your data.
+This integration includes various versions of cached fetch functions and [Effects](https://effect.website) to allow full control of how you work with your data.
 
 #### Effects
 

@@ -167,8 +167,13 @@ export const cFetchEffect = <T>(
         // Get URL string
         const urlString = typeof url === 'string' ? url : url.href;
 
-        // Use provided key or generate from URL and options
-        const cacheKey = key ?? `${urlString}-${JSON.stringify(options || {})}`;
+        // Filter to only cache-relevant, serializable options
+        const cacheRelevantOptions = options ? {
+            method: options.method,
+            headers: options.headers,
+            body: options.body,
+        } : {};
+        const cacheKey = key ?? `${urlString}-${JSON.stringify(cacheRelevantOptions)}`;
 
         // Check cache first
         const cached = yield* cache.get<CachedResponse<T>>(cacheKey);

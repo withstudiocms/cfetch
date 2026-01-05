@@ -27,7 +27,7 @@ export type CacheConfig = {
  * @example
  * ```typescript
  * const cacheConfig: CacheConfigLive = {
- *   lifetime: 3600 // Cache valid for 1 hour (in seconds)
+ *   lifetime: 3600000 // Cache valid for 1 hour (in milliseconds)
  * };
  * ```
  */

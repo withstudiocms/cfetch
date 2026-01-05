@@ -44,7 +44,7 @@ jobs:
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@8621497c8c39c72f3e2a999a26b4ca1b5058a842 # v5
         with:
-          commit_message: '[ci] lint'
+          commit_message: "[ci] lint"
           branch: ${{ github.head_ref }}
           commit_user_name: studiocms-no-reply
           commit_user_email: no-reply@studiocms.dev
@@ -56,11 +56,11 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
-  
+
       - name: Run Todo Issue Bot
         uses: juulsn/todo-issue@main
         with:
-          excludePattern: '^(node_modules/)'
+          excludePattern: "^(node_modules/)"
           autoAssign: false
         env:
           GITHUB_TOKEN: ${{ secrets.STUDIOCMS_SERVICE_TOKEN }}
@@ -76,35 +76,71 @@ jobs:
     name: Changeset Release
     runs-on: ubuntu-latest
     steps:
+      - name: Setup Apollo Git Bot
+        id: bot-token
+        uses: actions/create-github-app-token@29824e69f54612133e76f7eaac726eef6c875baf # v2.2.1
+        with:
+          app-id: ${{ secrets.STUDIOCMS_GIT_BOT_APP_ID }}
+          private-key: ${{ secrets.STUDIOCMS_GIT_BOT_PRIVATE_KEY }}
+
       - name: Checkout Repo
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          persist-credentials: false
 
       - name: Install Tools & Dependencies
         uses: withstudiocms/automations/.github/actions/install@main
 
-      - name: Run Prepublish
+      - name: Run Build
         run: pnpm ci:prepublish
 
-      - name: Create Release Pull Request or Publish to npm
+      - name: Setup git user
+        shell: bash
+        run: |
+          git config --global user.name "apollo-git-bot[bot]"
+          git config --global user.email "234251158+apollo-git-bot[bot]@users.noreply.github.com"
+
+      - name: Run Changeset Release
         id: changesets
-        uses: changesets/action@v1
+        uses: changesets/action@e0145edc7d9d8679003495b11f87bd8ef63c0cba # v1.5.3
         with:
-            setupGitUser: true
-            commit: "👷 [ci]: Version Packages"
-            title: "👷 [ci]: Ready for Release"
-            version: pnpm ci:version
-            publish: pnpm ci:publish
+          # If USE_GITHUB_BOT is true we don't want Changesets to do anything user related
+          setupGitUser: false
+          commit: "👷 [ci]: Version Packages"
+          title: "👷 [ci]: Ready for Release"
+          version: pnpm changeset version
+          publish: pnpm changeset publish
         env:
-          GITHUB_TOKEN: ${{ secrets.STUDIOCMS_SERVICE_TOKEN }}
-          NPM_TOKEN: ${{ secrets.STUDIOCMS_NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.bot-token.outputs.token }}
+
+      - name: Add Label to CI PR
+        if: ${{ steps.changesets.outputs.hasChangesets == 'true' }}
+        run: |
+          if [ -n "$PR_URL" ]; then
+            echo "Adding 'ci' label to PR: $PR_URL"
+            if gh pr edit "$PR_URL" --add-label "ci"; then
+              echo "Successfully added label to PR"
+            else
+              echo "Failed to add label to PR, but continuing workflow"
+            fi
+          else
+            echo "No PR URL available, skipping label addition"
+          fi
+        shell: bash
+        env:
+          PR_URL: ${{ steps.changesets.outputs.pull_request_url }}
+          GITHUB_TOKEN: ${{ steps.bot-token.outputs.token }}
 
       - name: Publish to jsr.io
         if: steps.changesets.outputs.published == 'true'
         run: pnpx @qingshaner/jsr-release publish --changesetReleases='${{ steps.changesets.outputs.publishedPackages }}'
 
-      - name: Add Label to CI PR
-        if: ${{ steps.changesets.outputs.hasChangesets == 'true' }}
-        run: gh pr edit "$PR_URL" --add-label "ci"
-        env:
-          PR_URL: ${{ steps.changesets.outputs.pull_request_url }}
-          GITHUB_TOKEN: ${{ secrets.STUDIOCMS_SERVICE_TOKEN }}
+      - name: Initiate Release Bot
+        if: ${{ steps.changesets.outputs.published == 'true' }}
+        uses: withstudiocms/automations/.github/actions/releasebot@main
+        with:
+          repository: ${{ github.repository }}
+          CWD: ${{ github.workspace }}
+          PublishedPackages: ${{ steps.changesets.outputs.publishedPackages }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_RELEASE }}
+          RoleMentionId: 1309310416362537020

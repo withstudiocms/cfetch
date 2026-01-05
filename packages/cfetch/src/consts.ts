@@ -1,16 +1,16 @@
 /**
- * This module contains constants for cFetch
- * @module
+ * @module cfetch/consts
+ * 
+ * Constant values used throughout the cfetch package.
  */
 
-import type { CacheConfig } from './types.js';
+import { Duration } from "effect";
+import type { CacheConfig, CacheConfigLive } from "./types.js";
 
-/**
- * Default cache configuration object.
- *
- * @property {string} lifetime - The duration for which the cache is valid.
- *                               Accepts a string representation of time, e.g., '1h' for 1 hour.
- */
 export const defaultConfig: CacheConfig = {
-	lifetime: '1h',
-};
+    lifetime: Duration.hours(1),
+}
+
+export const defaultConfigLive: CacheConfigLive = {
+    lifetime: Duration.toMillis(Duration.hours(1)),
+}

@@ -1,8 +1,8 @@
 catalog:
-  '@astrojs/check': ^0.9.4
-  '@astrojs/node': ^9.1.2
-  '@types/node': ^22.0.0
-  astro: ^5.5
+  "@astrojs/check": ^0.9.4
+  "@astrojs/node": ^9.1.2
+  "@types/node": ^22.0.0
+  astro: ^5.16.6
   astro-integration-kit: ^0.18
   sharp: ^0.34.0
   typescript: ^5.7
@@ -17,3 +17,15 @@ packages:
   - "packages/*"
   - "packages/*/tests/fixtures/*"
   - "playground"
+
+minimumReleaseAge: 4320
+
+minimumReleaseAgeExclude:
+  - studiocms
+  - "@studiocms/*"
+  - "@withstudiocms/*"
+
+onlyBuiltDependencies:
+  - "@biomejs/biome"
+  - esbuild
+  - sharp

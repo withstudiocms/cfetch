@@ -55,13 +55,15 @@
     }
   },
   "devDependencies": {
-    "@inox-tools/astro-tests": "^0.5.1",
+    "@inox-tools/astro-tests": "^0.8.0",
     "@types/node": "^22.0.0",
-    "jest-extended": "^4.0.2",
-    "astro": "^5.5"
+    "jest-extended": "^7.0.0",
+    "astro": "^5.16.6",
+    "effect": "^3.19.13"
   },
   "peerDependencies": {
-    "astro": "^5.5",
-    "vite": "^6.2.0"
+    "astro": "^5.16.6",
+    "effect": "^3.19.13",
+    "vite": "^6.4.1"
   }
 }

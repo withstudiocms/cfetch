@@ -92,6 +92,7 @@ Effect.Effect<CachedResponse<T>, FetchError, never>;
 ```ts
 interface CachedResponse<T> {
   data: T;
+  ok: boolean;
   status: number;
   statusText: string;
   headers: Record<string, string>;

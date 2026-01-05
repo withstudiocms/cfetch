@@ -160,7 +160,7 @@ export const cFetchEffect = <T>(
 
         // Bypass cache for non-cacheable methods
         if (!cacheableMethods.includes(method)) {
-            verbose && console.log(`Bypassing cache for non-cacheable method: ${method}`);
+            if (verbose) console.log(`Bypassing cache for non-cacheable method: ${method}`);
             return yield* fetchAndParse<T>(url, parser, options);
         }
 
@@ -170,8 +170,10 @@ export const cFetchEffect = <T>(
         // Filter to only cache-relevant, serializable options
         const cacheRelevantOptions = options ? {
             method: options.method,
-            headers: options.headers,
-            body: options.body,
+            headers: options.headers instanceof Headers
+                ? Object.fromEntries(options.headers.entries())
+                : options.headers,
+            body: typeof options.body === 'string' ? options.body : undefined,
         } : {};
         const cacheKey = key ?? `${urlString}-${JSON.stringify(cacheRelevantOptions)}`;
 
@@ -179,11 +181,11 @@ export const cFetchEffect = <T>(
         const cached = yield* cache.get<CachedResponse<T>>(cacheKey);
 
         if (cached) {
-            verbose && console.log(`Cache hit for: ${urlString}`);
+            if (verbose) console.log(`Cache hit for: ${urlString}`);
             return cached;
         }
 
-        verbose && console.log(`Cache miss for: ${urlString}`);
+        if (verbose) console.log(`Cache miss for: ${urlString}`);
 
         // Create cached response with metadata
         const cachedResponse = yield* fetchAndParse<T>(url, parser, options);

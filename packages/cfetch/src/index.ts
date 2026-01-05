@@ -25,41 +25,41 @@
  *   ],
  * });
  * ```
- * 
+ *
  * You can then use the cached fetch functions in your Astro components or pages:
- * 
+ *
  * ```ts
  * import { cFetch } from 'c:fetch';
- * 
+ *
  * const response = await cFetch('https://api.example.com/data', (res) => res.json());
  * console.log(response.data);
  * ```
  */
 
 import type { AstroIntegration } from 'astro';
-import { addVirtualImports, createResolver } from './utils/integration.js';
-import type { CacheConfig } from './types.js';
+import { Duration } from 'effect';
 import { defaultConfig } from './consts.js';
 import stub from './stub.js';
-import { Duration } from 'effect';
+import type { CacheConfig } from './types.js';
+import { addVirtualImports, createResolver } from './utils/integration.js';
 
 export { Duration } from 'effect';
 
 /**
  * Creates a caching fetch integration for Astro.
- * 
+ *
  * This integration provides a cached fetch implementation that can be configured
  * with custom cache lifetime and other options. It sets up virtual module imports
  * and injects TypeScript type definitions for the cached fetch functionality.
- * 
+ *
  * @param opts - Optional cache configuration options to customize the caching behavior
  * @returns An Astro integration object with hooks for configuration setup and completion
- * 
+ *
  * @example
  * ```typescript
  * // astro.config.mjs
  * import cFetch, { Duration } from '@studiocms/cfetch';
- * 
+ *
  * export default defineConfig({
  *   integrations: [
  *     cFetch({
@@ -85,7 +85,7 @@ export function cFetch(opts?: CacheConfig): AstroIntegration {
 					imports: {
 						'virtual:cfetch/config': `export default ${JSON.stringify({
 							// Convert Duration.DurationInput to milliseconds number (required to preserve value through JSON.stringify)
-							lifetime: Duration.toMillis(options.lifetime)
+							lifetime: Duration.toMillis(options.lifetime),
 						})}`,
 						'c:fetch': `export * from '${resolve('./wrappers.js')}';`,
 					},

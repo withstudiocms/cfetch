@@ -187,8 +187,10 @@ export const cFetchEffect = <T>(
         const cacheRelevantOptions = options ? {
             method: options.method,
             headers: options.headers instanceof Headers
-                ? Object.fromEntries(options.headers.entries())
-                : options.headers,
+                ? Object.fromEntries([...options.headers.entries()].sort(([a], [b]) => a.localeCompare(b)))
+                : options.headers
+                    ? Object.fromEntries(Object.entries(options.headers).sort(([a], [b]) => a.localeCompare(b)))
+                    : undefined,
             body: typeof options.body === 'string' ? options.body : undefined,
         } : {};
 

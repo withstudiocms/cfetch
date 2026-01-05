@@ -17,8 +17,31 @@ declare module 'virtual:cfetch/config' {
 declare module 'c:fetch' {
 	export type CacheConfig = import("${resolve('./types.js')}").CacheConfig;
 	export type CachedResponse<T> = import("${resolve('./wrappers.js')}").CachedResponse<T>;
-
+	export type CFetchConfig = import("${resolve('./wrappers.js')}").CFetchConfig;
+	
 	export const Duration: typeof import("${resolve('./wrappers.js')}").Duration;
+
+	declare const FetchError_base: new <A extends Record<string, any> = {}>(args: import("effect/Types").Equals<A, {}> extends true ? void : { readonly [P in keyof A as P extends "_tag" ? never : P]: A[P]; }) => import("effect/Cause").YieldableError & {
+		readonly _tag: "FetchError";
+	} & Readonly<A>;
+
+	/**
+	 * Custom error type for fetch-related errors.
+	 */
+	export declare class FetchError extends FetchError_base<{
+		message: string;
+		cause?: unknown;
+	}> {
+	}
+
+	/**
+	 * No-op parser for HEAD requests.
+	 * 
+	 * @template U - The type of the parsed data
+	 * @param _ - The Response object (ignored)
+	 * @returns A Promise that resolves to undefined
+	 */
+	export const noOpParser: typeof import("${resolve('./wrappers.js')}").noOpParser;
 
 	/**
 	 * Fetches data from a URL with caching capabilities using Effect.

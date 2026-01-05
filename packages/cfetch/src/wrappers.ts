@@ -60,6 +60,15 @@ const runEffect = <A, E>(effect: Effect.Effect<A, E, never>): Promise<A> => Effe
 // HTTP methods that are cacheable
 const cacheableMethods = ["GET", "HEAD"];
 
+/**
+ * No-op parser for HEAD requests.
+ * 
+ * @template U - The type of the parsed data
+ * @param _ - The Response object (ignored)
+ * @returns A Promise that resolves to undefined
+ */
+export const noOpParser = <U>(_: Response): Promise<U> => Promise.resolve(undefined as U);
+
 // ========================================================
 // Effects
 // ========================================================
@@ -86,18 +95,21 @@ const fetchAndParse = <T>(
     parser: (response: Response) => Promise<T>,
     options?: RequestInit
 ): Effect.Effect<CachedResponse<T>, FetchError, never> => Effect.gen(function* () {
+    // Perform the fetch operation
     const response = yield*
         Effect.tryPromise({
             try: () => fetch(url, options),
             catch: (cause) => new FetchError({ message: "Failed to fetch", cause }),
         });
 
+    // Parse the response using the provided parser
     const data = yield*
         Effect.tryPromise({
             try: () => parser(response),
             catch: (cause) => new FetchError({ message: "Failed to parse response", cause }),
         });
 
+    // Return the cached response structure
     return {
         data,
         ok: response.ok,
@@ -131,8 +143,12 @@ const fetchAndParse = <T>(
  * @remarks
  * - Cache keys are automatically generated from the URL and options if not provided
  * - Only successful responses (response.ok === true) are cached
- * - Cache hits are logged to console for debugging
+ * - Only 2xx responses are cached
+ * - Users needing negative caching should implement custom logic
  * - The effect is provided with CacheLive layer automatically
+ * - Non-cacheable HTTP methods (e.g. POST, PUT) bypass the cache entirely
+ * - The parser function is bypassed for HEAD requests, returning undefined data
+ * - Verbose logging can be enabled via cacheConfig.verbose
  * 
  * @example
  * ```typescript
@@ -160,7 +176,7 @@ export const cFetchEffect = <T>(
 
         // Bypass cache for non-cacheable methods
         if (!cacheableMethods.includes(method)) {
-            if (verbose) console.log(`Bypassing cache for non-cacheable method: ${method}`);
+            if (verbose) console.log(`[c:fetch] Bypassing cache for non-cacheable method: ${method}`);
             return yield* fetchAndParse<T>(url, parser, options);
         }
 
@@ -175,26 +191,39 @@ export const cFetchEffect = <T>(
                 : options.headers,
             body: typeof options.body === 'string' ? options.body : undefined,
         } : {};
+
+        // Warn if body is non-serializable and no explicit key provided
+        if (options?.body && typeof options.body !== 'string' && !key && verbose) {
+            console.warn(
+                `[c:fetch] Non-serializable request body detected for ${urlString}. Consider providing an explicit cache key via cacheConfig.key to avoid collisions.`
+            );
+        }
+
         const cacheKey = key ?? `${urlString}-${JSON.stringify(cacheRelevantOptions)}`;
 
         // Check cache first
         const cached = yield* cache.get<CachedResponse<T>>(cacheKey);
 
         if (cached) {
-            if (verbose) console.log(`Cache hit for: ${urlString}`);
+            if (verbose) console.log(`[c:fetch] Cache hit for: ${cacheKey}, returning cached response.`);
             return cached;
         }
 
-        if (verbose) console.log(`Cache miss for: ${urlString}`);
+        if (verbose) console.log(`[c:fetch] Cache miss for: ${cacheKey}, fetching from network.`);
+
+        // Get the needed parser (no-op for HEAD requests)
+        const effectiveParser = method === "HEAD" ? noOpParser : parser;
 
         // Create cached response with metadata
-        const cachedResponse = yield* fetchAndParse<T>(url, parser, options);
+        const cachedResponse = yield* fetchAndParse<T>(url, effectiveParser, options);
 
         // Cache successful responses
         if (cachedResponse.ok) {
             yield* cache.set(cacheKey, cachedResponse, cacheOpts);
+            if (verbose) console.log(`[c:fetch] Cached response for: ${cacheKey}`);
         }
 
+        // Return the cached response
         return cachedResponse;
     }).pipe(Effect.provide(CacheLive));
 

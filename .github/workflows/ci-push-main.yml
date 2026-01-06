@@ -143,4 +143,4 @@ jobs:
           CWD: ${{ github.workspace }}
           PublishedPackages: ${{ steps.changesets.outputs.publishedPackages }}
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_RELEASE }}
-          RoleMentionId: 1309310416362537020
+          RoleMentionId: '1309310416362537020'

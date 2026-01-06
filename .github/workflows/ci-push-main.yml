@@ -108,8 +108,8 @@ jobs:
           setupGitUser: false
           commit: "👷 [ci]: Version Packages"
           title: "👷 [ci]: Ready for Release"
-          version: pnpm changeset version
-          publish: pnpm changeset publish
+          version: pnpm ci:version
+          publish: pnpm ci:publish
         env:
           GITHUB_TOKEN: ${{ steps.bot-token.outputs.token }}
 
@@ -143,4 +143,4 @@ jobs:
           CWD: ${{ github.workspace }}
           PublishedPackages: ${{ steps.changesets.outputs.publishedPackages }}
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_RELEASE }}
-          RoleMentionId: '1309310416362537020'
+          RoleMentionId: "1309310416362537020"

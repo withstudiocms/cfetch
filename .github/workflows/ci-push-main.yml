@@ -30,7 +30,7 @@ jobs:
       NODE_OPTIONS: "--max_old_space_size=4096"
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.STUDIOCMS_SERVICE_TOKEN }}
@@ -55,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Run Todo Issue Bot
         uses: juulsn/todo-issue@main
@@ -84,7 +84,7 @@ jobs:
           private-key: ${{ secrets.STUDIOCMS_GIT_BOT_PRIVATE_KEY }}
 
       - name: Checkout Repo
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
 
@@ -102,7 +102,7 @@ jobs:
 
       - name: Run Changeset Release
         id: changesets
-        uses: changesets/action@e0145edc7d9d8679003495b11f87bd8ef63c0cba # v1.5.3
+        uses: changesets/action@c48e67d110a68bc90ccf1098e9646092baacaa87 # v1.6.0
         with:
           # If USE_GITHUB_BOT is true we don't want Changesets to do anything user related
           setupGitUser: false

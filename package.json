@@ -6,6 +6,7 @@
     "node": "22.20.0"
   },
   "scripts": {
+    "jsr": "jsr",
     "build": "pnpm --filter @studiocms/* build",
     "dev": "pnpm --stream --filter @studiocms/* --filter test-fixture -r -parallel dev",
     "changeset": "changeset",
@@ -34,6 +35,7 @@
     "pkg-pr-new": "0.0.62",
     "typescript": "catalog:",
     "vitest": "3.1.1",
-    "@vitest/ui": "3.1.1"
+    "@vitest/ui": "3.1.1",
+    "jsr": "^0.14.2"
   }
 }

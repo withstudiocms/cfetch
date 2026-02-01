@@ -13,6 +13,7 @@ packages:
 minimumReleaseAge: 4320
 
 minimumReleaseAgeExclude:
+  - jsr
   - studiocms
   - "@studiocms/*"
   - "@withstudiocms/*"

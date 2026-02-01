@@ -42,7 +42,7 @@
   "scripts": {
     "build": "buildkit build 'src/**/*.{ts,astro,css,js}'",
     "dev": "buildkit dev 'src/**/*.{ts,astro,css,js}'",
-    "jsr": "pnpm jsr publish"
+    "jsr": "pnpm x:jsr publish"
   },
   "exports": {
     ".": {

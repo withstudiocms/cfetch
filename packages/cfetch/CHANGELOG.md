@@ -1,5 +1,11 @@
 # @studiocms/cfetch
 
+## 0.2.1
+
+### Patch Changes
+
+- [#38](https://github.com/withstudiocms/cfetch/pull/38) [`f130c1f`](https://github.com/withstudiocms/cfetch/commit/f130c1f526bdc379e70c588a0ff7ab40d3f639b1) Thanks [@renovate](https://github.com/apps/renovate)! - chore(deps): update all non-major dependencies
+
 ## 0.2.0
 
 ### Minor Changes

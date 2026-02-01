@@ -6,7 +6,6 @@
     "node": "22.20.0"
   },
   "scripts": {
-    "x:jsr": "jsr",
     "build": "pnpm --filter @studiocms/* build",
     "dev": "pnpm --stream --filter @studiocms/* --filter test-fixture -r -parallel dev",
     "changeset": "changeset",

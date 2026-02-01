@@ -42,7 +42,7 @@
   "scripts": {
     "build": "buildkit build 'src/**/*.{ts,astro,css,js}'",
     "dev": "buildkit dev 'src/**/*.{ts,astro,css,js}'",
-    "jsr": "pnpm dlx jsr publish"
+    "jsr": "jsr publish"
   },
   "exports": {
     ".": {
@@ -55,11 +55,11 @@
     }
   },
   "devDependencies": {
-    "@inox-tools/astro-tests": "^0.8.0",
+    "@inox-tools/astro-tests": "^0.8.1",
     "@types/node": "^22.0.0",
     "jest-extended": "^7.0.0",
-    "astro": "^5.16.6",
-    "effect": "^3.19.14"
+    "astro": "^5.16.16",
+    "effect": "^3.19.15"
   },
   "peerDependencies": {
     "astro": "^5.16.6",

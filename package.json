@@ -34,6 +34,7 @@
     "pkg-pr-new": "0.0.62",
     "typescript": "catalog:",
     "vitest": "3.1.1",
-    "@vitest/ui": "3.1.1"
+    "@vitest/ui": "3.1.1",
+    "jsr": "^0.14.2"
   }
 }

@@ -9,8 +9,12 @@ export default defineConfig({
 	adapter: node({ mode: 'standalone' }),
 	integrations: [
 		cFetch(),
-		hmrIntegration({
-			directory: '../../../dist',
-		}),
+		...(process.env.vitest !== 'true'
+			? [
+					hmrIntegration({
+						directory: '../../../dist',
+					}),
+				]
+			: []),
 	],
 });

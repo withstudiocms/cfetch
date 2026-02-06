@@ -292,9 +292,7 @@ export const invalidateCacheEffect = (
 		}
 
 		if (opts.tags) {
-			for (const tag of opts.tags) {
-				yield* cache.invalidateTags([tag]);
-			}
+			yield* cache.invalidateTags(opts.tags);
 		}
 	}).pipe(Effect.provide(CacheLive));
 

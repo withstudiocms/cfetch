@@ -222,7 +222,7 @@ declare module 'c:fetch' {
 	 * });
 	 * \`\`\`
 	 */
-	export const invalidateCache: typeof import("${resolve('./wrappers.mjs')}").invalidateCacheEffect;
+	export const invalidateCache: typeof import("${resolve('./wrappers.mjs')}").invalidateCache;
 }
 
 `;

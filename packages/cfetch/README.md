@@ -380,7 +380,7 @@ const invalidateCache: (opts: InvalidateCacheOptions) => Promise<void>
 ###### Example Usage
 
 ```ts
-const effect = await invalidateCache({
+const res = await invalidateCache({
   tags: ['user'],
   keys: ['user:123', 'user:456']
 })

@@ -1,6 +1,6 @@
 {
   "extends": "../../tsconfig.tspc.json",
-  "include": ["src"],
+  "include": ["src", "cache.d.ts"],
   "exclude": ["dist"],
   "compilerOptions": {
     "allowImportingTsExtensions": true,

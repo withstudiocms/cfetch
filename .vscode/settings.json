@@ -4,6 +4,7 @@
     "alignjustify",
     "alignleft",
     "alignright",
+    "automations",
     "Avenir",
     "backcolor",
     "buildkit",
@@ -20,6 +21,7 @@
     "iconify",
     "inox",
     "Lightbox",
+    "Millis",
     "numlist",
     "outdent",
     "projectdata",
@@ -27,7 +29,13 @@
     "studiocms",
     "studiosdk",
     "toastr",
+    "tsdown",
+    "tspc",
+    "vitest",
     "withstudiocms",
-    "WYSIWYGDB"
-  ]
+    "WYSIWYGDB",
+    "Yieldable",
+    "zizmor"
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

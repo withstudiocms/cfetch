@@ -38,10 +38,10 @@
 
 import type { AstroIntegration } from 'astro';
 import { Duration } from 'effect';
-import { defaultConfig } from './consts.js';
-import stub from './stub.js';
-import type { CacheConfig } from './types.js';
-import { addVirtualImports, createResolver } from './utils/integration.js';
+import { defaultConfig } from './consts.ts';
+import stub from './stub.ts';
+import type { CacheConfig } from './types.ts';
+import { addVirtualImports, createResolver } from './utils/integration.ts';
 
 export { Duration } from 'effect';
 
@@ -71,15 +71,22 @@ export { Duration } from 'effect';
  */
 export function cFetch(opts?: CacheConfig): AstroIntegration {
 	const name = '@studiocms/cfetch';
+
+	// Helper function to resolve relative paths for virtual module imports
 	const { resolve } = createResolver(import.meta.url);
+
+	// Setup a merged configuration object that combines default settings with user-provided options
 	const options: CacheConfig = {
 		...defaultConfig,
 		...opts,
 	};
+
+	// Return the Astro integration object with hooks for configuration setup and completion
 	return {
 		name,
 		hooks: {
 			'astro:config:setup': (params) => {
+				// Add virtual module imports for cache configuration and cached fetch functions
 				addVirtualImports(params, {
 					name,
 					imports: {
@@ -87,11 +94,12 @@ export function cFetch(opts?: CacheConfig): AstroIntegration {
 							// Convert Duration.DurationInput to milliseconds number (required to preserve value through JSON.stringify)
 							lifetime: Duration.toMillis(options.lifetime),
 						})}`,
-						'c:fetch': `export * from '${resolve('./wrappers.js')}';`,
+						'c:fetch': `export * from '${resolve('./wrappers.mjs')}';`,
 					},
 				});
 			},
 			'astro:config:done': ({ injectTypes }) => {
+				// Inject TypeScript type definitions for the cFetch Virtual Module
 				injectTypes({
 					filename: 'cfetch.d.ts',
 					content: stub,

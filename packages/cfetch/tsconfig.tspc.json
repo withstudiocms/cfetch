@@ -1,11 +1,10 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "../../tsconfig.tspc.json",
   "include": ["src", "cache.d.ts"],
+  "exclude": ["dist"],
   "compilerOptions": {
-    "outDir": "./dist",
     "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "emitDeclarationOnly": true,
+    "outDir": "./dist",
     "rootDir": "./src"
   }
 }

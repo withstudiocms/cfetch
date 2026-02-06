@@ -1,26 +1,41 @@
 /**
- * This module contains a stub file for type generation
+ * This file serves as a stub for TypeScript type definitions related to the cFetch integration.
+ * It defines the structure of virtual modules and the types that will be injected into the consuming project.
+ * The actual implementation of these types is provided in the corresponding .mjs files, but this stub allows
+ * for proper type checking and IntelliSense in development environments.
+ *
+ * The stub includes module declarations for 'virtual:cfetch/config' and 'c:fetch', defining the expected types
+ * and exports that will be available when using the cFetch integration in an Astro project.
+ *
+ * @remarks
+ * - The 'virtual:cfetch/config' module provides access to the cache configuration, which can be customized by users.
+ * - The 'c:fetch' module exports various types and functions related to the cached fetch functionality, including error types, parsers, and the main cFetch function.
+ *
  * @module
  */
 
-import { createResolver } from './utils/integration.js';
+import { createResolver } from './utils/integration.ts';
 
+// Helper function to resolve relative paths for virtual module imports
 const { resolve } = createResolver(import.meta.url);
 
+/**
+ * Stub content for TypeScript type definitions related to the cFetch integration.
+ */
 const stub = `
 declare module 'virtual:cfetch/config' {
-	type CacheConfig = import("${resolve('./types.js')}").CacheConfigLive;
+	type CacheConfig = import("${resolve('./types.mjs')}").CacheConfigLive;
 	const defaultConfig: CacheConfig;
 	export default defaultConfig;
 }
 
 declare module 'c:fetch' {
-	export type CacheConfig = import("${resolve('./types.js')}").CacheConfig;
-	export type CachedResponse<T> = import("${resolve('./wrappers.js')}").CachedResponse<T>;
-	export type CFetchConfig = import("${resolve('./wrappers.js')}").CFetchConfig;
+	export type CacheConfig = import("${resolve('./types.mjs')}").CacheConfig;
+	export type CachedResponse<T> = import("${resolve('./wrappers.mjs')}").CachedResponse<T>;
+	export type CFetchConfig = import("${resolve('./wrappers.mjs')}").CFetchConfig;
+	export type InvalidateCacheOptions = import("${resolve('./wrappers.mjs')}").InvalidateCacheOptions;
 	
-	export const Duration: typeof import("${resolve('./wrappers.js')}").Duration;
-
+	export const Duration: typeof import("${resolve('./wrappers.mjs')}").Duration;
 	declare const FetchError_base: new <A extends Record<string, any> = {}>(args: import("effect/Types").Equals<A, {}> extends true ? void : { readonly [P in keyof A as P extends "_tag" ? never : P]: A[P]; }) => import("effect/Cause").YieldableError & {
 		readonly _tag: "FetchError";
 	} & Readonly<A>;
@@ -41,7 +56,7 @@ declare module 'c:fetch' {
 	 * @param _ - The Response object (ignored)
 	 * @returns A Promise that resolves to undefined
 	 */
-	export const noOpParser: typeof import("${resolve('./wrappers.js')}").noOpParser;
+	export const noOpParser: typeof import("${resolve('./wrappers.mjs')}").noOpParser;
 
 	/**
 	 * Fetches data from a URL with caching capabilities using Effect.
@@ -70,7 +85,26 @@ declare module 'c:fetch' {
 	 * - Cache hits are logged to console for debugging
 	 * - The effect is provided with CacheLive layer automatically
 	 */
-	export const cFetchEffect: typeof import("${resolve('./wrappers.js')}").cFetchEffect;
+	export const cFetchEffect: typeof import("${resolve('./wrappers.mjs')}").cFetchEffect;
+
+	/**
+	 * Invalidates cache entries based on specified keys or tags.
+	 *
+	 * @param opts - An object containing optional keys and tags for cache invalidation
+	 * @param opts.keys - An array of specific cache keys to invalidate
+	 * @param opts.tags - An array of tags; all cache entries associated with these tags will be invalidated
+	 *
+	 * @returns An Effect that performs the cache invalidation when executed
+	 *
+	 * @example
+	 * \`\`\`typescript
+	 * yield* invalidateCacheEffect({
+	 *   tags: ['user'],
+	 *   keys: ['user:123', 'user:456']
+	 * });
+	 * \`\`\`
+	 */
+	export const invalidateCacheEffect: typeof import("${resolve('./wrappers.mjs')}").invalidateCacheEffect;
 
 	/**
 	 * Creates an Effect that fetches JSON data from a URL with caching support.
@@ -84,7 +118,7 @@ declare module 'c:fetch' {
 	 * @param cacheConfig.key - Custom cache key to use instead of the default URL-based key
 	 * @returns An Effect that yields a CachedResponse containing the parsed JSON data, or fails with a FetchError
 	 */
-	export const cFetchEffectJson: typeof import("${resolve('./wrappers.js')}").cFetchEffectJson;
+	export const cFetchEffectJson: typeof import("${resolve('./wrappers.mjs')}").cFetchEffectJson;
 
 
 	/**
@@ -100,7 +134,7 @@ declare module 'c:fetch' {
 	 * @returns An Effect that resolves to a CachedResponse containing the response text,
 	 *          or fails with a FetchError if the request fails.
 	 */
-	export const cFetchEffectText: typeof import("${resolve('./wrappers.js')}").cFetchEffectText;
+	export const cFetchEffectText: typeof import("${resolve('./wrappers.mjs')}").cFetchEffectText;
 
 	/**
 	 * Fetches a resource and returns it as a Blob with caching support.
@@ -114,7 +148,7 @@ declare module 'c:fetch' {
 	 * 
 	 * @returns An Effect that resolves to a CachedResponse containing a Blob, or fails with a FetchError
 	 */
-	export const cFetchEffectBlob: typeof import("${resolve('./wrappers.js')}").cFetchEffectBlob;
+	export const cFetchEffectBlob: typeof import("${resolve('./wrappers.mjs')}").cFetchEffectBlob;
 
 	/**
 	 * Executes a cached fetch request with configurable caching behavior.
@@ -129,7 +163,7 @@ declare module 'c:fetch' {
 	 * @param cacheConfig.key - Custom cache key; if not provided, a key will be generated from the URL and options
 	 * @returns A Promise that resolves to a CachedResponse containing the parsed data
 	 */
-	export const cFetch: typeof import("${resolve('./wrappers.js')}").cFetch;
+	export const cFetch: typeof import("${resolve('./wrappers.mjs')}").cFetch;
 
 	/**
 	 * Fetches and parses JSON data from the specified URL with caching support.
@@ -143,7 +177,7 @@ declare module 'c:fetch' {
 	 * @param cacheConfig.key - Custom cache key to use instead of the default
 	 * @returns A Promise that resolves to a CachedResponse containing the parsed JSON data of type T
 	 */
-	export const cFetchJson: typeof import("${resolve('./wrappers.js')}").cFetchJson;
+	export const cFetchJson: typeof import("${resolve('./wrappers.mjs')}").cFetchJson;
 
 	/**
 	 * Fetches a URL and returns the response as text with caching support.
@@ -156,7 +190,7 @@ declare module 'c:fetch' {
 	 * @param cacheConfig.key - Custom cache key (defaults to URL if not provided)
 	 * @returns A promise that resolves to a CachedResponse containing the response text
 	 */
-	export const cFetchText: typeof import("${resolve('./wrappers.js')}").cFetchText;
+	export const cFetchText: typeof import("${resolve('./wrappers.mjs')}").cFetchText;
 
 	/**
 	 * Fetches a Blob resource from the specified URL with optional caching configuration.
@@ -169,7 +203,26 @@ declare module 'c:fetch' {
 	 * @param cacheConfig.key - Custom cache key for storing the response
 	 * @returns A Promise that resolves to a CachedResponse containing a Blob
 	 */
-	export const cFetchBlob: typeof import("${resolve('./wrappers.js')}").cFetchBlob;
+	export const cFetchBlob: typeof import("${resolve('./wrappers.mjs')}").cFetchBlob;
+
+	/**
+	 * Invalidates cache entries based on specified keys or tags.
+	 *
+	 * @param opts - An object containing optional keys and tags for cache invalidation
+	 * @param opts.keys - An array of specific cache keys to invalidate
+	 * @param opts.tags - An array of tags; all cache entries associated with these tags will be invalidated
+	 *
+	 * @returns A Promise that resolves when the cache invalidation is complete
+	 *
+	 * @example
+	 * \`\`\`typescript
+	 * await invalidateCache({
+	 *   tags: ['user'],
+	 *   keys: ['user:123', 'user:456']
+	 * });
+	 * \`\`\`
+	 */
+	export const invalidateCache: typeof import("${resolve('./wrappers.mjs')}").invalidateCache;
 }
 
 `;

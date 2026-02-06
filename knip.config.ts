@@ -8,6 +8,7 @@ const config: KnipConfig = {
 			ignoreDependencies: ['@changesets/config', '@changesets/write'],
 			entry: ['.github/workflows/*.yml'],
 			project: ['.github/workflows/*.yml'],
+			ignoreBinaries: ['ci::*'],
 		},
 		'packages/*': {
 			entry: ['src/**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}'],

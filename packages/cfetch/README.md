@@ -103,10 +103,19 @@ interface CachedResponse<T> {
 
 ```ts
 interface CFetchConfig {
-    ttl?: Duration.DurationInput;
-    tags?: string[];
-    key?: string;
-    verbose?: boolean;
+  ttl?: Duration.DurationInput;
+  tags?: string[];
+  key?: string;
+  verbose?: boolean;
+}
+```
+
+##### `InvalidateCacheOptions` type
+
+```ts
+interface InvalidateCacheOptions {
+	keys?: string[];
+	tags?: string[];
 }
 ```
 
@@ -137,6 +146,27 @@ const effect = cFetchEffect<{ foo: string; bar: number; }>(
 /*
 Return type:
   Effect.Effect<CachedResponse<{ foo: string; bar: number; }>, FetchError, never>
+*/
+```
+
+##### `invalidateCacheEffect`
+
+###### Interface
+
+```ts
+const invalidateCacheEffect: (opts: InvalidateCacheOptions) => Effect.Effect<void, never, never>
+```
+
+###### Example Usage
+
+```ts
+const effect = invalidateCacheEffect({
+  tags: ['user'],
+  keys: ['user:123', 'user:456']
+})
+/*
+Return type:
+  Effect.Effect<void, never, never>
 */
 ```
 
@@ -247,7 +277,7 @@ const cFetch: <T>(
 ```ts
 import { cFetch } from "c:fetch"
 
-const effect = await cFetch<{ foo: string; bar: number; }>(
+const response = await cFetch<{ foo: string; bar: number; }>(
   'https://api.example.com/data',
   (res) => res.json(),
   { method: "GET" }
@@ -275,7 +305,7 @@ const cFetchJson: <T>(
 ```ts
 import { cFetchJson } from "c:fetch"
 
-const effect = await cFetchJson<{ foo: string; bar: number; }>(
+const response = await cFetchJson<{ foo: string; bar: number; }>(
   'https://api.example.com/data',
   { method: "GET" }
 );
@@ -302,7 +332,7 @@ const cFetchText: (
 ```ts
 import { cFetchText } from "c:fetch"
 
-const effect = await cFetchText(
+const response = await cFetchText(
   'https://example.com',
   { method: "GET" }
 );
@@ -329,13 +359,34 @@ const cFetchBlob: (
 ```ts
 import { cFetchBlob } from "c:fetch"
 
-const effect = await cFetchBlob(
+const response = await cFetchBlob(
   'https://example.com/image.png',
   { method: "GET" }
 );
 /*
 Return type:
   CachedResponse<Blob>
+*/
+```
+
+##### `invalidateCache`
+
+###### Interface
+
+```ts
+const invalidateCache: (opts: InvalidateCacheOptions) => Promise<void>
+```
+
+###### Example Usage
+
+```ts
+const res = await invalidateCache({
+  tags: ['user'],
+  keys: ['user:123', 'user:456']
+})
+/*
+Return type:
+  void
 */
 ```
 

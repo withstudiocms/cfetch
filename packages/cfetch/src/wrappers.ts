@@ -9,10 +9,10 @@
  * cache layer.
  */
 
-import { Data, type Duration, Effect, Layer } from 'effect';
-import { type CacheEntry, CacheMaps, CacheService } from './cache.js';
+import { Data, type Duration, Effect, Layer, Pretty, Schema } from 'effect';
+import { type CacheEntry, CacheMaps, CacheService } from './cache.ts';
 
-export type { CacheConfig } from './types.js';
+export type { CacheConfig } from './types.ts';
 export { Duration } from 'effect';
 
 // In-memory cache maps
@@ -49,6 +49,34 @@ export interface CFetchConfig {
 	key?: string;
 	verbose?: boolean;
 }
+
+/**
+ * Options for cache invalidation.
+ */
+export interface InvalidateCacheOptions {
+	keys?: string[];
+	tags?: string[];
+}
+
+/**
+ * Schema for validating cache-relevant fetch options.
+ *
+ * This schema is used to ensure that only serializable and relevant options are considered
+ * when generating cache keys. It includes the HTTP method, headers (as a record of key-value pairs),
+ * and body (only if it's a string). Non-serializable options are excluded to prevent cache key collisions.
+ */
+const CacheRelevantOptionsSchema = Schema.Struct({
+	method: Schema.optional(Schema.Union(Schema.String, Schema.Undefined)),
+	headers: Schema.optional(
+		Schema.Union(Schema.Record({ key: Schema.String, value: Schema.Any }), Schema.Undefined)
+	),
+	body: Schema.optional(Schema.Union(Schema.String, Schema.Undefined)),
+});
+
+/**
+ * Utility to stringify cache-relevant options for generating cache keys.
+ */
+const stringifyRelevantOptions = Pretty.make(CacheRelevantOptionsSchema);
 
 /**
  * Helper to run an Effect and return a Promise.
@@ -206,7 +234,7 @@ export const cFetchEffect = <T>(
 			);
 		}
 
-		const cacheKey = key ?? `${urlString}-${JSON.stringify(cacheRelevantOptions)}`;
+		const cacheKey = key ?? `${urlString}-${stringifyRelevantOptions(cacheRelevantOptions)}`;
 
 		// Check cache first
 		const cached = yield* cache.get<CachedResponse<T>>(cacheKey);
@@ -232,6 +260,40 @@ export const cFetchEffect = <T>(
 
 		// Return the cached response
 		return cachedResponse;
+	}).pipe(Effect.provide(CacheLive));
+
+/**
+ * Invalidates cache entries based on specified keys or tags.
+ *
+ * @param opts - An object containing optional keys and tags for cache invalidation
+ * @param opts.keys - An array of specific cache keys to invalidate
+ * @param opts.tags - An array of tags; all cache entries associated with these tags will be invalidated
+ *
+ * @returns An Effect that performs the cache invalidation when executed
+ *
+ * @example
+ * ```typescript
+ * yield* invalidateCacheEffect({
+ *   tags: ['user'],
+ *   keys: ['user:123', 'user:456']
+ * });
+ * ```
+ */
+export const invalidateCacheEffect = (
+	opts: InvalidateCacheOptions
+): Effect.Effect<void, never, never> =>
+	Effect.gen(function* () {
+		const cache = yield* CacheService;
+
+		if (opts.keys) {
+			for (const key of opts.keys) {
+				yield* cache.delete(key);
+			}
+		}
+
+		if (opts.tags) {
+			yield* cache.invalidateTags(opts.tags);
+		}
 	}).pipe(Effect.provide(CacheLive));
 
 /**
@@ -431,3 +493,23 @@ export const cFetchBlob = (
 	options?: RequestInit,
 	cacheConfig?: CFetchConfig
 ): Promise<CachedResponse<Blob>> => runEffect(cFetchEffectBlob(url, options, cacheConfig));
+
+/**
+ * Invalidates cache entries based on specified keys or tags.
+ *
+ * @param opts - An object containing optional keys and tags for cache invalidation
+ * @param opts.keys - An array of specific cache keys to invalidate
+ * @param opts.tags - An array of tags; all cache entries associated with these tags will be invalidated
+ *
+ * @returns A Promise that resolves when the cache invalidation is complete
+ *
+ * @example
+ * ```typescript
+ * await invalidateCache({
+ *   tags: ['user'],
+ *   keys: ['user:123', 'user:456']
+ * });
+ * ```
+ */
+export const invalidateCache = (opts: InvalidateCacheOptions): Promise<void> =>
+	runEffect(invalidateCacheEffect(opts));

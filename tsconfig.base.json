@@ -10,6 +10,13 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "verbatimModuleSyntax": true,
-    "stripInternal": true
+    "stripInternal": true,
+    "pretty": true,
+    "noErrorTruncation": true,
+    "plugins": [
+      {
+        "name": "@effect/language-service"
+      }
+    ]
   }
 }

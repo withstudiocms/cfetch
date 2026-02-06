@@ -4,13 +4,13 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - 'packages/**'
-      - 'vitest.config.mts'
+      - "packages/**"
+      - "vitest.config.mts"
     branches: [main]
   pull_request:
     paths:
-      - 'packages/**'
-      - 'vitest.config.mts'
+      - "packages/**"
+      - "vitest.config.mts"
     types:
       - opened
       - reopened
@@ -20,6 +20,42 @@ on:
 concurrency: testing-${{ github.ref }}
 
 jobs:
+  typecheck:
+    name: Type Checks
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        cmd: ["cfetch"]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Run ${{ matrix.cmd }} TypeCheck
+        uses: ./.github/actions/type-check
+        with:
+          cmd: ${{ matrix.cmd }}
+
+  effect-check:
+    name: Effect Diagnostics
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        cmd: ["cfetch"]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Run ${{ matrix.cmd }} Effect Diagnostics
+        uses: ./.github/actions/effect-check
+        with:
+          cmd: ${{ matrix.cmd }}
+
   jsr-dry-run:
     name: Test JSR Publish
     runs-on: ubuntu-latest
@@ -28,7 +64,7 @@ jobs:
     steps:
       - name: Check out code using Git
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-  
+
       - name: Install Tools & Dependencies
         uses: withstudiocms/automations/.github/actions/install@main
 
@@ -46,7 +82,7 @@ jobs:
     steps:
       - name: Check out code using Git
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-  
+
       - name: Install Tools & Dependencies
         uses: withstudiocms/automations/.github/actions/install@main
 

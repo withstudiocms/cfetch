@@ -202,14 +202,14 @@ export type HookUtility<THook extends keyof Hooks, TArgs extends Array<any>, TRe
  */
 export const defineUtility =
 	<THook extends keyof Hooks>(_hook: THook) =>
-		/**
-		 * The function itself
-		 * @param {Function} fn;
-		 */
+	/**
+	 * The function itself
+	 * @param {Function} fn;
+	 */
 
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-		<TArgs extends Array<any>, T>(fn: HookUtility<THook, TArgs, T>): HookUtility<THook, TArgs, T> =>
-			fn;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	<TArgs extends Array<any>, T>(fn: HookUtility<THook, TArgs, T>): HookUtility<THook, TArgs, T> =>
+		fn;
 
 function getPluginNames(plugins: AstroConfig['vite']['plugins']) {
 	const names: string[] = [];
@@ -318,7 +318,8 @@ export const addVitePlugin = defineUtility('astro:config:setup')(
 
 		if (warnDuplicated && hasVitePlugin(params, { plugin })) {
 			logger.warn(
-				`The Vite plugin "${(plugin as Plugin).name
+				`The Vite plugin "${
+					(plugin as Plugin).name
 				}" is already present in your Vite configuration, this plugin may not behave correctly.`
 			);
 		}
@@ -360,10 +361,10 @@ const createVirtualModule = (
 	const imports: Array<VirtualImport> = Array.isArray(_imports)
 		? _imports
 		: Object.entries(_imports).map(([id, content]) => ({
-			id,
-			content,
-			context: undefined,
-		}));
+				id,
+				content,
+				context: undefined,
+			}));
 
 	// We check for virtual imports with overlapping contexts, eg. several imports
 	// with the same id and context server

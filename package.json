@@ -28,7 +28,8 @@
     "ci:typecheck:cfetch": "pnpm --filter @studiocms/cfetch typecheck",
     "ci:effect-check:cfetch": "pnpm --filter @studiocms/cfetch effect-check",
     "ci:snapshot": "pnpx pkg-pr-new publish --pnpm './packages/*'",
-    "ci:test": "pnpm vitest --reporter=github-actions --reporter=default --reporter=html"
+    "ci:test": "pnpm vitest --reporter=github-actions --reporter=default --reporter=html",
+    "ci:build": "pnpm build"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",

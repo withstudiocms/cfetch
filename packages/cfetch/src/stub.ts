@@ -1,12 +1,27 @@
 /**
- * This module contains a stub file for type generation
+ * This file serves as a stub for TypeScript type definitions related to the cFetch integration.
+ * It defines the structure of virtual modules and the types that will be injected into the consuming project.
+ * The actual implementation of these types is provided in the corresponding .mjs files, but this stub allows
+ * for proper type checking and IntelliSense in development environments.
+ *
+ * The stub includes module declarations for 'virtual:cfetch/config' and 'c:fetch', defining the expected types
+ * and exports that will be available when using the cFetch integration in an Astro project.
+ *
+ * @remarks
+ * - The 'virtual:cfetch/config' module provides access to the cache configuration, which can be customized by users.
+ * - The 'c:fetch' module exports various types and functions related to the cached fetch functionality, including error types, parsers, and the main cFetch function.
+ *
  * @module
  */
 
 import { createResolver } from './utils/integration.ts';
 
+// Helper function to resolve relative paths for virtual module imports
 const { resolve } = createResolver(import.meta.url);
 
+/**
+ * Stub content for TypeScript type definitions related to the cFetch integration.
+ */
 const stub = `
 declare module 'virtual:cfetch/config' {
 	type CacheConfig = import("${resolve('./types.mjs')}").CacheConfigLive;

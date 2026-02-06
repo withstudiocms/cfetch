@@ -71,15 +71,22 @@ export { Duration } from 'effect';
  */
 export function cFetch(opts?: CacheConfig): AstroIntegration {
 	const name = '@studiocms/cfetch';
+
+	// Helper function to resolve relative paths for virtual module imports
 	const { resolve } = createResolver(import.meta.url);
+
+	// Setup a merged configuration object that combines default settings with user-provided options
 	const options: CacheConfig = {
 		...defaultConfig,
 		...opts,
 	};
+
+	// Return the Astro integration object with hooks for configuration setup and completion
 	return {
 		name,
 		hooks: {
 			'astro:config:setup': (params) => {
+				// Add virtual module imports for cache configuration and cached fetch functions
 				addVirtualImports(params, {
 					name,
 					imports: {
@@ -92,6 +99,7 @@ export function cFetch(opts?: CacheConfig): AstroIntegration {
 				});
 			},
 			'astro:config:done': ({ injectTypes }) => {
+				// Inject TypeScript type definitions for the cFetch Virtual Module
 				injectTypes({
 					filename: 'cfetch.d.ts',
 					content: stub,

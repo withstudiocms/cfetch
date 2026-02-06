@@ -65,7 +65,7 @@ export interface InvalidateCacheOptions {
  * when generating cache keys. It includes the HTTP method, headers (as a record of key-value pairs),
  * and body (only if it's a string). Non-serializable options are excluded to prevent cache key collisions.
  */
-export const CacheRelevantOptionsSchema = Schema.Struct({
+const CacheRelevantOptionsSchema = Schema.Struct({
 	method: Schema.optional(Schema.Union(Schema.String, Schema.Undefined)),
 	headers: Schema.optional(
 		Schema.Union(Schema.Record({ key: Schema.String, value: Schema.Any }), Schema.Undefined)
@@ -73,7 +73,9 @@ export const CacheRelevantOptionsSchema = Schema.Struct({
 	body: Schema.optional(Schema.Union(Schema.String, Schema.Undefined)),
 });
 
-// Prettify function for cache-relevant options to generate consistent cache keys
+/**
+ * Utility to stringify cache-relevant options for generating cache keys.
+ */
 const stringifyRelevantOptions = Pretty.make(CacheRelevantOptionsSchema);
 
 /**

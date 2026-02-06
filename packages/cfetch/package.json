@@ -42,7 +42,11 @@
   "scripts": {
     "build": "tsdown --config ./tsdown.config.ts --clean",
     "dev": "tsdown --config ./tsdown.config.ts --watch",
-    "jsr": "jsr publish"
+		"effect-check": "pnpm effect-language-service diagnostics --project tsconfig.tspc.json",
+		"typecheck": "tspc -p tsconfig.tspc.json",
+    "jsr": "jsr publish",
+
+		"ci:effect-check": "pnpm effect-check --format github-actions"
   },
   "exports": {
     ".": {

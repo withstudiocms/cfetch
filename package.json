@@ -6,21 +6,29 @@
     "node": "22.20.0"
   },
   "scripts": {
-    "build": "pnpm --filter @studiocms/* build",
-    "dev": "pnpm --stream --filter @studiocms/* --filter test-fixture -r -parallel dev",
+    "postinstall": "ts-patch install",
+
+    "effect-language-service": "effect-language-service",
     "changeset": "changeset",
+    "knip": "knip",
+
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
+    "dev": "pnpm --stream --filter @studiocms/* --filter test-fixture -r -parallel dev",
+    "build": "pnpm --filter @studiocms/* build",
+
+    "jsr:test": "pnpm --filter @studiocms/cfetch jsr --dry-run",
+    "jsr:run": "pnpm --filter @studiocms/cfetch jsr",
+
     "ci:prepublish": "pnpm build",
     "ci:lint": "biome ci --formatter-enabled=true --organize-imports-enabled=true  --reporter=github",
     "ci:install": "pnpm install --frozen-lockfile",
     "ci:version": "pnpm changeset version && pnpx @qingshaner/jsr-release --allowDirty version --sync",
     "ci:publish": "pnpm changeset publish",
+    "ci:typecheck:cfetch": "pnpm --filter @studiocms/cfetch typecheck",
+    "ci:effect-check:cfetch": "pnpm --filter @studiocms/cfetch effect-check",
     "ci:snapshot": "pnpx pkg-pr-new publish --pnpm './packages/*'",
-    "ci:test": "pnpm vitest --reporter=github-actions --reporter=default --reporter=html",
-    "knip": "knip",
-    "jsr:test": "pnpm --filter @studiocms/cfetch jsr --dry-run",
-    "jsr:run": "pnpm --filter @studiocms/cfetch jsr"
+    "ci:test": "pnpm vitest --reporter=github-actions --reporter=default --reporter=html"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
@@ -28,10 +36,12 @@
     "@changesets/cli": "^2.29.8",
     "@changesets/config": "^3.1.2",
     "@changesets/write": "^0.4.0",
+    "@effect/language-service": "^0.72.0",
     "@types/node": "catalog:",
     "knip": "^5.82.1",
     "pkg-pr-new": "0.0.62",
     "tsdown": "catalog:",
+    "ts-patch": "^3.3.0",
     "typescript": "catalog:",
     "vitest": "3.1.1",
     "@vitest/ui": "3.1.1",

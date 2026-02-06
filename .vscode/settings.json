@@ -4,6 +4,7 @@
     "alignjustify",
     "alignleft",
     "alignright",
+    "automations",
     "Avenir",
     "backcolor",
     "buildkit",
@@ -29,8 +30,11 @@
     "studiosdk",
     "toastr",
     "tsdown",
+    "tspc",
+    "vitest",
     "withstudiocms",
     "WYSIWYGDB",
-    "Yieldable"
+    "Yieldable",
+    "zizmor"
   ]
 }

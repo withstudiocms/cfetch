@@ -5,7 +5,7 @@
  */
 
 import { Duration } from 'effect';
-import type { CacheConfig, CacheConfigLive } from './types.js';
+import type { CacheConfig, CacheConfigLive } from './types.ts';
 
 export const defaultConfig: CacheConfig = {
 	lifetime: Duration.hours(1),

@@ -40,29 +40,29 @@
     "dist"
   ],
   "scripts": {
-    "build": "buildkit build 'src/**/*.{ts,astro,css,js}'",
-    "dev": "buildkit dev 'src/**/*.{ts,astro,css,js}'",
+    "build": "tsdown --config ./tsdown.config.ts --clean",
+    "dev": "tsdown --config ./tsdown.config.ts --watch",
     "jsr": "jsr publish"
   },
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
     },
     "./types": {
-      "types": "./dist/types.d.ts",
-      "default": "./dist/types.js"
+      "types": "./dist/types.d.mts",
+      "default": "./dist/types.mjs"
     }
   },
   "devDependencies": {
     "@inox-tools/astro-tests": "^0.8.1",
     "@types/node": "^22.0.0",
     "jest-extended": "^7.0.0",
-    "astro": "^5.16.16",
+    "astro": "^5.17.1",
     "effect": "^3.19.15"
   },
   "peerDependencies": {
-    "astro": "^5.16.6",
+    "astro": ">=5.16.6",
     "effect": "^3.19.13",
     "vite": "^6.4.1"
   }

@@ -20,6 +20,7 @@
     "iconify",
     "inox",
     "Lightbox",
+    "Millis",
     "numlist",
     "outdent",
     "projectdata",
@@ -27,7 +28,9 @@
     "studiocms",
     "studiosdk",
     "toastr",
+    "tsdown",
     "withstudiocms",
-    "WYSIWYGDB"
+    "WYSIWYGDB",
+    "Yieldable"
   ]
 }

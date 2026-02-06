@@ -3,6 +3,8 @@
   "include": ["src", "cache.d.ts"],
   "compilerOptions": {
     "outDir": "./dist",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
     "emitDeclarationOnly": true,
     "rootDir": "./src"
   }

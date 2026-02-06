@@ -4,7 +4,7 @@
  */
 
 import { Clock, Context, Duration, Effect } from 'effect';
-import { defaultConfigLive } from './consts';
+import { defaultConfigLive } from './consts.ts';
 
 /**
  * Represents a cache entry with its value, expiration time, last updated time, and tags.

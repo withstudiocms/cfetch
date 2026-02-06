@@ -18,6 +18,7 @@
     "@astrojs/node": "catalog:",
     "@studiocms/cfetch": "workspace:*",
     "astro": "catalog:",
+    "astro-integration-kit": "catalog:",
     "sharp": "catalog:"
   }
 }

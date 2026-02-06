@@ -1,6 +1,6 @@
 {
   "name": "@studiocms/cfetch",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Astro integration that allows you to have a cached fetch function in your Astro SSR project.",
   "license": "MIT",
   "homepage": "https://studiocms.dev",
@@ -45,8 +45,7 @@
     "effect-check": "pnpm effect-language-service diagnostics --project tsconfig.tspc.json",
     "typecheck": "tspc -p tsconfig.tspc.json",
     "jsr": "jsr publish",
-
-	  "ci:effect-check": "pnpm effect-check --format github-actions"
+    "ci:effect-check": "pnpm effect-check --format github-actions"
   },
   "exports": {
     ".": {

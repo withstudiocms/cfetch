@@ -9,7 +9,7 @@
  * cache layer.
  */
 
-import { Data, type Duration, Effect, Layer } from 'effect';
+import { Data, type Duration, Effect, Layer, Pretty, Schema } from 'effect';
 import { type CacheEntry, CacheMaps, CacheService } from './cache.ts';
 
 export type { CacheConfig } from './types.ts';
@@ -57,6 +57,24 @@ export interface InvalidateCacheOptions {
 	keys?: string[];
 	tags?: string[];
 }
+
+/**
+ * Schema for validating cache-relevant fetch options.
+ *
+ * This schema is used to ensure that only serializable and relevant options are considered
+ * when generating cache keys. It includes the HTTP method, headers (as a record of key-value pairs),
+ * and body (only if it's a string). Non-serializable options are excluded to prevent cache key collisions.
+ */
+export const CacheRelevantOptionsSchema = Schema.Struct({
+	method: Schema.optional(Schema.Union(Schema.String, Schema.Undefined)),
+	headers: Schema.optional(
+		Schema.Union(Schema.Record({ key: Schema.String, value: Schema.Any }), Schema.Undefined)
+	),
+	body: Schema.optional(Schema.Union(Schema.String, Schema.Undefined)),
+});
+
+// Prettify function for cache-relevant options to generate consistent cache keys
+const stringifyRelevantOptions = Pretty.make(CacheRelevantOptionsSchema);
 
 /**
  * Helper to run an Effect and return a Promise.
@@ -214,7 +232,7 @@ export const cFetchEffect = <T>(
 			);
 		}
 
-		const cacheKey = key ?? `${urlString}-${JSON.stringify(cacheRelevantOptions)}`;
+		const cacheKey = key ?? `${urlString}-${stringifyRelevantOptions(cacheRelevantOptions)}`;
 
 		// Check cache first
 		const cached = yield* cache.get<CachedResponse<T>>(cacheKey);

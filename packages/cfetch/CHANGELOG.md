@@ -1,5 +1,11 @@
 # @studiocms/cfetch
 
+## 0.3.0
+
+### Minor Changes
+
+- [#45](https://github.com/withstudiocms/cfetch/pull/45) [`4f130d7`](https://github.com/withstudiocms/cfetch/commit/4f130d7d0b21b04f01d441bd01701aaa7657c5e7) Thanks [@Adammatthiesen](https://github.com/Adammatthiesen)! - Move to tsdown builder, and implement ability to invalidate cache tags and keys
+
 ## 0.2.1
 
 ### Patch Changes

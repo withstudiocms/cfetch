@@ -62,7 +62,7 @@
     "@types/node": "^22.0.0",
     "jest-extended": "^7.0.0",
     "astro": "^5.17.1",
-    "effect": "^3.19.15"
+    "effect": "^3.19.16"
   },
   "peerDependencies": {
     "astro": ">=5.16.6",

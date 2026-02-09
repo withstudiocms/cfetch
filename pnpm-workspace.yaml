@@ -4,7 +4,7 @@ catalog:
   astro: ^5.17.1
   astro-integration-kit: ^0.19.1
   sharp: ^0.34.0
-  tsdown: ^0.20.1
+  tsdown: ^0.20.3
   typescript: ^5.9.3
 
 packages:

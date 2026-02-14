@@ -1,5 +1,11 @@
 # @studiocms/cfetch
 
+## 0.3.1
+
+### Patch Changes
+
+- [#47](https://github.com/withstudiocms/cfetch/pull/47) [`830cd35`](https://github.com/withstudiocms/cfetch/commit/830cd35cf1ce060b3a6349b947d4e1e4ca0379cf) Thanks [@renovate](https://github.com/apps/renovate)! - chore(deps): update dependencies
+
 ## 0.3.0
 
 ### Minor Changes

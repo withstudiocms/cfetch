@@ -61,7 +61,7 @@
     "@inox-tools/astro-tests": "^0.8.1",
     "@types/node": "^22.0.0",
     "jest-extended": "^7.0.0",
-    "astro": "^5.17.1",
+    "astro": "^5.17.2",
     "effect": "^3.19.16"
   },
   "peerDependencies": {

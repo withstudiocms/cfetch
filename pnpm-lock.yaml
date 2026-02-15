@@ -91,7 +91,7 @@ importers:
         specifier: ^22.0.0
         version: 22.13.17
       astro:
-        specifier: ^5.17.1
+        specifier: ^5.17.2
         version: 5.17.2(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3)
       effect:
         specifier: ^3.19.16

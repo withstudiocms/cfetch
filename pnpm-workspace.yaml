@@ -1,7 +1,7 @@
 catalog:
-  "@astrojs/node": ^9.5.2
+  "@astrojs/node": ^9.5.3
   "@types/node": ^22.0.0
-  astro: ^5.17.1
+  astro: ^5.17.2
   astro-integration-kit: ^0.19.1
   sharp: ^0.34.0
   tsdown: ^0.20.3

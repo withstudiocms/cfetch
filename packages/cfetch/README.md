@@ -103,12 +103,16 @@ interface CachedResponse<T> {
 
 ```ts
 interface CFetchConfig {
+  forceCache?: true | undefined;
   ttl?: Duration.DurationInput;
   tags?: string[];
   key?: string;
   verbose?: boolean;
 }
 ```
+
+> [!NOTE]
+> By default only `GET` and `HEAD` requests are cached. You can change that by setting `forceCache` to `true`.
 
 ##### `InvalidateCacheOptions` type
 

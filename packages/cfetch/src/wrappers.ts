@@ -208,7 +208,7 @@ export const cFetchEffect = <T>(
 
 		// Bypass cache for non-cacheable methods
 		if (!cacheable) {
-			if (verbose) console.log(`[c:fetch] Bypassing cache for non-cacheable method: ${method}`);
+			if (verbose) console.log(`[c:fetch] Bypassing cache for ${method} request (cacheable: false)`);
 			return yield* fetchAndParse<T>(url, parser, options);
 		}
 

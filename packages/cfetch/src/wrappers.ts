@@ -44,7 +44,7 @@ export interface CachedResponse<T> {
  * Configuration options for cached fetch requests.
  */
 export interface CFetchConfig {
-	cacheable?: boolean;
+	forceCache?: true | undefined;
 	ttl?: Duration.DurationInput;
 	tags?: string[];
 	key?: string;
@@ -196,23 +196,14 @@ export const cFetchEffect = <T>(
 	Effect.gen(function* () {
 		const cache = yield* CacheService;
 
+		const { forceCache = false, key, verbose = false, ...cacheOpts } = cacheConfig || {};
+
 		// Determine HTTP method
 		const method = options?.method?.toUpperCase() || 'GET';
 
-		const methodIsCacheable = cacheableMethods.includes(method);
-
-		const { cacheable = methodIsCacheable, key, verbose = false, ...cacheOpts } = cacheConfig || {};
-
 		// Bypass cache for non-cacheable methods
-		if (!cacheable) {
-			if (verbose) {
-				console.log(
-					methodIsCacheable
-						? `[c:fetch] Bypassing cache for ${method} request (cacheable: false)`
-						: `[c:fetch] Bypassing cache for non-cacheable method: ${method}`
-				);
-			}
-
+		if (!cacheableMethods.includes(method) && !forceCache) {
+			if (verbose) console.log(`[c:fetch] Bypassing cache for non-cacheable method: ${method}`);
 			return yield* fetchAndParse<T>(url, parser, options);
 		}
 

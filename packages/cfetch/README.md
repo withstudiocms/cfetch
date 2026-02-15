@@ -103,7 +103,7 @@ interface CachedResponse<T> {
 
 ```ts
 interface CFetchConfig {
-  cacheable?: boolean;
+  forceCache?: true | undefined;
   ttl?: Duration.DurationInput;
   tags?: string[];
   key?: string;

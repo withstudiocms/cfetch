@@ -159,6 +159,7 @@ const fetchAndParse = <T>(
  * @param parser - A function that parses the Response object into type T
  * @param options - Optional RequestInit configuration for the fetch request
  * @param cacheConfig - Optional cache configuration object
+ * @param cacheConfig.forceCache - When set to `true`, forces caching even for non-cacheable HTTP methods (e.g. POST)
  * @param cacheConfig.ttl - Time-to-live duration for the cached entry
  * @param cacheConfig.tags - Tags to associate with the cached entry for invalidation
  * @param cacheConfig.key - Custom cache key (defaults to URL and options hash)
@@ -304,6 +305,7 @@ export const invalidateCacheEffect = (
  * @param url - The URL to fetch data from
  * @param options - Optional fetch configuration options (headers, method, etc.)
  * @param cacheConfig - Optional cache configuration
+ * @param cacheConfig.forceCache - When set to `true`, forces caching even for non-cacheable HTTP methods (e.g. POST)
  * @param cacheConfig.ttl - Time-to-live duration for the cached response
  * @param cacheConfig.tags - Tags to associate with the cached entry for invalidation
  * @param cacheConfig.key - Custom cache key to use instead of the default URL-based key
@@ -331,6 +333,7 @@ export const cFetchEffectJson = <T>(
  * @param url - The URL to fetch the resource from.
  * @param options - Optional fetch configuration including method, headers, body, etc.
  * @param cacheConfig - Optional cache configuration.
+ * @param cacheConfig.forceCache - When set to `true`, forces caching even for non-cacheable HTTP methods (e.g. POST)
  * @param cacheConfig.ttl - Time-to-live duration for the cached response.
  * @param cacheConfig.tags - Array of tags to associate with the cached entry for invalidation purposes.
  * @param cacheConfig.key - Custom cache key. If not provided, the URL will be used as the key.
@@ -360,6 +363,7 @@ export const cFetchEffectText = (
  * @param url - The URL of the resource to fetch
  * @param options - Optional fetch request configuration (headers, method, etc.)
  * @param cacheConfig - Optional cache configuration object
+ * @param cacheConfig.forceCache - When set to `true`, forces caching even for non-cacheable HTTP methods (e.g. POST)
  * @param cacheConfig.ttl - Time-to-live duration for the cached response
  * @param cacheConfig.tags - Array of tags to associate with the cached entry
  * @param cacheConfig.key - Custom cache key to use instead of the default
@@ -394,6 +398,7 @@ export const cFetchEffectBlob = (
  * @param parser - A function that parses the Response object into the desired type T
  * @param options - Optional fetch request configuration (headers, method, body, etc.)
  * @param cacheConfig - Optional cache configuration object
+ * @param cacheConfig.forceCache - When set to `true`, forces caching even for non-cacheable HTTP methods (e.g. POST)
  * @param cacheConfig.ttl - Time-to-live duration for the cached response
  * @param cacheConfig.tags - Array of tags to associate with the cached entry for invalidation purposes
  * @param cacheConfig.key - Custom cache key; if not provided, a key will be generated from the URL and options
@@ -423,6 +428,7 @@ export const cFetch = <T>(
  * @param url - The URL to fetch data from
  * @param options - Optional fetch configuration options (headers, method, body, etc.)
  * @param cacheConfig - Optional cache configuration object
+ * @param cacheConfig.forceCache - When set to `true`, forces caching even for non-cacheable HTTP methods (e.g. POST)
  * @param cacheConfig.ttl - Time-to-live duration for the cached response
  * @param cacheConfig.tags - Array of tags to associate with the cached entry for invalidation purposes
  * @param cacheConfig.key - Custom cache key to use instead of the default
@@ -451,6 +457,7 @@ export const cFetchJson = <T>(
  * @param url - The URL to fetch
  * @param options - Optional fetch configuration options (headers, method, etc.)
  * @param cacheConfig - Optional cache configuration
+ * @param cacheConfig.forceCache - When set to `true`, forces caching even for non-cacheable HTTP methods (e.g. POST)
  * @param cacheConfig.ttl - Time-to-live duration for the cached response
  * @param cacheConfig.tags - Tags to associate with the cached response for invalidation
  * @param cacheConfig.key - Custom cache key (defaults to URL if not provided)
@@ -478,6 +485,7 @@ export const cFetchText = (
  * @param url - The URL to fetch the Blob resource from
  * @param options - Optional fetch request configuration (headers, method, etc.)
  * @param cacheConfig - Optional cache configuration object
+ * @param cacheConfig.forceCache - When set to `true`, forces caching even for non-cacheable HTTP methods (e.g. POST)
  * @param cacheConfig.ttl - Time-to-live duration for the cached response
  * @param cacheConfig.tags - Array of cache tags for cache invalidation
  * @param cacheConfig.key - Custom cache key for storing the response

@@ -199,16 +199,20 @@ export const cFetchEffect = <T>(
 		// Determine HTTP method
 		const method = options?.method?.toUpperCase() || 'GET';
 
-		const {
-			cacheable = cacheableMethods.includes(method),
-			key,
-			verbose = false,
-			...cacheOpts
-		} = cacheConfig || {};
+		const methodIsCacheable = cacheableMethods.includes(method);
+
+		const { cacheable = methodIsCacheable, key, verbose = false, ...cacheOpts } = cacheConfig || {};
 
 		// Bypass cache for non-cacheable methods
 		if (!cacheable) {
-			if (verbose) console.log(`[c:fetch] Bypassing cache for ${method} request (cacheable: false)`);
+			if (verbose) {
+				console.log(
+					methodIsCacheable
+						? `[c:fetch] Bypassing cache for ${method} request (cacheable: false)`
+						: `[c:fetch] Bypassing cache for non-cacheable method: ${method}`
+				);
+			}
+
 			return yield* fetchAndParse<T>(url, parser, options);
 		}
 

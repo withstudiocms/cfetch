@@ -111,6 +111,9 @@ interface CFetchConfig {
 }
 ```
 
+> [!NOTE]
+> By default only `GET` and `HEAD` requests are cached. You can change that by setting `forceCache` to `true`
+
 ##### `InvalidateCacheOptions` type
 
 ```ts

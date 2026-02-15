@@ -1,5 +1,15 @@
 # @studiocms/cfetch
 
+## 0.4.0
+
+### Minor Changes
+
+- [#52](https://github.com/withstudiocms/cfetch/pull/52) [`b7d43e8`](https://github.com/withstudiocms/cfetch/commit/b7d43e829f7c0dfda44f9f50e31d478f38099b51) Thanks [@4ndv](https://github.com/4ndv)! - Adds `forceCache` option to allow force caching for non-cacheable HTTP methods (e.g. POST)
+
+### Patch Changes
+
+- [#54](https://github.com/withstudiocms/cfetch/pull/54) [`6b0d379`](https://github.com/withstudiocms/cfetch/commit/6b0d37960cadbfbf2a55809610ffc4a775a675ea) Thanks [@renovate](https://github.com/apps/renovate)! - chore(deps): update dependency astro to ^5.17.2
+
 ## 0.3.1
 
 ### Patch Changes

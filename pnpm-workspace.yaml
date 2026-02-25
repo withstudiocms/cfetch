@@ -19,6 +19,8 @@ minimumReleaseAgeExclude:
   - studiocms
   - "@studiocms/*"
   - "@withstudiocms/*"
+  # Renovate security update: @astrojs/node@9.5.4
+  - "@astrojs/node@9.5.4"
 
 onlyBuiltDependencies:
   - "@biomejs/biome"

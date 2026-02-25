@@ -13,8 +13,8 @@ catalogs:
       specifier: ^22.0.0
       version: 22.13.17
     astro:
-      specifier: ^5.17.2
-      version: 5.17.2
+      specifier: ^5.17.3
+      version: 5.17.3
     astro-integration-kit:
       specifier: ^0.19.1
       version: 0.19.1
@@ -86,13 +86,13 @@ importers:
     devDependencies:
       '@inox-tools/astro-tests':
         specifier: ^0.8.1
-        version: 0.8.1(astro@5.17.2(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3))
+        version: 0.8.1(astro@5.17.3(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3))
       '@types/node':
         specifier: ^22.0.0
         version: 22.13.17
       astro:
         specifier: ^5.17.2
-        version: 5.17.2(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3)
+        version: 5.17.3(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3)
       effect:
         specifier: ^3.19.16
         version: 3.19.16
@@ -104,16 +104,16 @@ importers:
     dependencies:
       '@astrojs/node':
         specifier: 'catalog:'
-        version: 9.5.3(astro@5.17.2(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3))
+        version: 9.5.3(astro@5.17.3(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3))
       '@studiocms/cfetch':
         specifier: workspace:*
         version: link:../../..
       astro:
         specifier: 'catalog:'
-        version: 5.17.2(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3)
+        version: 5.17.3(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3)
       astro-integration-kit:
         specifier: 'catalog:'
-        version: 0.19.1(astro@5.17.2(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3))
+        version: 0.19.1(astro@5.17.3(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3))
       sharp:
         specifier: 'catalog:'
         version: 0.34.1
@@ -1420,8 +1420,8 @@ packages:
     peerDependencies:
       astro: ^4.14.0 || ^5.0.0
 
-  astro@5.17.2:
-    resolution: {integrity: sha512-7jnMqGo53hOQNwo1N/wqeOvUp8wwW/p+DeerSjSkHNx8L/1mhy6P7rVo7EhdmF8DpKqw0tl/B5Fx1WcIzg1ysA==}
+  astro@5.17.3:
+    resolution: {integrity: sha512-69dcfPe8LsHzklwj+hl+vunWUbpMB6pmg35mACjetxbJeUNNys90JaBM8ZiwsPK689SAj/4Zqb1ayaANls9/MA==}
     engines: {node: 18.20.8 || ^20.3.0 || >=22.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0'}
     hasBin: true
 
@@ -3399,10 +3399,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/node@9.5.3(astro@5.17.2(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3))':
+  '@astrojs/node@9.5.3(astro@5.17.3(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3))':
     dependencies:
       '@astrojs/internal-helpers': 0.7.5
-      astro: 5.17.2(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3)
+      astro: 5.17.3(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3)
       send: 1.2.1
       server-destroy: 1.0.1
     transitivePeerDependencies:
@@ -3937,12 +3937,12 @@ snapshots:
   '@img/sharp-win32-x64@0.34.1':
     optional: true
 
-  '@inox-tools/astro-tests@0.8.1(astro@5.17.2(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3))':
+  '@inox-tools/astro-tests@0.8.1(astro@5.17.3(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3))':
     dependencies:
       '@astrojs/internal-helpers': 0.7.5
       '@astrojs/markdown-remark': 6.3.10
       '@inox-tools/utils': 0.8.1
-      astro: 5.17.2(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3)
+      astro: 5.17.3(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3)
       debug: 4.4.3
       fast-glob: 3.3.3
       shiki: 3.21.0
@@ -4455,12 +4455,12 @@ snapshots:
       estree-walker: 3.0.3
       pathe: 2.0.3
 
-  astro-integration-kit@0.19.1(astro@5.17.2(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3)):
+  astro-integration-kit@0.19.1(astro@5.17.3(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3)):
     dependencies:
-      astro: 5.17.2(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3)
+      astro: 5.17.3(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3)
       pathe: 1.1.2
 
-  astro@5.17.2(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3):
+  astro@5.17.3(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3):
     dependencies:
       '@astrojs/compiler': 2.13.0
       '@astrojs/internal-helpers': 0.7.5

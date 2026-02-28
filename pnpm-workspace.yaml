@@ -16,6 +16,7 @@ minimumReleaseAge: 4320
 
 minimumReleaseAgeExclude:
   - jsr
+  - pkg-pr-new
   - studiocms
   - "@studiocms/*"
   - "@withstudiocms/*"

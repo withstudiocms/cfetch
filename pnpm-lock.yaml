@@ -7,8 +7,8 @@ settings:
 catalogs:
   default:
     '@astrojs/node':
-      specifier: ^9.5.3
-      version: 9.5.3
+      specifier: ^9.5.4
+      version: 9.5.4
     '@types/node':
       specifier: ^22.0.0
       version: 22.13.17
@@ -104,7 +104,7 @@ importers:
     dependencies:
       '@astrojs/node':
         specifier: 'catalog:'
-        version: 9.5.3(astro@5.17.3(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3))
+        version: 9.5.4(astro@5.17.3(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3))
       '@studiocms/cfetch':
         specifier: workspace:*
         version: link:../../..
@@ -151,10 +151,10 @@ packages:
   '@astrojs/markdown-remark@6.3.10':
     resolution: {integrity: sha512-kk4HeYR6AcnzC4QV8iSlOfh+N8TZ3MEStxPyenyCtemqn8IpEATBFMTJcfrNW32dgpt6MY3oCkMM/Tv3/I4G3A==}
 
-  '@astrojs/node@9.5.3':
-    resolution: {integrity: sha512-72jrSn0XtrD7COJVO6TxJmyU1yXdYK7MDdN/+fhqhf4YOhxuIPHclkXrJs8FbLCMx5ur56d/1ijX4XBeneqyXQ==}
+  '@astrojs/node@9.5.4':
+    resolution: {integrity: sha512-AbPSZsMGu8hXPR2XxV79RaKy8h6wijhtoqZGeUf4OXg2w1mxXlx4VnIc1D+QvtsgauSz7P5PLhmvf6w/J41GJg==}
     peerDependencies:
-      astro: ^5.14.3
+      astro: ^5.17.3
 
   '@astrojs/prism@3.3.0':
     resolution: {integrity: sha512-q8VwfU/fDZNoDOf+r7jUnMC2//H2l0TuQ6FkGJL8vD8nw/q5KiL3DS1KKBI3QhI9UQhpJ5dc7AtqfbXWuOgLCQ==}
@@ -2995,10 +2995,6 @@ packages:
   undici-types@6.20.0:
     resolution: {integrity: sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==}
 
-  undici@6.21.2:
-    resolution: {integrity: sha512-uROZWze0R0itiAKVPsYhFov9LxrPMHLMEQFszeI2gCN6bnIIZ8twzBCJcN2LJrBBLfrP0t1FW0g+JmKVl8Vk1g==}
-    engines: {node: '>=18.17'}
-
   undici@6.23.0:
     resolution: {integrity: sha512-VfQPToRA5FZs/qJxLIinmU59u0r7LXqoJkCzinq3ckNJp3vKEh7jTWN589YQ5+aoAC/TGRLyJLCPKcLQbM8r9g==}
     engines: {node: '>=18.17'}
@@ -3400,7 +3396,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/node@9.5.3(astro@5.17.3(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3))':
+  '@astrojs/node@9.5.4(astro@5.17.3(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3))':
     dependencies:
       '@astrojs/internal-helpers': 0.7.5
       astro: 5.17.3(@types/node@22.13.17)(jiti@2.6.1)(rollup@4.38.0)(typescript@5.9.3)
@@ -4032,7 +4028,7 @@ snapshots:
       '@octokit/plugin-paginate-rest': 9.2.2(@octokit/core@5.2.1)
       '@octokit/plugin-rest-endpoint-methods': 10.4.1(@octokit/core@5.2.1)
       '@octokit/types': 12.6.0
-      undici: 6.21.2
+      undici: 6.23.0
 
   '@octokit/auth-action@4.1.0':
     dependencies:
@@ -6452,8 +6448,6 @@ snapshots:
   uncrypto@0.1.3: {}
 
   undici-types@6.20.0: {}
-
-  undici@6.21.2: {}
 
   undici@6.23.0: {}
 

@@ -5,10 +5,9 @@ const config: KnipConfig = {
 	ignoreDependencies: ['c'],
 	workspaces: {
 		'.': {
-			ignoreDependencies: ['@changesets/config', '@changesets/write'],
+			ignoreDependencies: ['@changesets/config', '@changesets/write', 'pkg-pr-new'],
 			entry: ['.github/workflows/*.yml'],
 			project: ['.github/workflows/*.yml'],
-			ignoreBinaries: ['ci::*'],
 		},
 		'packages/*': {
 			entry: ['src/**/*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}'],

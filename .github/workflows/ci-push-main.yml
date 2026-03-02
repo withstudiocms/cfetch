@@ -72,6 +72,18 @@ jobs:
     secrets:
       DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_MERGEBOT }}
 
+  preview-main:
+    name: Continuous Deployment Snapshot
+    permissions:
+      contents: read
+      id-token: write
+      issues: write
+      pull-requests: write
+    secrets: inherit
+    uses: withstudiocms/automations/.github/workflows/preview.yml@c2dfd186eab9d163cbd535984b82cda1ff8e4689 # main
+    with:
+      build-cmd: "pnpm ci:build"
+
   changeset-release:
     name: Changeset Release
     runs-on: ubuntu-latest

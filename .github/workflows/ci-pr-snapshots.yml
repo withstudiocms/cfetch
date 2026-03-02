@@ -1,24 +1,42 @@
-name: CI - Snapshot Release on PRs
+name: CI - Pull Request
 
-on: 
+on:
   pull_request:
-    paths:
-        - 'packages/**'
+    paths-ignore:
+      - ".github/**/**"
+      - "README.md"
+      - "LICENSE"
+      - "**/**.md"
+
+concurrency:
+  group: >-
+    ${{ github.workflow }}-
+    ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.number) || github.sha }}
+  cancel-in-progress: true
 
 jobs:
-  release:
-    name: Pkg-pr-new Snapshot Release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+  preview-changeset-release:
+    name: Pre-Release Snapshot
+    if: github.event_name == 'pull_request' && (github.event.pull_request.user.login == 'studiocms-no-reply' || github.event.pull_request.user.login == 'apollo-git-bot[bot]')
+    permissions:
+      contents: read
+      id-token: write
+      issues: write
+      pull-requests: write
+    secrets: inherit
+    uses: withstudiocms/automations/.github/workflows/preview.yml@c2dfd186eab9d163cbd535984b82cda1ff8e4689 # main
+    with:
+      build-cmd: "pnpm ci:build"
 
-      - name: Install Tools & Dependencies
-        uses: withstudiocms/automations/.github/actions/install@main
-
-      - name: Run Prepublish
-        run: pnpm ci:prepublish
-  
-      - name: Publish packages
-        run: pnpm ci:snapshot
-        
+  preview-pr:
+    name: PR Snapshot Preview
+    if: github.event_name == 'pull_request' && (github.event.pull_request.user.login != 'studiocms-no-reply' && github.event.pull_request.user.login != 'apollo-git-bot[bot]') && github.event.pull_request.head.repo.full_name == github.repository
+    permissions:
+      contents: read
+      id-token: write
+      issues: write
+      pull-requests: write
+    secrets: inherit
+    uses: withstudiocms/automations/.github/workflows/preview-pr.yml@c2dfd186eab9d163cbd535984b82cda1ff8e4689 # main
+    with:
+      build-cmd: "pnpm ci:build"

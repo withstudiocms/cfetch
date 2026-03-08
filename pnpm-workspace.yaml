@@ -1,8 +1,7 @@
 catalog:
-  "@astrojs/node": ^9.5.4
+  "@astrojs/node": 10.0.0-beta.6
   "@types/node": ^22.0.0
-  astro: ^5.18.0
-  astro-integration-kit: ^0.19.1
+  astro: 6.0.0-beta.20
   sharp: ^0.34.0
   tsdown: ^0.20.3
   typescript: ^5.9.3
@@ -12,7 +11,7 @@ packages:
   - "packages/*/tests/fixtures/*"
   - "playground"
 
-minimumReleaseAge: 4320
+# minimumReleaseAge: 4320
 
 minimumReleaseAgeExclude:
   - jsr

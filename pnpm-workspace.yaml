@@ -1,7 +1,7 @@
 catalog:
-  "@astrojs/node": 10.0.0-beta.6
+  "@astrojs/node": 10.0.0
   "@types/node": ^22.0.0
-  astro: 6.0.0-beta.20
+  astro: 6.0.0
   sharp: ^0.34.0
   tsdown: ^0.21.0
   typescript: ^5.9.3

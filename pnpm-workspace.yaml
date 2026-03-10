@@ -11,14 +11,16 @@ packages:
   - "packages/*/tests/fixtures/*"
   - "playground"
 
-# minimumReleaseAge: 4320
+minimumReleaseAge: 4320
 
 minimumReleaseAgeExclude:
+  - astro
   - jsr
   - pkg-pr-new
   - studiocms
   - "@studiocms/*"
   - "@withstudiocms/*"
+  - "@astrojs/*"
 
 onlyBuiltDependencies:
   - "@biomejs/biome"

@@ -1,5 +1,11 @@
 # @studiocms/cfetch
 
+## 0.5.0
+
+### Minor Changes
+
+- [#79](https://github.com/withstudiocms/cfetch/pull/79) [`0229858`](https://github.com/withstudiocms/cfetch/commit/0229858bbe56d3e98ccea93a8dd04b0ad862818b) Thanks [@Adammatthiesen](https://github.com/Adammatthiesen)! - Upgrades to support Astro v6
+
 ## 0.4.1
 
 ### Patch Changes

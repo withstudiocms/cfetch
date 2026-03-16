@@ -43,8 +43,8 @@
     "tsdown": "catalog:",
     "ts-patch": "^3.3.0",
     "typescript": "catalog:",
-    "vitest": "^3.2.4",
-    "@vitest/ui": "^3.2.4",
+    "vitest": "^4.1.0",
+    "@vitest/ui": "^4.1.0",
     "jsr": "^0.14.3"
   }
 }

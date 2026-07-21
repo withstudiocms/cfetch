@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Update PR
-        uses: mscharley/dependency-changesets-action@f456a98d34595a68d4b9412368a57533be0584ad # v1.2.3
+        uses: mscharley/dependency-changesets-action@874dac2372a085cb94f750e8bdf5b1173a838a75 # v1.2.5
         with:
           token: ${{ secrets.STUDIOCMS_SERVICE_TOKEN }}
           use-conventional-commits: true

@@ -41,7 +41,7 @@
     "knip": "^5.88.1",
     "pkg-pr-new": "^0.0.66",
     "tsdown": "catalog:",
-    "ts-patch": "^3.3.0",
+    "ts-patch": "^4.0.1",
     "typescript": "catalog:",
     "vitest": "^3.2.4",
     "@vitest/ui": "^3.2.4",
